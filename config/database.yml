@@ -1,0 +1,15 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: dnd-development
+  pool: 5
+  username: k41n
+  password:
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: dnd-test
+  pool: 5
+  username: k41n
+  password:
