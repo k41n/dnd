@@ -17,14 +17,36 @@ html lang="en" ng-app='dndApp'
     = favicon_link_tag 'apple-touch-icon-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png'
     = favicon_link_tag 'favicon.ico', :rel => 'shortcut icon'
     /= javascript_include_tag "i18n/#{locale}"
-    /= javascript_include_tag "#{App.faye_host}/faye.js"
     = include_gon
     = javascript_include_tag "application"
+    = javascript_include_tag "angular_templates"    
     = javascript_include_tag App.faye_host || "http://0.0.0.0:9292/faye/client.js"
 
   body
-    .navbar.navbar-fluid-top
-      .navbar-inner
+    nav.navbar.navbar-default role="navigation"
+      .container-fluid
+        .navbar-header
+          button.navbar-toggle type="button" data-toggle="collapse" data-target="#navbar-collapse-1"
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand href="#" DND
+
+        .collapse.navbar-collapse#navbar-collapse-1
+          ul.nav.navbar-nav
+            li 
+              a href="#" Dashboard
+            li 
+              a href="#/monsters" Monsters
+          ul.nav.navbar-nav.pull-right ng-controller='AuthController'
+            li 
+              a href="#" ng-click='showLoginDialog()' ng-if='!currentUserService.loggedIn()' Sign In
+            li 
+              a href="#" ng-if='currentUserService.loggedIn()' 
+                | {{ currentUserService.currentUser.email }}
+            li 
+              a href="#" ng-if='currentUserService.loggedIn()' ng-click='logout()' Sign Out
 
     .container-fluid.main-content
       .row-fluid.full-height

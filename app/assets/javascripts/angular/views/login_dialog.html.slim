@@ -1,0 +1,22 @@
+.modal-header
+  button.close type="button" ng-click='cancel()' &times;
+  h4.modal-title
+    | Please login
+.modal-body
+  form.form-horizontal role='form'
+    .form-group
+      label.control-label.col-sm-2
+        | Username
+      .col-sm-10
+        input.form-control type='text' ng-model='form.email' required="required"
+    .form-group
+      label.control-label.col-sm-2
+        | Password
+      .col-sm-10
+        input.form-control type='password' ng-model='form.password' required="required"
+
+.modal-footer
+  button.btn.btn-primary ng-click="ok()" 
+    | Login
+  button.btn.btn-warning ng-click="cancel()" 
+    | Cancel

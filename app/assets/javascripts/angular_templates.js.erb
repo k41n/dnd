@@ -1,0 +1,9 @@
+var dndApp = angular.module('dndApp');
+dndApp.run(['$templateCache', function($templateCache) {
+  <% Dir["#{Rails.root}/app/assets/javascripts/angular/views/*"].entries.each do |entry| %>
+    <% File.open(entry) do |file| %>
+      $templateCache.put('/<%= File.basename(entry).gsub('.slim', '') %>', '<%= j(Slim::Template.new { file.read }.render(self).html_safe) %>');
+    <% end %>
+  <% end %>
+}]);
+

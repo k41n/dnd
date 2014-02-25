@@ -1,11 +1,12 @@
 #= require application
+#= require angular_templates
 #= require angular-mocks
 #= require sinon
 #= require jasmine-sinon
 
 beforeEach(module('dndApp'))
 
-beforeEach inject (_$httpBackend_, _$compile_, $rootScope, $controller, $location, $injector, $timeout) ->
+beforeEach inject (_$httpBackend_, _$compile_, $rootScope, $controller, $location, $injector, $timeout, $route) ->
   @scope = $rootScope.$new()
   @http = _$httpBackend_
   @compile = _$compile_
@@ -13,6 +14,7 @@ beforeEach inject (_$httpBackend_, _$compile_, $rootScope, $controller, $locatio
   @controller = $controller
   @injector = $injector
   @timeout = $timeout
+  @route = $route
   @model = (name) =>
     @injector.get(name)
   @eventLoop =

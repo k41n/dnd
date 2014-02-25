@@ -14,6 +14,8 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require angular
+//= require angular-ui-bootstrap-tpls
+//= require angular-route
 //= require angular-resource
 //= require angular-faye
 //= require_tree ./angular/modules

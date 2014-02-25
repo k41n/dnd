@@ -40,6 +40,8 @@ gem 'angular-faye-rails'
 gem 'thin'
 gem 'app'
 gem 'redis'
+gem 'activeadmin', github: 'gregbell/active_admin'
+gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
 
 group :development, :test do
   gem 'rspec-rails', '  3.0.0.beta1'

@@ -30,7 +30,7 @@ guard :rspec do
 end
 
 # Add files and commands to this file, like the example:
-#   watch(%r{file/path}) { `command(s)` }
+watch(%r{app/assets/javascript/angular/views/(.+).slim}) { `rake tmp:clear` }
 #
 guard :shell do
   watch(/(.*).txt/) {|m| `tail #{m[0]}` }
