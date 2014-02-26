@@ -42,6 +42,10 @@ gem 'app'
 gem 'redis'
 gem 'activeadmin', github: 'gregbell/active_admin'
 gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
+gem 'kaminari'
+gem 'inherited_resources'
+gem 'devise'
+
 
 group :development, :test do
   gem 'rspec-rails', '  3.0.0.beta1'

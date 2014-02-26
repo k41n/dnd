@@ -2,5 +2,8 @@
 
 FactoryGirl.define do
   factory :game do
+    association :master
+    name Faker::Lorem.sentence
+    description Faker::Lorem.paragraph
   end
 end

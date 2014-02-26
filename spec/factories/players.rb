@@ -3,5 +3,8 @@
 FactoryGirl.define do
   factory :player do
     name Faker::Name.name
+    sequence(:email) { |n| "user_#{n}@kodep.ru" }
+
+    factory :master
   end
 end

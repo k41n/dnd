@@ -39,6 +39,10 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = "random"
 
+  config.include RequestHelpers, type: :request
+  config.include Devise::TestHelpers, type: :controller
+  config.include ControllerMacros, type: :request
+
   #config.before(:suite) do
   #  Redis.current.flushdb
   #end
