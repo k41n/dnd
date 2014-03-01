@@ -1,6 +1,8 @@
 window.Tile = class
   constructor: (position, passable, terrain, figure) ->
-    @x = position.x
-    @y = position.y
+    @row = position.row
+    @col = position.col
     @passable = true
     @figure = figure
+    @moveable = false
+    @targetable = false

@@ -2,5 +2,7 @@
   .col-md-10
     table.grid ng-controller='GridController'
       tr ng-repeat='row in tileSet'
-        td ng-repeat='tile in row'
-          | {{displayFigureAtTile(tile)}}
+        td ng-repeat='tile in row' ng-class="{'moveable': tile.moveable, 'targetable': tile.targetable, 'selected': tile == selectedTile}" ng-click='setSelectedTile(tile); moveSelectedFigure(tile)'
+          div
+            .overlay
+            | {{displayFigureAtTile(tile)}}
