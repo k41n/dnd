@@ -1,0 +1,6 @@
+.row
+  .col-md-10
+    table.grid ng-controller='GridController'
+      tr ng-repeat='row in tileSet'
+        td ng-repeat='tile in row'
+          | {{displayFigureAtTile(tile)}}

@@ -39,6 +39,8 @@ html lang="en" ng-app='dndApp'
               a href="#" Dashboard
             li 
               a href="#/monsters" Monsters
+            li
+              a href="#/grid" Grid
           ul.nav.navbar-nav.pull-right ng-controller='AuthController'
             li 
               a href="#" ng-click='showLoginDialog()' ng-if='!currentUserService.loggedIn()' Sign In
