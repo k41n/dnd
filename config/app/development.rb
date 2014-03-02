@@ -1,5 +1,3 @@
 App.configure do
-  # Settings specified here will take precedence over those in config/app.rb
-
-  # config.key = "value"
+  config.faye_host = "http://0.0.0.0:9292/faye"
 end

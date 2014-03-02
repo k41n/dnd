@@ -2,15 +2,10 @@ development:
   adapter: postgresql
   encoding: unicode
   database: dnd-development
-  host: localhost
   pool: 5
-  username: railkeeper
-  password: 123456
 
 test:
   adapter: postgresql
   encoding: unicode
   database: dnd-test
   pool: 5
-  username: railkeeper
-  password: 123456

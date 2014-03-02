@@ -1,4 +1,7 @@
 class Game < ActiveRecord::Base
+  include FayeObservable
+
+
   paginates_per 10
 
   belongs_to :master, class_name: 'Player'
@@ -7,6 +10,7 @@ class Game < ActiveRecord::Base
 
   def as_json(options={})
     {
+        id: id,
         name: name,
         master: master.name,
         description: description

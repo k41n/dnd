@@ -4,10 +4,13 @@ describe Game do
 
   let(:game) { create :game }
 
+  it_behaves_like 'faye observable'
+
   context '#as_json' do
 
     let(:expected_hash) {
       {
+          id: game.id,
           name: game.name,
           master: game.master.name,
           description: game.description

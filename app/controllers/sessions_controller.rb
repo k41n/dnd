@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
   before_filter :authenticate_user!, :except => [:create, :destroy]
+  skip_before_action :verify_authenticity_token
 
   respond_to :json
 
@@ -8,7 +9,7 @@ class SessionsController < ApplicationController
     return invalid_login_attempt unless resource
 
     if resource.valid_password?(params[:user][:password])
-      sign_in(:user, resource)
+      sign_in(:player, resource)
       render json: { success: true, user: { email: resource.email } }
       return
     end

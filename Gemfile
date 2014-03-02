@@ -31,6 +31,7 @@ end
 
 gem 'angular-ui-bootstrap-rails'
 gem 'bootstrap-sass', '~> 3.1.1'
+gem "font-awesome-rails"
 gem 'gon'
 gem 'slim-rails'
 gem 'angularjs-rails'
@@ -59,5 +60,5 @@ group :development, :test do
   gem 'guard-shell'
   gem 'jasmine-rails', '0.5.6'
   gem 'faker'
-  gem 'webmock'
+  gem 'webmock', require: false
 end

@@ -20,7 +20,7 @@ html lang="en" ng-app='dndApp'
     = include_gon
     = javascript_include_tag "application"
     = javascript_include_tag "angular_templates"    
-    = javascript_include_tag App.faye_host || "http://0.0.0.0:9292/faye/client.js"
+    = javascript_include_tag App.faye_host ? "#{App.faye_host}/faye/client.js" : "http://0.0.0.0:9292/faye/client.js"
 
   body
     nav.navbar.navbar-default role="navigation"
@@ -37,6 +37,8 @@ html lang="en" ng-app='dndApp'
           ul.nav.navbar-nav
             li 
               a href="#" Dashboard
+            li 
+              a href="#/games" Games
             li 
               a href="#/monsters" Monsters
             li

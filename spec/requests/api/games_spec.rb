@@ -52,13 +52,40 @@ describe "Api::GamesController" do
         expect(status).to eq(201)
       end
 
+      it 'assigns user who created game as gamemaster' do
+        do_post '/api/games', new_game_params
+        expect(Game.last.master.id).to eq(Player.last.id)
+      end
+
       it 'refuses to create game without name and returns error' do
         expect{
           do_post '/api/games', game_params_without_name
         }.not_to change{Game.count}.from(0).to(1)
         expect(status).to eq(422)
       end
+    end
+  end
 
+  context 'DELETE /api/games/:id' do
+    before(:each) do
+      login_master
+    end
+
+    let!(:game) { create :game, master: @master }
+    let(:another_master) { create :master }
+    let(:another_game) { create :game, master: another_master }
+
+    it 'deletes game' do
+      expect {
+        do_delete "/api/games/#{game.to_param}"
+      }.to change{Game.count}.from(1).to(0)
+    end
+
+    it 'refuses to delete games of another master' do
+      another_game
+      expect {
+        do_delete "/api/games/#{another_game.to_param}"
+      }.not_to change{Game.count}.from(2)
     end
   end
 end

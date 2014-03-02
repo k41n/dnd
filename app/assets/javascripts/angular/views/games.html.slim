@@ -1,0 +1,10 @@
+.games
+  .game ng-repeat='(id, game) in games' ng-click='c.editGame(game)'
+    | {{ game.name }}
+    .pull-right ng-click='c.showDeleteGameDialog(game)'
+      i.delete.fa.fa-trash-o
+      | Delete game
+
+  .newgame ng-click='c.showNewGameDialog()' 
+    | New game
+
