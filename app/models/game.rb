@@ -5,6 +5,7 @@ class Game < ActiveRecord::Base
   paginates_per 10
 
   belongs_to :master, class_name: 'Player'
+  has_many :combats
 
   validates :name, presence: true
 
