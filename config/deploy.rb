@@ -100,7 +100,7 @@ namespace :deploy do
     Start the application servers.
   DESC
   task :start, :roles => :app do
-    prefix = "source ~#{user}/.rvm/scripts/rvm; cd #{current_path}; rvm #{rvm_ruby_string} do eye "
+    prefix = "source ~#{user}/.rvm/scripts/rvm; cd #{current_path}; RAILS_ENV=production rvm #{rvm_ruby_string} do eye "
     run "#{prefix} quit"
     run "#{prefix} load config/eye"
     run "#{prefix} start #{application}"
@@ -110,7 +110,7 @@ namespace :deploy do
     Restart the application servers.
   DESC
   task :restart, :roles => :app do
-    prefix = "source ~#{user}/.rvm/scripts/rvm; cd #{current_path}; rvm #{rvm_ruby_string} do eye "
+    prefix = "source ~#{user}/.rvm/scripts/rvm; cd #{current_path}; RAILS_ENV=production rvm #{rvm_ruby_string} do eye "
     run "#{prefix} stop #{application}"
     run "#{prefix} unmonitor #{application}"
     run "#{prefix} quit"
@@ -122,13 +122,13 @@ namespace :deploy do
     Stop the application servers.
   DESC
   task :stop, :roles => :app do
-    prefix = "source ~#{user}/.rvm/scripts/rvm; cd #{current_path}; rvm #{rvm_ruby_string} do eye "
+    prefix = "source ~#{user}/.rvm/scripts/rvm; cd #{current_path}; RAILS_ENV=production rvm #{rvm_ruby_string} do eye "
     run "#{prefix} stop #{application}"
     run "#{prefix} quit"
   end
 
   task :info, :roles => :app do
-    prefix = "source ~#{user}/.rvm/scripts/rvm; cd #{current_path}; rvm #{rvm_ruby_string} do eye "
+    prefix = "source ~#{user}/.rvm/scripts/rvm; cd #{current_path}; RAILS_ENV=production rvm #{rvm_ruby_string} do eye "
     run "#{prefix} info #{application}"
   end
 

@@ -1,5 +1,5 @@
 BUNDLE = 'bundle'
-RAILS_ENV = 'staging'
+RAILS_ENV = 'production'
 ROOT = File.expand_path(File.join(File.dirname(__FILE__), %w[ processes ]))
 RAILS_ROOT = File.expand_path(File.dirname(__FILE__) + "../../..")
 
