@@ -1,5 +1,8 @@
 require 'spec_helper'
 
 describe Combat do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  let(:combat) { create :combat }
+  
+  it_behaves_like 'faye observable'
 end

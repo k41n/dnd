@@ -1,0 +1,12 @@
+.modal-header
+  button.close type="button" ng-click='cancel()' &times;
+  h3 New combat
+.modal-body#new-combat-dialog-body
+  .new-game-form.form.form-horizontal
+    .control-group
+      label.control-label
+      .controls
+        input.form-control type='text' ng-model='form.name' required="required" placeholder="Combat name"
+.modal-footer
+  button.btn.btn-primary ng-click="ok()" OK
+  button.btn.btn-warning ng-click="cancel()" Cancel

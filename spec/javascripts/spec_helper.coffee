@@ -6,7 +6,7 @@
 
 beforeEach(module('dndApp'))
 
-beforeEach inject (_$httpBackend_, _$compile_, $rootScope, $controller, $location, $injector, $timeout, $route) ->
+beforeEach inject (_$httpBackend_, _$compile_, $rootScope, $controller, $location, $injector, $timeout, $route, $routeParams) ->
   @scope = $rootScope.$new()
   @http = _$httpBackend_
   @compile = _$compile_
@@ -15,6 +15,7 @@ beforeEach inject (_$httpBackend_, _$compile_, $rootScope, $controller, $locatio
   @injector = $injector
   @timeout = $timeout
   @route = $route
+  @routeParams = jasmine.createSpy('routeParamsStub')
   @model = (name) =>
     @injector.get(name)
   @eventLoop =

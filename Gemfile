@@ -47,6 +47,11 @@ gem 'kaminari'
 gem 'inherited_resources'
 gem 'devise'
 
+gem 'puma'
+gem 'capistrano'
+gem 'rvm-capistrano'
+gem 'eye'
+
 
 group :development, :test do
   gem 'rspec-rails', '  3.0.0.beta1'

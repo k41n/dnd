@@ -1,6 +1,8 @@
 class window.Creature
-  constructor: (name) ->
-    @name = name
+  constructor: (monster_resource) ->
+    @name = monster_resource.name
+    @description = monster_resource.description
+    @avatar_url = monster_resource.avatar_url
     @location = undefined
     @ac = 10
 

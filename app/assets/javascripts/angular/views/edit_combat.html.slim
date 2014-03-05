@@ -1,0 +1,38 @@
+.row
+  .col-md-10.static
+    .grid
+      table
+        tr ng-repeat='row in grid.rows'
+          td ng-repeat='cell in row' ng-class="{'selected': (cell == selectedCell), 'obstacle': (cell.moveability == 3) }" ng-click='c.selectCell(cell)' 
+            div.cell 
+              .overlay
+              .monster-in-grid ng-show='cell.creature'
+                img ng-src='{{ cell.creature.avatar_url }}'
+  .col-md-2
+    ul.sidebar.nav.nav-pills
+      li ng-class="{ 'active': zooActive }"
+        a ng-click='c.activateZooPanel()' Zoo
+      li
+        a Chars
+      li ng-class="{ 'active': selectedCell }"
+        a Cell
+    .active-cell ng-show='selectedCell'
+      h3
+        | Location: ({{ selectedCell.location.x }}, {{ selectedCell.location.y }})
+      h3 Moveability
+      .moveability-option ng-class="{'active': (selectedCell.moveability == 1)}" ng-click='c.setMoveability(1)'
+        | Full
+      .moveability-option ng-class="{'active': (selectedCell.moveability == 2)}" ng-click='c.setMoveability(2)'
+        | Half
+      .moveability-option ng-class="{'active': (selectedCell.moveability == 3)}" ng-click='c.setMoveability(3)'
+        | None
+    .zoo ng-show='zooActive'
+      h3 Zoo
+      .zoo-monster ng-repeat='monster in c.Zoo.monsters' ng-click='c.selectMonster(monster)' ng-class="{'selected': (selectedMonster == monster) }"
+        .avatar
+          img ng-src='{{ monster.avatar_url }}'
+        .textual
+          .name
+            | {{ monster.name }}
+          .desc
+            | {{ monster.description }}

@@ -1,0 +1,11 @@
+.combats
+  .combat ng-repeat='(id, combat) in combats'
+    .name ng-click='c.editCombat(combat)'
+      | {{ combat.name }}
+    .pull-right.delete-link ng-click='c.showDeleteCombatDialog(combat)'
+      i.delete.fa.fa-trash-o
+      | Delete combat
+
+  .newcombat ng-click='c.showNewCombatDialog()' 
+    | New combat
+

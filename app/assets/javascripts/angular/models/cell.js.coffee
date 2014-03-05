@@ -1,6 +1,9 @@
 class window.Cell
   constructor: () ->
-    @
+    @creature = null
+
+  addCreature: (creature) ->
+    @creature = creature
 
 Cell.$inject = []
 

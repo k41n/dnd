@@ -2,13 +2,27 @@ class window.Grid
   constructor: () ->
     @cells = [0...25].map (x)->
       [0...25].map (y) ->
-        null
+        new Cell()
+
+    x = 0
+    y = 0
+    for row in @cells
+      for cell in row
+        cell.location = 
+          x: x
+          y: y
+        x += 1
+      y += 1
+      x = 0
+
+    @rows = [0...25].map (x) =>
+      @cells[x]
 
   get: (x,y) =>
     @cells[x][y]
 
   place: (creature, x, y) =>
-    @cells[x][y] = creature
+    @cells[y][x].addCreature creature
     creature.setCoords x, y, @
     @creatures ||= []
     @creatures.push creature

@@ -8,7 +8,6 @@ class window.GamesController
   fetchGames: =>
     games = @Game.query {}, =>
       for game in games
-        console.log game
         @$scope.games[game.id] = game
 
   showNewGameDialog: =>
@@ -27,7 +26,6 @@ class window.GamesController
       @destroyGame(game)
 
   createGame: (data) =>
-    console.log "Creating game"
     game = new @Game(game: data)
     game.$save {} # On success faye broadcast will be fired
 
