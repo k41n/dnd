@@ -33,7 +33,7 @@ Eye.application :dnd do
     pid_file "faye.pid"
     stdall "log/faye.log"
 
-    start_command "#{BUNDLE} exec rackup #{RAILS_ROOT}/faye.ru -s thin -E production"
+    start_command "#{BUNDLE} exec rackup #{RAILS_ROOT}/faye.ru -s thin -E production --port 9295"
     stop_signals [:TERM, 5.seconds, :KILL]
     restart_command "kill -USR2 {{PID}}"
 
