@@ -1,6 +1,6 @@
 class window.PlayersController
-  constructor: (@$scope, Player, @$injector) ->
-    @$scope.players = Player.query()
+  constructor: (@$scope, @Player, @$injector) ->
+    @$scope.players = @Player.query()
 
 PlayersController.$inject = ["$scope", "Player", "$injector"]
 
