@@ -1,3 +1,3 @@
 json.cache! resource_class.maximum(:updated_at) do
-    json.array! collection
+    json.array! collection.to_a
 end
