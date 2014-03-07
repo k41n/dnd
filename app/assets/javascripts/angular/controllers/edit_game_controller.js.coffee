@@ -28,7 +28,7 @@ class window.EditGameController
       templateUrl: '/delete_combat_dialog.html'
       controller: 'DeleteCombatDialogController'
     modalInstance.result.then (requisites) =>
-      @destroyComat(game)
+      @destroyCombat(game)
 
   onCombatUpdated: (data) =>
     @$scope.combats[data.id] = data
