@@ -1,5 +1,5 @@
 class window.EditGameController
-  constructor: (@$scope, $routeParams, @Game, @Combats, @$injector, @$modal, @Faye, @$location) ->
+  constructor: (@$scope, $routeParams, @Game, @Combats, @Combat, @$injector, @$modal, @Faye, @$location) ->
     @$scope.c = @    
     @$scope.combats = {}
     @subscribeToFaye()
@@ -20,8 +20,8 @@ class window.EditGameController
       @createCombat(requisites)
 
   createCombat: (data) ->
-    combat = new @Combat(combat: data)
-    combat.$save { gameId: @$scope.game.id } # On success faye broadcast will be fired
+    c = new @Combats(combat: data)
+    c.$save { gameId: @$scope.game.id } # On success faye broadcast will be fired
 
   showDeleteCombatDialog: (game) =>
     modalInstance = @$modal.open
@@ -54,6 +54,6 @@ class window.EditGameController
         if msg.type == 'deleted'
           @onCombatDeleted(msg.combat)
 
-EditGameController.$inject = ["$scope", "$routeParams", "Game", "Combats", "$injector", "$modal", "Faye", "$location"]
+EditGameController.$inject = ["$scope", "$routeParams", "Game", "Combats", "Combat", "$injector", "$modal", "Faye", "$location"]
 
 angular.module("dndApp").controller("EditGameController", EditGameController)

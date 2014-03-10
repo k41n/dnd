@@ -29,9 +29,10 @@ class window.Grid
     ret = []
     for row in @cells
       for cell in row
-        ret.push
-          location: cell.location
-          moveability: cell.moveability
+        if cell.moveability
+          ret.push
+            location: cell.location
+            moveability: cell.moveability
     ret
 
 
@@ -40,7 +41,8 @@ class window.Grid
     for creatureJSON in data.creatures
       creature = new Creature()
       creature.loadFromJSON(creatureJSON)
-      @creatures.push creature
+      if creature.location?
+        @place creature, creature.location.x, creature.location.y
     for cellJSON in data.cells
       cell = @get(cellJSON.location.x, cellJSON.location.y)
       cell.loadFromJSON(cellJSON)
@@ -54,6 +56,12 @@ class window.Grid
     creature.setCoords x, y, @
     @creatures ||= []
     @creatures.push creature
+
+  deleteMonster: (creature) ->
+    index = @creatures.indexOf(creature)
+    cell = @get(creature.location.x, creature.location.y)
+    cell.creature = null
+    @creatures.splice(index, 1)
 
   move: (creature, x, y) =>
     @cells[creature.location.x][creature.location.y] = undefined

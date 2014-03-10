@@ -27,14 +27,12 @@ describe "Api::CombatsController" do
   end
 
   context 'PUT /api/games/:game_id/combats/:combat_id' do
-    let!(:combat) { create :combat, game: game }
+    let!(:combat) { create :combat }
 
     it 'updates combat' do
       expect {
-        do_put "/api/games/#{game.to_param}/combats/#{combat.to_param}", combat: { description: 'updated_description' }
+        do_put "/api/combats/#{combat.to_param}", combat: { description: 'updated_description' }
       }.to change{Combat.last.description}.to('updated_description')
     end
-
-    
   end
 end

@@ -14,9 +14,9 @@
         a ng-click='c.activateZooPanel()' Zoo
       li
         a Chars
-      li ng-class="{ 'active': selectedCell }"
+      li ng-class="{ 'active': c.isCellSelected() }"
         a Cell
-    .active-cell ng-show='selectedCell'
+    .active-cell ng-show='c.isCellSelected()'
       h3
         | Location: ({{ selectedCell.location.x }}, {{ selectedCell.location.y }})
       h3 Moveability
@@ -26,6 +26,18 @@
         | Half
       .moveability-option ng-class="{'active': (selectedCell.moveability == 3)}" ng-click='c.setMoveability(3)'
         | None
+      h3 ng-show='selectedCell.hasCreature()'
+        | Monster in cell
+      .cell-monster ng-show='selectedCell.hasCreature()'
+        .avatar
+          img ng-src='{{ selectedCell.creature.avatar_url }}'
+        .textual
+          .name
+            | {{ selectedCell.creature.name }}
+          .desc
+            | {{ selectedCell.creature.description }}
+        button.btn.btn-danger ng-click='c.deleteMonster(selectedCell.creature)' Delete
+
     .zoo ng-show='zooActive'
       h3 Zoo
       .zoo-monster ng-repeat='monster in c.Zoo.monsters' ng-click='c.selectMonster(monster)' ng-class="{'selected': (selectedMonster == monster) }"

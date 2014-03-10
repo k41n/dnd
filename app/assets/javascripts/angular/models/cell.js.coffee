@@ -13,6 +13,9 @@ class window.Cell
   loadFromJSON: (json) =>
     @moveability = json.moveability
 
+  hasCreature: ->
+    @creature? && @creature
+
 
 Cell.$inject = []
 

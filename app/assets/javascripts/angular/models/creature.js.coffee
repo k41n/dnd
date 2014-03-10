@@ -13,6 +13,7 @@ class window.Creature
       name: @name
       description: @description
       avatar_url: @avatar_url
+      location: @location
     }
 
   loadFromJSON: (json) =>
@@ -20,6 +21,7 @@ class window.Creature
     @name = json.name
     @description = json.description
     @avatar_url = json.avatar_url
+    @location = json.location
 
   setCoords: (x, y, grid) =>
     @grid = grid

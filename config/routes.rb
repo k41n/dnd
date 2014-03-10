@@ -9,7 +9,7 @@ Dnd::Application.routes.draw do
     resources :players, only: [:index]
     resources :monsters, only: [:index]
     resources :games do
-      resources :combats
+      resources :combats, shallow: true
     end
   end
 
