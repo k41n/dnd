@@ -1,10 +1,25 @@
 class window.Creature
   constructor: (monster_resource) ->
-    @name = monster_resource.name
-    @description = monster_resource.description
-    @avatar_url = monster_resource.avatar_url
+    if monster_resource
+      @name = monster_resource.name
+      @description = monster_resource.description
+      @avatar_url = monster_resource.avatar_url
     @location = undefined
     @ac = 10
+
+  saveToJSON: =>
+    {
+      ac: @ac
+      name: @name
+      description: @description
+      avatar_url: @avatar_url
+    }
+
+  loadFromJSON: (json) =>
+    @ac = json.ac
+    @name = json.name
+    @description = json.description
+    @avatar_url = json.avatar_url
 
   setCoords: (x, y, grid) =>
     @grid = grid

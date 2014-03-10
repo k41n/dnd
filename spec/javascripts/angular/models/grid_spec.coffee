@@ -2,7 +2,7 @@
 
 describe 'Grid', ->
   beforeEach ->
-    @grid = @model('Grid')
+    @grid = new Grid()
 
   describe 'constructor', ->
     it 'creates grid', ->
@@ -30,10 +30,12 @@ describe 'Grid', ->
       expect(@grid.cells[1][1]).toEqual(@creature)
 
     it 'triggers move event on all creatures', ->
-      @creature1 = @model('Creature')
-      @creature2 = @model('Creature')
+      @creature1 = new Creature()
+      @creature2 = new Creature()
       @grid.place @creature1, 0, 0
       @grid.place @creature2, 0, 1
+
+      expect(@creature1).not.toBe(@creature2)
 
       spyOn(@creature2, 'event')
 
@@ -44,3 +46,20 @@ describe 'Grid', ->
         to:
           x: 1
           y: 1
+
+  describe 'save and load', ->
+    it 'can save and load to json', ->
+      @creature = new Creature()
+      @grid.place @creature, 0, 0
+      @grid.get(9, 8).moveability = 1
+
+      @grid2 = new Grid()
+
+      json = @grid.saveToJSON()
+
+      @grid2.loadFromJSON(json)
+
+      expect(@grid2.creatures.length).toEqual(1)
+      console.log @grid2.get(9, 8)
+      expect(@grid2.get(9, 8).moveability).toEqual(1)
+

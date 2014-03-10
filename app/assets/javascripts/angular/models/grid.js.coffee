@@ -18,8 +18,36 @@ class window.Grid
     @rows = [0...25].map (x) =>
       @cells[x]
 
+  saveToJSON: =>
+    {
+      creatures: $.map @creatures, (creature) ->
+        creature.saveToJSON()
+      cells: @cellsJSON()
+    }
+
+  cellsJSON: =>
+    ret = []
+    for row in @cells
+      for cell in row
+        ret.push
+          location: cell.location
+          moveability: cell.moveability
+    ret
+
+
+  loadFromJSON: (data) =>
+    @creatures = []
+    for creatureJSON in data.creatures
+      creature = new Creature()
+      creature.loadFromJSON(creatureJSON)
+      @creatures.push creature
+    for cellJSON in data.cells
+      cell = @get(cellJSON.location.x, cellJSON.location.y)
+      cell.loadFromJSON(cellJSON)
+      console.log cell
+
   get: (x,y) =>
-    @cells[x][y]
+    @cells[y][x]
 
   place: (creature, x, y) =>
     @cells[y][x].addCreature creature

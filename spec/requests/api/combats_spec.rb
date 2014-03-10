@@ -1,9 +1,10 @@
 require 'spec_helper'
 
 describe "Api::CombatsController" do
-  context 'GET /api/games/:game_id/combats' do
 
-    let(:game) { create :game }
+  let(:game) { create :game }
+
+  context 'GET /api/games/:game_id/combats' do
 
     it 'receives list of combats belonging to game' do
       create_list :combat, 5, game: game
@@ -23,5 +24,17 @@ describe "Api::CombatsController" do
       expect(json_body.size).to eq(5)
     end
 
+  end
+
+  context 'PUT /api/games/:game_id/combats/:combat_id' do
+    let!(:combat) { create :combat, game: game }
+
+    it 'updates combat' do
+      expect {
+        do_put "/api/games/#{game.to_param}/combats/#{combat.to_param}", combat: { description: 'updated_description' }
+      }.to change{Combat.last.description}.to('updated_description')
+    end
+
+    
   end
 end
