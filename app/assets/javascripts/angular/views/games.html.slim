@@ -1,11 +1,12 @@
-.games
-  .game ng-repeat='(id, game) in games'
+.games infinite-scroll='c.nextPage()'
+  .newgame ng-click='c.showNewGameDialog()' 
+    | New game
+
+  .game ng-repeat='(id, game) in games' 
     .name ng-click='c.editGame(game)'
       | {{ game.name }}
     .pull-right.delete-link ng-click='c.showDeleteGameDialog(game)'
       i.delete.fa.fa-trash-o
       | Delete game
 
-  .newgame ng-click='c.showNewGameDialog()' 
-    | New game
 

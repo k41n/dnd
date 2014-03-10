@@ -2,13 +2,19 @@ class window.GamesController
   constructor: (@$scope, @Game, @$injector, @$modal, @Faye, @$location) ->
     @$scope.c = @    
     @$scope.games = {}    
-    @fetchGames()
+    @page = 1
     @subscribeToFaye()
 
-  fetchGames: =>
-    games = @Game.query {}, =>
+  nextPage: =>
+    return if @nextPageBeingRequested
+    @nextPageBeingRequested = true
+    games = @Game.query
+      page: @page
+    , =>
+      @page += 1
       for game in games
         @$scope.games[game.id] = game
+      @nextPageBeingRequested = false
 
   showNewGameDialog: =>
     modalInstance = @$modal.open

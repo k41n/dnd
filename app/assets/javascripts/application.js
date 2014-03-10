@@ -20,6 +20,7 @@
 //= require angular-resource
 //= require angular-faye
 //= require ui-utils
+//= require ng-infinite-scroll
 //= require_tree ./angular/modules
 //= require_tree ./angular/services
 //= require_tree ./angular/factories

@@ -3,7 +3,8 @@ window.app = angular.module "dndApp", [
   "faye",
   "ngRoute",
   "ui.bootstrap",
-  "ui.utils"
+  "ui.utils",
+  "infinite-scroll"
 ]
 
 window.app.config ["$httpProvider", ($httpProvider) ->

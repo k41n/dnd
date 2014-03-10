@@ -3,14 +3,19 @@ class window.EditGameController
     @$scope.c = @    
     @$scope.combats = {}
     @subscribeToFaye()
+    @page = 1
     @$scope.game = Game.get { id: $routeParams.id }, =>
-      @fetchCombats()
+      @nextPage()
 
-  fetchCombats: ->
-    console.log "@$scope.game.id = ", @$scope.game.id
-    combats = @Combats.query { gameId: @$scope.game.id }, =>
+  nextPage: ->
+    return if @nextPageBeingRequested    
+    return unless @$scope.game.id?
+    @nextPageBeingRequested = true    
+    combats = @Combats.query { gameId: @$scope.game.id, page: @page }, =>
       for combat in combats
         @$scope.combats[combat.id] = combat
+      @page += 1 
+      @nextPageBeingRequested = false
 
   showNewCombatDialog: ->
     modalInstance = @$modal.open

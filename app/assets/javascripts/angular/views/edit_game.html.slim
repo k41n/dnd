@@ -1,4 +1,7 @@
-.combats
+.combats infinite-scroll='c.nextPage()'
+  .newcombat ng-click='c.showNewCombatDialog()' 
+    | New combat
+
   .combat ng-repeat='(id, combat) in combats'
     .name ng-click='c.editCombat(combat)'
       | {{ combat.name }}
@@ -6,6 +9,4 @@
       i.delete.fa.fa-trash-o
       | Delete combat
 
-  .newcombat ng-click='c.showNewCombatDialog()' 
-    | New combat
 
