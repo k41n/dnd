@@ -1,5 +1,5 @@
 class window.EditGameController
-  constructor: (@$scope, $routeParams, @Game, @Combat, @$injector, @$modal, @Faye, @$location) ->
+  constructor: (@$scope, $routeParams, @Game, @Combats, @$injector, @$modal, @Faye, @$location) ->
     @$scope.c = @    
     @$scope.combats = {}
     @subscribeToFaye()
@@ -8,7 +8,7 @@ class window.EditGameController
 
   fetchCombats: ->
     console.log "@$scope.game.id = ", @$scope.game.id
-    combats = @Combat.query { gameId: @$scope.game.id }, =>
+    combats = @Combats.query { gameId: @$scope.game.id }, =>
       for combat in combats
         @$scope.combats[combat.id] = combat
 
@@ -54,6 +54,6 @@ class window.EditGameController
         if msg.type == 'deleted'
           @onCombatDeleted(msg.combat)
 
-EditGameController.$inject = ["$scope", "$routeParams", "Game", "Combat", "$injector", "$modal", "Faye", "$location"]
+EditGameController.$inject = ["$scope", "$routeParams", "Game", "Combats", "$injector", "$modal", "Faye", "$location"]
 
 angular.module("dndApp").controller("EditGameController", EditGameController)

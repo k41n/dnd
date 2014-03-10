@@ -1,7 +1,8 @@
 class window.EditCombatController
-  constructor: (@$scope, $routeParams, @Zoo) ->
+  constructor: (@$scope, @$routeParams, @Zoo, @Combat) ->
     @$scope.c = @
     @$scope.grid = new Grid()
+    @fetchCombat()
     @$scope.zooActive = true
 
   selectCell: (cell) ->
@@ -23,6 +24,10 @@ class window.EditCombatController
   selectMonster: (monster) ->
     @$scope.selectedMonster = monster
 
-EditCombatController.$inject = ["$scope", "$routeParams", "Zoo"]
+  fetchCombat: ->
+    @$scope.combat = @Combat.get { id: @$routeParams.id }, =>
+      @$scope.grid.loadFromJSON(@$scope.combat.json) if @$scope.combat.json?
+
+EditCombatController.$inject = ["$scope", "$routeParams", "Zoo", "Combat"]
 
 angular.module("dndApp").controller("EditCombatController", EditCombatController)    
