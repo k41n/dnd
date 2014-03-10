@@ -3,12 +3,12 @@
   h4.modal-title
     | Please login
 .modal-body
-  form.form-horizontal role='form'
+  form.form-horizontal role='form' ui-keypress="{13: 'ok()'}"
     .form-group
       label.control-label.col-sm-2
         | Username
       .col-sm-10
-        input.form-control type='text' ng-model='form.email' required="required"
+        input.form-control type='text' ng-model='form.email' required="required" auto-focus='1'
     .form-group
       label.control-label.col-sm-2
         | Password

@@ -19,9 +19,11 @@
 //= require angular-route
 //= require angular-resource
 //= require angular-faye
+//= require ui-utils
 //= require_tree ./angular/modules
 //= require_tree ./angular/services
 //= require_tree ./angular/factories
 //= require_tree ./angular/models
+//= require_tree ./angular/directives
 //= require_tree ./angular/controllers
 

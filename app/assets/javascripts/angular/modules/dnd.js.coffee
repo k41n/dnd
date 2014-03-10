@@ -2,7 +2,8 @@ window.app = angular.module "dndApp", [
   "ngResource",
   "faye",
   "ngRoute",
-  "ui.bootstrap"
+  "ui.bootstrap",
+  "ui.utils"
 ]
 
 window.app.config ["$httpProvider", ($httpProvider) ->
