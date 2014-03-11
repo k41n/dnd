@@ -6,7 +6,7 @@ describe 'GamesController', ->
     @Game = @model('Game')
     @games = [new @Game({ id: 1, name: 'Владимир Геббельс' })]
 
-    @http.whenGET('/api/games').respond(200, @games)
+    @http.whenGET('/api/games?page=1').respond(200, @games)
     @http.flush()
 
   describe 'load', ->

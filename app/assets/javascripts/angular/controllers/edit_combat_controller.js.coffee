@@ -19,10 +19,9 @@ class window.EditCombatController
 
   fetchCombat: ->
     @$scope.combat = @Combat.get { id: @$routeParams.id }, (data) =>
-      console.log 'Loading from JSON', data
-      @$scope.combat.json = JSON.parse(data.json)
-      console.log "@$scope.combat.json", @$scope.combat.json
-      @$scope.grid.loadFromJSON(@$scope.combat.json) if @$scope.combat.json?
+      if data.json? && data.json.length > 0
+        @$scope.combat.json = JSON.parse(data.json)
+        @$scope.grid.loadFromJSON(@$scope.combat.json) if @$scope.combat.json?
 
   saveCombat: ->
     @$scope.combat.json = @$scope.grid.saveToJSON()

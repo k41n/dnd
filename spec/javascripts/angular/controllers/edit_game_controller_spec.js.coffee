@@ -11,7 +11,7 @@ describe 'EditGameController', ->
 
     @combats = [new @Combat({ id: 1, name: 'Махачка за мешок конопли в селе Соплюево' })]
 
-    @http.whenGET('/api/games/1/combats').respond(200, @combats)
+    @http.whenGET('/api/games/1/combats?page=1').respond(200, @combats)
     @http.whenGET('/api/games/1').respond(200, @game)
     @http.flush()
 

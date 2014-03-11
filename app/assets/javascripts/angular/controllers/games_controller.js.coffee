@@ -4,6 +4,7 @@ class window.GamesController
     @$scope.games = {}    
     @page = 1
     @subscribeToFaye()
+    @nextPage()
 
   nextPage: =>
     return if @nextPageBeingRequested
