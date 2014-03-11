@@ -1,0 +1,34 @@
+.row
+  .col-md-10.static
+    .grid
+      table
+        tr ng-repeat='row in grid.rows'
+          td ng-repeat='cell in row' ng-class="{'selected': (cell == selectedCell), 'obstacle': (cell.moveability == 3) }" ng-click='moveToCell(cell); c.selectCell(cell)'
+            div.cell
+              .overlay
+              .monster-in-grid ng-show='cell.creature'
+                img ng-src='{{ cell.creature.avatar_url }}'
+  .col-md-2
+    .active-cell ng-show='c.isCellSelected()'
+      h3
+        | Location: ({{ selectedCell.location.x }}, {{ selectedCell.location.y }})
+      h3 Moveability
+      .moveability-option ng-class="{'active': (selectedCell.moveability == 1)}"
+        | Full
+      .moveability-option ng-class="{'active': (selectedCell.moveability == 2)}"
+        | Half
+      .moveability-option ng-class="{'active': (selectedCell.moveability == 3)}"
+        | None
+      h3 ng-show='selectedCell.hasCreature()'
+        | Monster in cell
+      .cell-monster ng-show='selectedCell.hasCreature()'
+        .avatar
+          img ng-src='{{ selectedCell.creature.avatar_url }}'
+        .textual
+          .name
+            | {{ selectedCell.creature.name }}
+          .desc
+            | {{ selectedCell.creature.description }}
+        .move
+          .btn.btn-large.btn-success ng-click='c.markMoveableCellsForCreature(selectedCell.creature)'
+            | Move

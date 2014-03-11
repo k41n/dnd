@@ -6,32 +6,16 @@ class window.EditCombatController
     @$scope.zooActive = true
 
   selectCell: (cell) ->
-    if @$scope.selectedMonster
-      unless cell.hasCreature()
-        monster = new Creature(@$scope.selectedMonster)
-        @$scope.grid.place(monster, cell.location.x, cell.location.y)
-        @$scope.selectedMonster = null
-        @saveCombat()
-    else
-      @$scope.zooActive = false
-      @$scope.selectedCell = cell
+    @$scope.selectedCell = cell
 
   isCellSelected: ->
     @$scope.selectedCell?
 
-  deleteMonster: (monster) ->
-    @$scope.grid.deleteMonster(monster)
-
-  setMoveability: (val) ->
-    @$scope.selectedCell.moveability = val
-    @saveCombat()
-
-  activateZooPanel: ->
-    @$scope.selectedCell = null
-    @$scope.zooActive = true
-
   selectMonster: (monster) ->
     @$scope.selectedMonster = monster
+
+  markMoveableCellsForCreature: (creature) =>
+    @$scope.grid.markMoveableCellsForCreature(creature)
 
   fetchCombat: ->
     @$scope.combat = @Combat.get { id: @$routeParams.id }, (data) =>

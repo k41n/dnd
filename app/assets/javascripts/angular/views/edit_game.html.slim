@@ -2,11 +2,25 @@
   .newcombat ng-click='c.showNewCombatDialog()' 
     | New combat
 
-  .combat ng-repeat='(id, combat) in combats'
-    .name ng-click='c.editCombat(combat)'
+  .combat.btn-group ng-repeat='(id, combat) in combats'
+    .btn.btn-large.btn-primary ng-click='c.showCombat(combat)'
       | {{ combat.name }}
-    .pull-right.delete-link ng-click='c.showDeleteCombatDialog(combat)'
-      i.delete.fa.fa-trash-o
+    .btn.btn-large.btn-success ng-click='c.editCombat(combat)'
+      | Edit combat
+    .btn.btn-large.btn-danger ng-click='c.showDeleteCombatDialog(combat)'
       | Delete combat
+
+
+  /.combat ng-repeat='(id, combat) in combats'
+  /  .name ng-click='c.editCombat(combat)'
+  /    | {{ combat.name }}
+  /  .pull-right.delete-link ng-click='c.showCombat(combat)'
+  /    i.delete.fa.fa-trash-o
+  /    | Show combat
+  /  .pull-right.delete-link ng-click='c.showDeleteCombatDialog(combat)'
+  /    i.delete.fa.fa-trash-o
+  /    | Delete combat
+
+
 
 

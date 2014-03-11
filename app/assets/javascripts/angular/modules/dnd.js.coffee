@@ -23,9 +23,12 @@ window.app.config ["$httpProvider", ($httpProvider) ->
   .when "/games/:id",
     templateUrl: '/edit_game.html'
     controller: 'EditGameController'
-  .when "/games/:gameId/combats/:id",
+  .when "/games/:gameId/combats/:id/edit",
     templateUrl: '/edit_combat.html'
     controller: 'EditCombatController'
+  .when "/games/:gameId/combats/:id",
+      templateUrl: '/show_combat.html'
+      controller: 'EditCombatController'
   .when "/grid",
     templateUrl: '/grid.html'
     controller: 'GridController'

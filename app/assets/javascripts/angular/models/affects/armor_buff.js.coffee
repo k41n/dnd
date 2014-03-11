@@ -9,7 +9,7 @@ class window.Affects.ArmorBuff
       @applicator.addAffect(@)
 
       for c in @applicator.neighbors()
-        @affectOn c  if @shouldAffectOn c
+        @affectOn c if @shouldAffectOn c
 
       # Register callback so when someone approaches, he receives buff
       @applicator.registerEventHandler 'move', (params) =>

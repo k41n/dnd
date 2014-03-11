@@ -83,6 +83,36 @@ class window.Grid
     dy = p1.y-p2.y
     Math.sqrt( dx*dx+dy*dy )
 
+  markMoveableCellsForCreature: (creature) =>
+    #i cant complete my algorythm now. Will do it later.
+#    position = creature.location
+#    speed = 5
+#    startCol = position.x - speed
+#    steps = speed*2 + 1
+#    height = 1
+#    console.log creature
+#    console.log @rows
+#    console.log @cells
+#
+#    for step in [1..steps]
+#      tile = @cells[position.x][startCol]
+#      if tile
+#        tile.moveable = true
+##        moveableTiles.push tile
+#        if height >= 3
+#          startRow = tile.x - Math.floor(height/2)
+#          for j in [1..height]
+#            vertTile = tileSet[startRow]
+#            if vertTile
+#              vertTile = tileSet[startRow][tile.col]
+#              vertTile.moveable = true
+#              moveableTiles.push vertTile
+#              vertTile = null
+#            startRow += 1
+#      startCol += 1
+#
+#      if step*2 > steps then height -= 2 else height += 2
+
 
 Grid.$inject = ['Cell']
 

@@ -42,6 +42,9 @@ class window.EditGameController
     delete @$scope.combats[data.id]
 
   editCombat: (combat) =>
+    @$location.path("/games/#{@$scope.game.id}/combats/#{combat.id}/edit")
+
+  showCombat: (combat) =>
     @$location.path("/games/#{@$scope.game.id}/combats/#{combat.id}")
 
   destroyCombat: (combat) =>

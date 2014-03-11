@@ -1,6 +1,7 @@
 class window.Cell
   constructor: () ->
     @creature = null
+    @moveable = false
 
   addCreature: (creature) ->
     @creature = creature
