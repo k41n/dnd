@@ -46,6 +46,6 @@ class window.ShowCombatController
     @Combat.update { id: @$scope.combat.id }, { combat: params }
 
 
-EditCombatController.$inject = ["$scope", "$routeParams", "Zoo", "Combat", "Faye"]
+ShowCombatController.$inject = ["$scope", "$routeParams", "Zoo", "Combat", "Faye"]
 
 angular.module("dndApp").controller("EditCombatController", EditCombatController)

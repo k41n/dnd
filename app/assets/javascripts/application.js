@@ -21,9 +21,10 @@
 //= require angular-faye
 //= require ui-utils
 //= require ng-infinite-scroll
+//= require angular-file-upload
 //= require_tree ./angular/modules
-//= require_tree ./angular/services
 //= require_tree ./angular/factories
+//= require_tree ./angular/services
 //= require_tree ./angular/models
 //= require_tree ./angular/directives
 //= require_tree ./angular/controllers

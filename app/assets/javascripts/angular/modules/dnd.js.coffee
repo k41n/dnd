@@ -4,7 +4,8 @@ window.app = angular.module "dndApp", [
   "ngRoute",
   "ui.bootstrap",
   "ui.utils",
-  "infinite-scroll"
+  "infinite-scroll",
+  "angularFileUpload"
 ]
 
 window.app.config ["$httpProvider", ($httpProvider) ->
@@ -14,9 +15,9 @@ window.app.config ["$httpProvider", ($httpProvider) ->
   $provider.when "/",
     templateUrl: '/dashboard.html'
     controller: 'DashboardController'
-  .when "/monsters",
-    templateUrl: '/monsters.html'
-    controller: 'MonstersController'
+  .when "/characters",
+    templateUrl: '/characters.html'
+    controller: 'CharactersController'
   .when "/games",
     templateUrl: '/games.html'
     controller: 'GamesController'
@@ -29,7 +30,4 @@ window.app.config ["$httpProvider", ($httpProvider) ->
   .when "/games/:gameId/combats/:id",
       templateUrl: '/show_combat.html'
       controller: 'EditCombatController'
-  .when "/grid",
-    templateUrl: '/grid.html'
-    controller: 'GridController'
 ])

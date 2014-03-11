@@ -1,0 +1,35 @@
+h3 My characters
+.edited-character.panel.panel-primary ng-show='editedCharacter'
+  .panel-heading Edit character
+  .panel-body
+    .avatar
+      img ng-src="{{ editedCharacter.avatar_url }}"
+    form role='form' novalidate='1'
+      .form-group
+        label Upload avatar
+        input type='file' ng-file-select='1'
+      .form-group
+        label Name
+        input.form-control type='text' ng-model='editedCharacter.name'
+      .form-group
+        .col-sm-offset-2.col-sm-10
+          button.btn.btn-primary ng-click='c.saveCharacter()' SAVE 
+          button.btn.btn-danger ng-click='c.deleteCharacter()' DELETE
+
+
+.character.col-xs-12.col-sm-6.col-md-4.col-lg3 ng-repeat='(id, char) in characters' ng-click='c.editCharacter(char)'
+  .avatar
+    img ng-src="{{ char.avatar_url }}"
+  .textual
+    .name 
+      | {{ char.name }}
+    .desc 
+      | {{ char.description }}
+
+.character.col-xs-12.col-sm-6.col-md-4.col-lg3 ng-click='c.showNewCharacterDialog()'
+  .avatar
+    img src='/unknown-character.png'
+  .textual
+    .name NEW CHARACTER
+    .desc Click this to create new character
+

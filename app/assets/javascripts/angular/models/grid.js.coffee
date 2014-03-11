@@ -18,6 +18,8 @@ class window.Grid
     @rows = [0...25].map (x) =>
       @cells[x]
 
+    @creatures = []
+
   saveToJSON: =>
     {
       creatures: $.map @creatures, (creature) ->

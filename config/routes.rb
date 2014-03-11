@@ -6,8 +6,10 @@ Dnd::Application.routes.draw do
   root 'dashboard#index'
 
   namespace :api, defaults: { format: 'json' } do
-    resources :players, only: [:index]
-    resources :monsters, only: [:index]
+    resources :characters do
+      post :avatar, on: :member
+    end
+    resources :monsters
     resources :games do
       resources :combats, shallow: true
     end

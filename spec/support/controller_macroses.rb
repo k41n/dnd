@@ -7,4 +7,12 @@ module ControllerMacros
     login_as @master, scope: :player
   end
 
+  def login_player(player)
+    @player = player
+    Warden.test_mode!
+    login_as player, scope: :player
+  end
+
+
+
 end

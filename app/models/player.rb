@@ -4,5 +4,6 @@ class Player < ActiveRecord::Base
   devise :database_authenticatable
 
   has_many :games, foreign_key: :master_id
+  has_many :characters
 
 end

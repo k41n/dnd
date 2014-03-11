@@ -1,0 +1,51 @@
+.character
+  padding: 10px
+  display: inline-block
+  border: solid 1px black
+  border-radius: 10px
+  .avatar
+    display: inline-block  
+    img
+      width: 80px
+      height: 80px
+  .textual
+    display: inline-block
+    margin-left: 10px
+    .name
+      font-weight: bold
+    .desc
+      font-decoration: italic
+
+.edited-character
+  clear: both
+  display: block
+  .avatar
+    display: inline-block
+    vertical-align: top
+    img
+      width: 80px
+      height: 80px
+  form
+    margin-left: 10px
+    display: inline-block
+    vertical-align: top
+
+.charset
+  .char-in-set
+    width: 95%
+    margin: 4px auto
+    border-radius: 4px
+    border: solid 1px black
+    &.selected
+      background-color: #00eeee
+    .avatar
+      float: left
+      img
+        border-radius: 50%
+        width: 50px
+        height: 50px
+        margin: 10px
+    .textual
+      height: 70px
+      .name
+        font-weight: bold
