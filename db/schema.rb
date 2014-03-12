@@ -11,13 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140311205925) do
+ActiveRecord::Schema.define(version: 20140312152253) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "btree_gist"
-  enable_extension "hstore"
-  enable_extension "pg_trgm"
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -89,10 +86,8 @@ ActiveRecord::Schema.define(version: 20140311205925) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "role"
     t.string   "monster_type"
     t.integer  "level"
-    t.integer  "xp"
     t.string   "size"
     t.integer  "hp"
     t.integer  "initiative"
@@ -100,9 +95,13 @@ ActiveRecord::Schema.define(version: 20140311205925) do
     t.integer  "endurance"
     t.integer  "reaction"
     t.integer  "will"
-    t.integer  "save_rolls"
     t.integer  "speed"
-    t.integer  "action_points"
+    t.integer  "str",                 default: 0
+    t.integer  "con",                 default: 0
+    t.integer  "dex",                 default: 0
+    t.integer  "int",                 default: 0
+    t.integer  "wis",                 default: 0
+    t.integer  "cha",                 default: 0
   end
 
   create_table "players", force: true do |t|
@@ -133,5 +132,18 @@ ActiveRecord::Schema.define(version: 20140311205925) do
 
   add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", unique: true, using: :btree
   add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at", using: :btree
+
+  create_table "skills", force: true do |t|
+    t.string  "title"
+    t.string  "attack_char_from"
+    t.string  "attack_char_to"
+    t.integer "damage_dice",      default: 0
+    t.integer "damage_count",     default: 1
+    t.integer "damage_bonus",     default: 0
+    t.string  "owner_type"
+    t.integer "owner_id"
+  end
+
+  add_index "skills", ["owner_id"], name: "index_skills_on_owner_id", using: :btree
 
 end

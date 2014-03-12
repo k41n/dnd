@@ -2,11 +2,9 @@ ActiveAdmin.register Monster do
 
   permit_params :name, 
     :description, 
-    :avatar, 
-    :role, 
+    :avatar,
     :monster_type, 
-    :level, 
-    :xp, 
+    :level,
     :size, 
     :hp, 
     :initiative, 
@@ -14,19 +12,21 @@ ActiveAdmin.register Monster do
     :endurance,
     :reaction,
     :will,
-    :save_rolls,
     :speed,
-    :action_points
+    :str,
+    :con,
+    :dex,
+    :int,
+    :wis,
+    :cha
 
   form :html => { :enctype => "multipart/form-data" } do |f|
     f.inputs "Details" do
       f.input :name
       f.input :description
       f.input :avatar, as: :file
-      f.input :role
       f.input :monster_type
       f.input :level
-      f.input :xp
       f.input :size
       f.input :hp
       f.input :initiative
@@ -34,9 +34,13 @@ ActiveAdmin.register Monster do
       f.input :endurance
       f.input :reaction
       f.input :will
-      f.input :save_rolls
       f.input :speed
-      f.input :action_points
+      f.input :str
+      f.input :con
+      f.input :dex
+      f.input :int
+      f.input :wis
+      f.input :cha
 
     end
     f.actions
@@ -46,7 +50,7 @@ ActiveAdmin.register Monster do
     column :name
     column :level
     column :avatar do |m|
-      image_tag m.avatar.url(:thumb), size: '25x25>'
+      image_tag m.avatar.url(:thumb), size: '25x25'
     end
     column :hp
     column :ac

@@ -1,8 +1,9 @@
 class Character < ActiveRecord::Base
   include FayeObservable    
   belongs_to :player
+  has_many :skills
 
-  has_attached_file :avatar, :styles => { :thumb => "50x50" }, default_url: '/unknown-character.png'
+  has_attached_file :avatar, styles: { thumb: '50x50' }, default_url: '/unknown-character.png'
 
   paginates_per 10  
 
