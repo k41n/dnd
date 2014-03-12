@@ -29,5 +29,5 @@ window.app.config ["$httpProvider", ($httpProvider) ->
     controller: 'EditCombatController'
   .when "/games/:gameId/combats/:id",
       templateUrl: '/show_combat.html'
-      controller: 'EditCombatController'
+      controller: 'ShowCombatController'
 ])

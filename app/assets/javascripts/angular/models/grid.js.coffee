@@ -20,6 +20,8 @@ class window.Grid
 
     @creatures = []
 
+    @moveableCells = []
+
   saveToJSON: =>
     {
       creatures: $.map @creatures, (creature) ->
@@ -48,7 +50,6 @@ class window.Grid
     for cellJSON in data.cells
       cell = @get(cellJSON.location.x, cellJSON.location.y)
       cell.loadFromJSON(cellJSON)
-      console.log cell
 
   get: (x,y) =>
     @cells[y][x]
@@ -66,8 +67,8 @@ class window.Grid
     @creatures.splice(index, 1)
 
   move: (creature, x, y) =>
-    @cells[creature.location.x][creature.location.y] = undefined
-    @cells[x][y] = creature
+    @get(creature.location.x, creature.location.y).creature = undefined
+    @get(x, y).creature = creature
     creature.moveTo(x, y)
     for c in @creatures
       c.event 'move',
@@ -75,6 +76,13 @@ class window.Grid
         to:
           x: x
           y: y
+    if @moveableCells.length > 0
+      for i in [0..@moveableCells.length-1]
+        @moveableCells[i].moveable = false
+#      console.log @moveableCells.length
+#      $.each @moveableCells, (i, elem) ->
+#        console.log elem
+#        elem.moveable = false
 
   creaturesInRadius: (location, radius) ->
     $.grep @creatures, (c) =>
@@ -86,34 +94,17 @@ class window.Grid
     Math.sqrt( dx*dx+dy*dy )
 
   markMoveableCellsForCreature: (creature) =>
-    #i cant complete my algorythm now. Will do it later.
-#    position = creature.location
-#    speed = 5
-#    startCol = position.x - speed
-#    steps = speed*2 + 1
-#    height = 1
-#    console.log creature
-#    console.log @rows
-#    console.log @cells
-#
-#    for step in [1..steps]
-#      tile = @cells[position.x][startCol]
-#      if tile
-#        tile.moveable = true
-##        moveableTiles.push tile
-#        if height >= 3
-#          startRow = tile.x - Math.floor(height/2)
-#          for j in [1..height]
-#            vertTile = tileSet[startRow]
-#            if vertTile
-#              vertTile = tileSet[startRow][tile.col]
-#              vertTile.moveable = true
-#              moveableTiles.push vertTile
-#              vertTile = null
-#            startRow += 1
-#      startCol += 1
-#
-#      if step*2 > steps then height -= 2 else height += 2
+    speed = 5
+    position = creature.location
+    minX = Math.max(position.x - speed)
+    maxX = Math.max(position.x + speed)
+    minY = Math.max(position.y - speed)
+    maxY = Math.max(position.y + speed)
+    for x in [minX..maxX]
+      for y in [minY..maxY]
+        if ( (Math.abs(x - position.x) + Math.abs(y - position.y) <= speed) )
+          @get(x, y).moveable = true
+          @moveableCells.push @get(x, y)
 
 
 Grid.$inject = ['Cell']

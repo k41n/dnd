@@ -15,9 +15,6 @@ ActiveRecord::Schema.define(version: 20140311205925) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "btree_gist"
-  enable_extension "hstore"
-  enable_extension "pg_trgm"
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -70,6 +67,40 @@ ActiveRecord::Schema.define(version: 20140311205925) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "json"
+  end
+
+  create_table "creature_weapons", force: true do |t|
+    t.integer  "creature_id"
+    t.integer  "weapon_id"
+    t.boolean  "trained"
+    t.integer  "atk_ench"
+    t.integer  "dmg_ench"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "creatures", force: true do |t|
+    t.string   "title"
+    t.integer  "level"
+    t.integer  "hp"
+    t.integer  "speed"
+    t.integer  "initiative"
+    t.integer  "str"
+    t.integer  "con"
+    t.integer  "dex"
+    t.integer  "int"
+    t.integer  "wis"
+    t.integer  "cha"
+    t.integer  "ac"
+    t.integer  "fort"
+    t.integer  "ref"
+    t.integer  "will"
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "games", force: true do |t|
@@ -133,5 +164,31 @@ ActiveRecord::Schema.define(version: 20140311205925) do
 
   add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", unique: true, using: :btree
   add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at", using: :btree
+
+  create_table "spells", force: true do |t|
+    t.integer  "creature_id"
+    t.string   "title"
+    t.text     "description"
+    t.string   "damage"
+    t.string   "atk"
+    t.string   "def"
+    t.integer  "range"
+    t.integer  "dot_target"
+    t.integer  "dot_value"
+    t.integer  "dot_duration"
+    t.integer  "debuff_target"
+    t.integer  "debuff_value"
+    t.integer  "debuff_duration"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "weapons", force: true do |t|
+    t.string   "title"
+    t.integer  "dmg"
+    t.integer  "range"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end
