@@ -4,11 +4,10 @@ class Api::GamesController < ApplicationController
   before_filter :authenticate_player!, only: [:create]
   before_filter :check_game_master, only: [:destroy]
 
-
   protected
 
   def collection
-    end_of_association_chain.page(params[:page])
+    end_of_association_chain.order(:created_at).page(params[:page])
   end
 
   def begin_of_association_chain

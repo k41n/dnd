@@ -40,11 +40,11 @@ class window.Grid
     ret
 
 
-  loadFromJSON: (data) =>
+  loadFromJSON: (data, SkillLibrary) =>
     @creatures = []
     for creatureJSON in data.creatures
       creature = new Creature()
-      creature.loadFromJSON(creatureJSON)
+      creature.loadFromJSON(creatureJSON, SkillLibrary)
       if creature.location?
         @place creature, creature.location.x, creature.location.y
     for cellJSON in data.cells
@@ -90,10 +90,10 @@ class window.Grid
   markMoveableCellsForCreature: (creature) =>
     speed = 5
     position = creature.location
-    minX = Math.max(position.x - speed)
-    maxX = Math.max(position.x + speed)
-    minY = Math.max(position.y - speed)
-    maxY = Math.max(position.y + speed)
+    minX = Math.max(position.x - speed, 0)
+    maxX = Math.max(position.x + speed, 24)
+    minY = Math.max(position.y - speed, 0)
+    maxY = Math.max(position.y + speed, 24)
     for x in [minX..maxX]
       for y in [minY..maxY]
         if ( (Math.abs(x - position.x) + Math.abs(y - position.y) <= speed) )
@@ -105,7 +105,7 @@ class window.Grid
       for i in [0..@moveableCells.length-1]
         @moveableCells[i].moveable = false
 
-
-Grid.$inject = ['Cell']
-
-angular.module("dndApp").factory("Grid", -> new Grid())
+  resetAttackHighlight: ->
+    for row in @cells
+      for cell in row
+        cell.attackable = false

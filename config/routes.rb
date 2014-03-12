@@ -10,6 +10,7 @@ Dnd::Application.routes.draw do
       post :avatar, on: :member
       get :my, on: :collection
     end
+    resources :skills
     resources :monsters
     resources :games do
       resources :combats, shallow: true

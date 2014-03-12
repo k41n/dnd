@@ -1,5 +1,5 @@
 class window.ShowCombatController
-  constructor: (@$scope, @$routeParams, @Zoo, @Combat, @Faye) ->
+  constructor: (@$scope, @$routeParams, @Zoo, @Combat, @Faye, @SkillLibrary, @$timeout) ->
     @$scope.c = @
     @$scope.grid = new Grid()
     @fetchCombat()
@@ -7,9 +7,13 @@ class window.ShowCombatController
   selectCell: (cell) ->
     if @canMoveToCell(cell)
       @moveToCell(@$scope.selectedCreature, cell)
+    if cell.attackable
+      @$scope.selectedSkill.apply @$scope.selectedCell.creature, cell.creature
+      @$scope.selectedSkill = undefined
+      @$scope.grid.resetAttackHighlight()
+      @saveCombat()
     @$scope.selectedCell = cell
     @$scope.selectedCreature = cell.creature if cell.hasCreature()
-    @saveCombat()
 
   isCellSelected: ->
     @$scope.selectedCell?
@@ -29,17 +33,21 @@ class window.ShowCombatController
     @$scope.selectedMonster = monster
 
   fetchCombat: ->
-    @$scope.combat = @Combat.get { id: @$routeParams.id }, (data) =>
-      console.log 'Loading from JSON', data
-      @$scope.combat.json = JSON.parse(data.json)
-      console.log "@$scope.combat.json", @$scope.combat.json
-      @$scope.grid.loadFromJSON(@$scope.combat.json) if @$scope.combat.json?
+    @$timeout =>
+      @$scope.combat = @Combat.get { id: @$routeParams.id }, (data) =>
+        @$scope.combat.json = JSON.parse(data.json)
+        @$scope.grid.loadFromJSON(@$scope.combat.json, @SkillLibrary) if @$scope.combat.json?
 
   saveCombat: ->
     @$scope.combat.json = @$scope.grid.saveToJSON()
     params =
       json: JSON.stringify(@$scope.combat.json)
     @Combat.update { id: @$scope.combat.id }, { combat: params }
+
+  startUsingSkill: (skill) ->
+    @$scope.selectedSkill = skill
+    @$scope.selectedSkill.highlightTargets(@$scope.grid, @$scope.selectedCreature)
+
 
   moveToCell: (creature, cell) ->
     @$scope.grid.move(creature, cell.location.x, cell.location.y)
@@ -58,6 +66,6 @@ class window.ShowCombatController
       return true
 
 
-ShowCombatController.$inject = ["$scope", "$routeParams", "Zoo", "Combat", "Faye"]
+ShowCombatController.$inject = ["$scope", "$routeParams", "Zoo", "Combat", "Faye", "SkillLibrary", "$timeout"]
 
 angular.module("dndApp").controller("ShowCombatController", ShowCombatController)

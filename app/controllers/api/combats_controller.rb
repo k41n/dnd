@@ -7,7 +7,7 @@ class Api::CombatsController < ApplicationController
   protected
 
   def collection
-    end_of_association_chain.page(params[:page])
+    end_of_association_chain.order(:created_at).page(params[:page])
   end
 
   def permitted_params

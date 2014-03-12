@@ -1,5 +1,5 @@
 class window.EditCombatController
-  constructor: (@$scope, @$routeParams, @Combat, @Zoo, @Chars) ->
+  constructor: (@$scope, @$routeParams, @Combat, @Zoo, @Chars, @SkillLibrary) ->
     @$scope.c = @
     @$scope.grid = new Grid()
     @fetchCombat()
@@ -57,7 +57,7 @@ class window.EditCombatController
     @$scope.combat = @Combat.get { id: @$routeParams.id }, (data) =>
       if data.json? && data.json.length > 0
         @$scope.combat.json = JSON.parse(data.json)
-        @$scope.grid.loadFromJSON(@$scope.combat.json) if @$scope.combat.json?
+        @$scope.grid.loadFromJSON(@$scope.combat.json, @SkillLibrary) if @$scope.combat.json?
 
   saveCombat: ->
     @$scope.combat.json = @$scope.grid.saveToJSON()
@@ -66,6 +66,6 @@ class window.EditCombatController
     @Combat.update { id: @$scope.combat.id }, { combat: params }
 
 
-EditCombatController.$inject = ["$scope", "$routeParams", "Combat", "Zoo", "Chars"]
+EditCombatController.$inject = ["$scope", "$routeParams", "Combat", "Zoo", "Chars", "SkillLibrary"]
 
 angular.module("dndApp").controller("EditCombatController", EditCombatController)    

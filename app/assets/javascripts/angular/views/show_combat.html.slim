@@ -3,7 +3,7 @@
     .grid
       table
         tr ng-repeat='row in grid.rows'
-          td ng-repeat='cell in row' ng-class="{'selected': (cell == selectedCell), 'obstacle': (cell.moveability == 3), 'moveable': (cell.moveable == true) }" ng-click='c.selectCell(cell)'
+          td ng-repeat='cell in row' ng-class="{'selected': (cell == selectedCell), 'obstacle': (cell.moveability == 3), 'moveable': (cell.moveable == true), 'attackable': cell.attackable }" ng-click='c.selectCell(cell)'
             div.cell
               .overlay
               .monster-in-grid ng-show='cell.creature'
@@ -29,10 +29,13 @@
             | {{ selectedCell.creature.name }}
           .desc
             | {{ selectedCell.creature.description }}
+          | HP: {{ selectedCell.creature.hp }}
+          br
+          | AC: {{ selectedCell.creature.ac }}
         .move
           .btn.btn-large.btn-success ng-click='c.markMoveableCellsForCreature(selectedCell.creature)'
             | Move
-        .skill ng-repeat='skill in selectedCell.creature.skills'
+        .skill ng-repeat='skill in selectedCell.creature.skills' ng-click='c.startUsingSkill(skill)' ng-class="{'selected': (selectedSkill == skill)}"
           .avatar
             img ng-src='{{ skill.avatar_url }}'
           .textual
