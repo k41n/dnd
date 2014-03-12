@@ -3,7 +3,7 @@
     .grid
       table
         tr ng-repeat='row in grid.rows'
-          td ng-repeat='cell in row' ng-class="{'selected': (cell == selectedCell), 'obstacle': (cell.moveability == 3) }" ng-click='moveToCell(cell); c.selectCell(cell)'
+          td ng-repeat='cell in row' ng-class="{'selected': (cell == selectedCell), 'obstacle': (cell.moveability == 3), 'moveable': (cell.moveable == true) }" ng-click='c.selectCell(cell)'
             div.cell
               .overlay
               .monster-in-grid ng-show='cell.creature'

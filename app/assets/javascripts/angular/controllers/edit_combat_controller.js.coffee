@@ -49,9 +49,6 @@ class window.EditCombatController
     @$scope.zooActive = false
     @$scope.charsetActive = true
 
-  markMoveableCellsForCreature: (creature) =>
-    @$scope.grid.markMoveableCellsForCreature(creature)
-
   fetchCombat: ->
     @$scope.combat = @Combat.get { id: @$routeParams.id }, (data) =>
       if data.json? && data.json.length > 0

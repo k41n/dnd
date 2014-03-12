@@ -5,15 +5,11 @@ class window.ShowCombatController
     @fetchCombat()
 
   selectCell: (cell) ->
-    if @$scope.selectedMonster
-      unless cell.hasCreature()
-        monster = new Creature(@$scope.selectedMonster)
-        @$scope.grid.place(monster, cell.location.x, cell.location.y)
-        @$scope.selectedMonster = null
-        @saveCombat()
-    else
-      @$scope.zooActive = false
-      @$scope.selectedCell = cell
+    if @canMoveToCell(cell)
+      @moveToCell(@$scope.selectedCreature, cell)
+    @$scope.selectedCell = cell
+    @$scope.selectedCreature = cell.creature if cell.hasCreature()
+    @saveCombat()
 
   isCellSelected: ->
     @$scope.selectedCell?
@@ -45,7 +41,23 @@ class window.ShowCombatController
       json: JSON.stringify(@$scope.combat.json)
     @Combat.update { id: @$scope.combat.id }, { combat: params }
 
+  moveToCell: (creature, cell) ->
+    @$scope.grid.move(creature, cell.location.x, cell.location.y)
+
+
+  markMoveableCellsForCreature: (creature) =>
+    @$scope.grid.markMoveableCellsForCreature(creature)
+
+  canMoveToCell: (cell) ->
+    if cell.moveable and @$scope.selectedCreature
+      if cell.moveability == 3 or (cell.hasCreature())
+        @$scope.selectedCreature = null
+        @$scope.selectedCell = null
+        @$scope.grid.unmarkMoveableCellsForCreature()
+        return false
+      return true
+
 
 ShowCombatController.$inject = ["$scope", "$routeParams", "Zoo", "Combat", "Faye"]
 
-angular.module("dndApp").controller("EditCombatController", EditCombatController)
+angular.module("dndApp").controller("ShowCombatController", ShowCombatController)
