@@ -76,13 +76,7 @@ class window.Grid
         to:
           x: x
           y: y
-    if @moveableCells.length > 0
-      for i in [0..@moveableCells.length-1]
-        @moveableCells[i].moveable = false
-#      console.log @moveableCells.length
-#      $.each @moveableCells, (i, elem) ->
-#        console.log elem
-#        elem.moveable = false
+    @unmarkMoveableCellsForCreature()
 
   creaturesInRadius: (location, radius) ->
     $.grep @creatures, (c) =>
@@ -105,6 +99,11 @@ class window.Grid
         if ( (Math.abs(x - position.x) + Math.abs(y - position.y) <= speed) )
           @get(x, y).moveable = true
           @moveableCells.push @get(x, y)
+
+  unmarkMoveableCellsForCreature: =>
+    if @moveableCells.length > 0
+      for i in [0..@moveableCells.length-1]
+        @moveableCells[i].moveable = false
 
 
 Grid.$inject = ['Cell']

@@ -5,7 +5,7 @@ class window.ShowCombatController
     @fetchCombat()
 
   selectCell: (cell) ->
-    if cell.moveable and @$scope.selectedCreature
+    if @canMoveToCell(cell)
       @moveToCell(@$scope.selectedCreature, cell)
     @$scope.selectedCell = cell
     @$scope.selectedCreature = cell.creature if cell.hasCreature()
@@ -47,6 +47,15 @@ class window.ShowCombatController
 
   markMoveableCellsForCreature: (creature) =>
     @$scope.grid.markMoveableCellsForCreature(creature)
+
+  canMoveToCell: (cell) ->
+    if cell.moveable and @$scope.selectedCreature
+      if cell.moveability == 3 or (cell.hasCreature())
+        @$scope.selectedCreature = null
+        @$scope.selectedCell = null
+        @$scope.grid.unmarkMoveableCellsForCreature()
+        return false
+      return true
 
 
 ShowCombatController.$inject = ["$scope", "$routeParams", "Zoo", "Combat", "Faye"]
