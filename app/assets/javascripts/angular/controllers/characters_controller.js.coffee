@@ -35,16 +35,20 @@ class window.CharactersController
     @$scope.editedCharacter = null
 
   initFileUploader: ->
-    csrf_token = $('meta[name=csrf-token]').attr('content')
-    @$scope.uploader = @$fileUploader.create
-      scope: @$scope
-      autoUpload: true
-      removeAfterUpload: true
-      headers:
-        'X-CSRF-TOKEN' : csrf_token
-    if @$scope.uploader?
-      @$scope.uploader.bind 'success', (event, xhr, item, response) =>
-        @$scope.editedCharacter.avatar_url = response.url
+    try
+      if @$fileUploader
+        csrf_token = $('meta[name=csrf-token]').attr('content')
+        @$scope.uploader = @$fileUploader.create
+          scope: @$scope
+          autoUpload: true
+          removeAfterUpload: true
+          headers:
+            'X-CSRF-TOKEN' : csrf_token
+        if @$scope.uploader?
+          @$scope.uploader.bind 'success', (event, xhr, item, response) =>
+            @$scope.editedCharacter.avatar_url = response.url
+    catch e
+      console.log e
 
   onCharacterUpdated: (data) =>
     @$scope.characters[data.id] = data

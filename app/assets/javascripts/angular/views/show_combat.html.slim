@@ -32,3 +32,9 @@
         .move
           .btn.btn-large.btn-success ng-click='c.markMoveableCellsForCreature(selectedCell.creature)'
             | Move
+        .skill ng-repeat='skill in selectedCell.creature.skills'
+          .avatar
+            img ng-src='{{ skill.avatar_url }}'
+          .textual
+            | {{ skill.title }}
+

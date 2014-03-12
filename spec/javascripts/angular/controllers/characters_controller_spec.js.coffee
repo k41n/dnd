@@ -11,7 +11,7 @@ describe 'CharactersController', ->
 
   describe 'load', ->
     it 'sets up the list of current characters', ->
-      expect(@scope.characters.length).toEqual(1)
+      expect(Object.keys(@scope.characters).length).toEqual(1)
 
   describe 'new character', ->
     it 'can create new character', ->

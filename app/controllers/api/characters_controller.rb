@@ -1,7 +1,7 @@
 class Api::CharactersController < ApplicationController
   respond_to :json
   inherit_resources
-  before_filter :authenticate_player!, only: [:update, :create, :destroy]
+  before_filter :authenticate_player!, only: [:update, :create, :destroy, :my]
 
   def avatar
     @character = Character.find(params[:id])
@@ -10,10 +10,15 @@ class Api::CharactersController < ApplicationController
     render json: { answer: 'File transfer completed', url: @character.avatar.url(:thumb) }
   end
 
+  def my
+    @characters = current_player.characters
+    render :index
+  end
+
   protected
 
   def collection
-    end_of_association_chain.page(params[:page])
+    @characters ||= end_of_association_chain.page(params[:page])
   end
 
   def begin_of_association_chain

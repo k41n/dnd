@@ -107,12 +107,10 @@ app.factory('$fileUploader', [ '$compile', '$rootScope', '$http', '$window', fun
 
         // add the base filter
         this.filters.unshift(this._filter);
-        // console.log "this.scope", this.scope
         this.scope.$on('file:add', function (event, items, options) {
             event.stopPropagation();
             this.addToQueue(items, options);
         }.bind(this));
-
         this.bind('beforeupload', Item.prototype._beforeupload);
         this.bind('in:progress', Item.prototype._progress);
         this.bind('in:success', Item.prototype._success);

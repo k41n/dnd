@@ -26,8 +26,8 @@ describe 'Grid', ->
 
       @grid.move(@creature, 1, 1)
       expect(@creature.location).toEqual {x: 1, y: 1}
-      expect(@grid.cells[0][0]).toBeUndefined()
-      expect(@grid.cells[1][1]).toEqual(@creature)
+      expect(@grid.cells[0][0].creature).toBeUndefined()
+      expect(@grid.cells[1][1].creature).toEqual(@creature)
 
     it 'triggers move event on all creatures', ->
       @creature1 = new Creature()

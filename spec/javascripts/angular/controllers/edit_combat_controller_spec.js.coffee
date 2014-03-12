@@ -12,12 +12,16 @@ describe 'EditCombatController', ->
 
     @Monster = @model('Monster')
     @monsters = [new @Monster({ id: 1, name: 'Кровавый упырь' })]
-
     @http.whenGET('/api/monsters').respond(200, @monsters)
+
+    @Character = @model('Character')
+    @characters = [new @Character({ id: 1, name: 'Элайя' })]
+    @http.whenGET('/api/characters').respond(200, @characters)
+
     
     @http.flush()
 
   describe 'load', ->
-    it 'sets up the list of combats inside game', ->
+    it 'sets up combat inside game', ->
       expect(@scope).toBeDefined()
       expect(@scope.combat).toBeDefined()

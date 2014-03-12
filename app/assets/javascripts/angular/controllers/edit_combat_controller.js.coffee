@@ -44,6 +44,10 @@ class window.EditCombatController
     @$scope.zooActive = true
     @$scope.charsetActive = false
 
+  deleteMonster: (monster) ->
+    @$scope.grid.deleteMonster(monster)
+    @saveCombat()
+
   activateCharset: ->
     @$scope.selectedCell = null
     @$scope.zooActive = false

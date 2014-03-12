@@ -4,8 +4,10 @@ class window.Creature
       @name = monster_resource.name
       @description = monster_resource.description
       @avatar_url = monster_resource.avatar_url
+      @skills = monster_resource.skills
     @location = undefined
     @ac = 10
+    @skills ||= []
 
   saveToJSON: =>
     {
@@ -14,6 +16,7 @@ class window.Creature
       description: @description
       avatar_url: @avatar_url
       location: @location
+      skills: @skillsJSON()
     }
 
   loadFromJSON: (json) =>
@@ -22,6 +25,15 @@ class window.Creature
     @description = json.description
     @avatar_url = json.avatar_url
     @location = json.location
+    @skills = json.skills
+
+  skillsJSON: ->
+    ret = []
+    for skill in @skills
+      ret.push
+        title: skill.title
+        avatar_url: skill.avatar_url
+    ret
 
   setCoords: (x, y, grid) =>
     @grid = grid

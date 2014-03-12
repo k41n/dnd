@@ -11,10 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140312152253) do
+ActiveRecord::Schema.define(version: 20140312183609) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "btree_gist"
+  enable_extension "hstore"
+  enable_extension "pg_trgm"
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -133,17 +136,26 @@ ActiveRecord::Schema.define(version: 20140312152253) do
   add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", unique: true, using: :btree
   add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at", using: :btree
 
-  create_table "skills", force: true do |t|
-    t.string  "title"
-    t.string  "attack_char_from"
-    t.string  "attack_char_to"
-    t.integer "damage_dice",      default: 0
-    t.integer "damage_count",     default: 1
-    t.integer "damage_bonus",     default: 0
+  create_table "skill_assignments", force: true do |t|
     t.string  "owner_type"
-    t.integer "owner_id"
+    t.string  "owner_id"
+    t.integer "skill_id"
   end
 
-  add_index "skills", ["owner_id"], name: "index_skills_on_owner_id", using: :btree
+  add_index "skill_assignments", ["owner_id"], name: "index_skill_assignments_on_owner_id", using: :btree
+
+  create_table "skills", force: true do |t|
+    t.string   "title"
+    t.string   "attack_char_from"
+    t.string   "attack_char_to"
+    t.integer  "damage_dice",         default: 0
+    t.integer  "damage_count",        default: 1
+    t.integer  "damage_bonus",        default: 0
+    t.string   "js_class"
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
+  end
 
 end

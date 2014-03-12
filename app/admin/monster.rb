@@ -18,12 +18,14 @@ ActiveAdmin.register Monster do
     :dex,
     :int,
     :wis,
-    :cha
+    :cha,
+    :skill_ids => []
 
   form :html => { :enctype => "multipart/form-data" } do |f|
     f.inputs "Details" do
       f.input :name
       f.input :description
+      f.input :skills, as: :check_boxes
       f.input :avatar, as: :file
       f.input :monster_type
       f.input :level

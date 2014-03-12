@@ -4,6 +4,7 @@ describe "Api::CharactersController" do
 
   let(:player) { create(:player) }  
   let(:another_player) { create(:player) }
+  let(:character) { create(:character) }
 
   context 'GET /api/characters' do
     before do
@@ -18,8 +19,15 @@ describe "Api::CharactersController" do
 
     it 'gives owned characters to user logged in' do
       login_player player
-      do_get '/api/characters'
+      do_get '/api/characters/my'
       expect(json_body.size).to eq(5)
+    end
+
+    it 'includes skills in JSON' do
+      Character.destroy_all
+      create_list :skill, 5, characters: [ character ]
+      do_get "/api/characters"
+      expect(json_body[0]['skills'].size).to eq(5)
     end
   end
 
