@@ -71,7 +71,7 @@ class window.Grid
     @get(x, y).creature = creature
     creature.moveTo(x, y)
     for c in @creatures
-      c.event 'move',
+      c.trigger 'move',
         moved: creature
         to:
           x: x

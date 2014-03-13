@@ -1,12 +1,14 @@
 class window.ShowCombatController
-  constructor: (@$scope, @$routeParams, @Zoo, @Combat, @Faye, @SkillLibrary, @$timeout) ->
+  constructor: (@$scope, @$routeParams, @Zoo, @Combat, @Faye, @SkillLibrary, @$timeout, @CreaturesBand) ->
     @$scope.c = @
     @$scope.grid = new Grid()
+    @$scope.creaturesBand = @CreaturesBand
     @fetchCombat()
 
   selectCell: (cell) ->
     if @canMoveToCell(cell)
       @moveToCell(@$scope.selectedCreature, cell)
+      @saveCombat()
     if cell.attackable
       @$scope.selectedSkill.apply @$scope.selectedCell.creature, cell.creature
       @$scope.selectedSkill = undefined
@@ -37,6 +39,7 @@ class window.ShowCombatController
       @$scope.combat = @Combat.get { id: @$routeParams.id }, (data) =>
         @$scope.combat.json = JSON.parse(data.json)
         @$scope.grid.loadFromJSON(@$scope.combat.json, @SkillLibrary) if @$scope.combat.json?
+        @$scope.creaturesBand.loadCreatures(@$scope.combat.json.creatures)
 
   saveCombat: ->
     @$scope.combat.json = @$scope.grid.saveToJSON()
@@ -66,6 +69,6 @@ class window.ShowCombatController
       return true
 
 
-ShowCombatController.$inject = ["$scope", "$routeParams", "Zoo", "Combat", "Faye", "SkillLibrary", "$timeout"]
+ShowCombatController.$inject = ["$scope", "$routeParams", "Zoo", "Combat", "Faye", "SkillLibrary", "$timeout", "CreaturesBand"]
 
 angular.module("dndApp").controller("ShowCombatController", ShowCombatController)
