@@ -17,7 +17,7 @@ class window.Skills.RoundhouseKick
 
   highlightTargets: (grid, applicator) ->
     for creature in grid.creaturesInRadius(applicator.location, 2)
-      cell = grid.get(creature.location.x, creature.location.y)
+      cell = grid.get(creature.location)
       cell.attackable = true unless creature == applicator
 
   apply: (applicator, target) ->

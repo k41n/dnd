@@ -4,6 +4,7 @@ class window.ShowCombatController
     @$scope.grid = new Grid()
     @$scope.creaturesBand = @CreaturesBand
     @fetchCombat()
+    @subscribeToFaye()
 
   selectCell: (cell) ->
     if @canMoveToCell(cell)
@@ -37,9 +38,14 @@ class window.ShowCombatController
   fetchCombat: ->
     @$timeout =>
       @$scope.combat = @Combat.get { id: @$routeParams.id }, (data) =>
-        @$scope.combat.json = JSON.parse(data.json)
-        @$scope.grid.loadFromJSON(@$scope.combat.json, @SkillLibrary) if @$scope.combat.json?
-        @$scope.creaturesBand.loadCreatures(@$scope.combat.json.creatures)
+        @loadFromData(data)
+
+  loadFromData: (data) ->
+    @$scope.combat.json = JSON.parse(data.json)
+    @$scope.grid.loadFromJSON(@$scope.combat.json, @SkillLibrary, @Zoo) if @$scope.combat.json?
+    @$scope.background_url = data.background_url
+    @$scope.creaturesBand.loadCreatures(@$scope.combat.json.creatures)
+
 
   saveCombat: ->
     @$scope.combat.json = @$scope.grid.saveToJSON()
@@ -53,7 +59,7 @@ class window.ShowCombatController
 
 
   moveToCell: (creature, cell) ->
-    @$scope.grid.move(creature, cell.location.x, cell.location.y)
+    @$scope.grid.move(creature, cell.location)
 
 
   markMoveableCellsForCreature: (creature) =>
@@ -68,6 +74,12 @@ class window.ShowCombatController
         return false
       return true
 
+  subscribeToFaye: ->
+    if @Faye?
+      @Faye.subscribe "/combats", (msg) =>
+        console.log 'Faye: msg = ', msg
+        if msg.type == 'updated'
+          @loadFromData(msg.combat)
 
 ShowCombatController.$inject = ["$scope", "$routeParams", "Zoo", "Combat", "Faye", "SkillLibrary", "$timeout", "CreaturesBand"]
 

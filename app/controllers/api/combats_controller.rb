@@ -4,6 +4,13 @@ class Api::CombatsController < ApplicationController
   belongs_to :game, optional: true  
   before_filter :authenticate_player!, only: [:create]
 
+  def background
+    @combat = Combat.find(params[:id])
+    @combat.background = params[:file]
+    @combat.save
+    render json: { answer: 'File transfer completed', url: @combat.background.url }
+  end
+
   protected
 
   def collection

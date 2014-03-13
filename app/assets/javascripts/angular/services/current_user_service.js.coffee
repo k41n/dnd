@@ -1,6 +1,6 @@
 dndApp = angular.module "dndApp"
 
-dndApp.factory "current_user", [ 'local_storage', '$http', (local_storage, $http) ->
+dndApp.factory "current_user", [ 'local_storage', '$http', '$window', (local_storage, $http, $window) ->
   service =
     loggedIn: ->
       !!service.currentUser
@@ -17,6 +17,11 @@ dndApp.factory "current_user", [ 'local_storage', '$http', (local_storage, $http
 
 
     loginLocal: ->
+      if $window.gon?
+        if $window.gon.player
+          service.currentUser = $window.gon.player
+        else
+          service.currentUser = null
       if local_storage.has_key 'currentUser'
         service.currentUser = local_storage.retrieve('currentUser')
         service.findShortUserName()

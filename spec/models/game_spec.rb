@@ -12,7 +12,8 @@ describe Game do
       {
           id: game.id,
           name: game.name,
-          master: game.master.name,
+          master: game.master.email,
+          master_id: game.master.id,
           description: game.description
       }
     }

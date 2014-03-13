@@ -4,13 +4,13 @@
 .row
   .col-md-10.static
     .grid
-      table
+      table style="background-image: url('{{ background_url }}')"
         tr ng-repeat='row in grid.rows'
           td ng-repeat='cell in row' ng-class="{'selected': (cell == selectedCell), 'obstacle': (cell.moveability == 3), 'moveable': (cell.moveable == true), 'attackable': cell.attackable }" ng-click='c.selectCell(cell)'
             div.cell
               .overlay
               .monster-in-grid ng-show='cell.creature'
-                img ng-src='{{ cell.creature.avatar_url }}'
+                img ng-src='{{ cell.creature.data.avatar_url }}'
   .col-md-2
     .active-cell ng-show='c.isCellSelected()'
       h3
@@ -26,19 +26,19 @@
         | Monster in cell
       .cell-monster ng-show='selectedCell.hasCreature()'
         .avatar
-          img ng-src='{{ selectedCell.creature.avatar_url }}'
+          img ng-src='{{ selectedCell.creature.data.avatar_url }}'
         .textual
           .name
-            | {{ selectedCell.creature.name }}
+            | {{ selectedCell.creature.data.name }}
           .desc
-            | {{ selectedCell.creature.description }}
-          | HP: {{ selectedCell.creature.hp }}
+            | {{ selectedCell.creature.data.description }}
+          | HP: {{ selectedCell.creature.data.hp }}
           br
-          | AC: {{ selectedCell.creature.ac }}
+          | AC: {{ selectedCell.creature.data.ac }}
         .move
           .btn.btn-large.btn-success ng-click='c.markMoveableCellsForCreature(selectedCell.creature)'
             | Move
-        .skill ng-repeat='skill in selectedCell.creature.skills' ng-click='c.startUsingSkill(skill)' ng-class="{'selected': (selectedSkill == skill)}"
+        .skill ng-repeat='skill in selectedCell.creature.data.skills' ng-click='c.startUsingSkill(skill)' ng-class="{'selected': (selectedSkill == skill)}"
           .avatar
             img ng-src='{{ skill.avatar_url }}'
           .textual

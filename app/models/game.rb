@@ -13,7 +13,8 @@ class Game < ActiveRecord::Base
     {
         id: id,
         name: name,
-        master: master.name,
+        master: master.email,
+        master_id: master.id,
         description: description
     }
   end

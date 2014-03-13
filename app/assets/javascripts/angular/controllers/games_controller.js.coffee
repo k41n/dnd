@@ -1,5 +1,5 @@
 class window.GamesController
-  constructor: (@$scope, @Game, @$injector, @$modal, @Faye, @$location) ->
+  constructor: (@$scope, @Game, @$injector, @$modal, @Faye, @$location, @current_user) ->
     @$scope.c = @    
     @$scope.games = {}    
     @page = 1
@@ -60,6 +60,6 @@ class window.GamesController
         if msg.type == 'deleted'
           @onGameDeleted(msg.game)
 
-GamesController.$inject = ["$scope", "Game", "$injector", "$modal", "Faye", "$location"]
+GamesController.$inject = ["$scope", "Game", "$injector", "$modal", "Faye", "$location", "current_user"]
 
 angular.module("dndApp").controller("GamesController", GamesController)

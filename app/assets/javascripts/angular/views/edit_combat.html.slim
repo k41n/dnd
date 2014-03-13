@@ -1,13 +1,13 @@
 .row
   .col-md-10.static
     .grid
-      table
+      table style="background-image: url('{{ background_url }}')"
         tr ng-repeat='row in grid.rows'
           td ng-repeat='cell in row' ng-class="{'selected': (cell == selectedCell), 'obstacle': (cell.moveability == 3) }" ng-click='c.selectCell(cell)' 
             div.cell 
               .overlay
               .monster-in-grid ng-show='cell.creature'
-                img ng-src='{{ cell.creature.avatar_url }}'
+                img ng-src='{{ cell.creature.data.avatar_url }}'
   .col-md-2
     ul.sidebar.nav.nav-pills
       li ng-class="{ 'active': zooActive }"
@@ -16,6 +16,8 @@
         a ng-click='c.activateCharset()' Chars
       li ng-class="{ 'active': c.isCellSelected() }"
         a Cell
+      li ng-class="{ 'active': c.settingsActive }"
+        a ng-click='c.activateSettings()' Settings
     .active-cell ng-show='c.isCellSelected()'
       h3
         | Location: ({{ selectedCell.location.x }}, {{ selectedCell.location.y }})
@@ -30,24 +32,24 @@
         | Monster in cell
       .cell-monster ng-show='selectedCell.hasCreature()'
         .avatar
-          img ng-src='{{ selectedCell.creature.avatar_url }}'
+          img ng-src='{{ selectedCell.creature.data.avatar_url }}'
         .textual
           .name
-            | {{ selectedCell.creature.name }}
+            | {{ selectedCell.creature.data.name }}
           .desc
-            | {{ selectedCell.creature.description }}
+            | {{ selectedCell.creature.data.description }}
         button.btn.btn-danger ng-click='c.deleteMonster(selectedCell.creature)' Delete
 
     .zoo ng-show='zooActive'
       h3 Zoo
       .zoo-monster ng-repeat='monster in c.Zoo.monsters' ng-click='c.selectMonster(monster)' ng-class="{'selected': (selectedMonster == monster) }"
         .avatar
-          img ng-src='{{ monster.avatar_url }}'
+          img ng-src='{{ monster.data.avatar_url }}'
         .textual
           .name
-            | {{ monster.name }}
+            | {{ monster.data.name }}
           .desc
-            | {{ monster.description }}
+            | {{ monster.data.description }}
 
     .charset ng-show='charsetActive'
       h3 Characters
@@ -57,3 +59,9 @@
         .textual
           .name
             | {{ char.name }}
+
+    .settings ng-show='settingsActive'
+      form role='form' novalidate='1'
+        .form-group
+          label Upload background
+          input type='file' ng-file-select='1'

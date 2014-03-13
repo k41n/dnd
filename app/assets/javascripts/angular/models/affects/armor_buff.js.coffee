@@ -29,12 +29,12 @@ class window.Affects.ArmorBuff
     @assigned? and @assigned.indexOf(creature) != -1
 
   affectOn: (creature) ->
-    creature.ac += 1
+    creature.data.ac += 1
     @assigned ||= []
     @assigned.push creature
 
   removeFrom: (creature) ->
-    creature.ac -= 1
+    creature.data.ac -= 1
     index = @assigned.indexOf(creature)
     @assigned.splice(index, 1)
 

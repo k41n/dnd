@@ -24,5 +24,9 @@ class ApplicationController < ActionController::Base
     gon.faye_host = App.faye_host
   end
 
+  def set_player_in_gon
+    gon.player = current_player
+  end
+
 
 end

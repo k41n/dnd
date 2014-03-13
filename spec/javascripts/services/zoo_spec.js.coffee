@@ -12,4 +12,4 @@ describe 'Zoo', ->
   describe 'init', ->
     it 'requests monsters on init', ->
       expect(@service.monsters).toBeDefined()
-      expect(@service.monsters.length).toEqual(1)
+      expect(Object.keys(@service.monsters).length).toEqual(1)

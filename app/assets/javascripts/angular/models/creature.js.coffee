@@ -1,56 +1,35 @@
 class window.Creature
   constructor: (monster_resource) ->
-    if monster_resource
-      @name = monster_resource.name
-      @description = monster_resource.description
-      @avatar_url = monster_resource.avatar_url
-      @hp = monster_resource.hp
-      @ac = monster_resource.ac
-      @dex = monster_resource.dex
-      @skills = monster_resource.skills
+    @data = monster_resource if monster_resource?
     @location = undefined
-    @skills ||= []
-
     @installEvents()
 
   saveToJSON: =>
     {
-      ac: @ac
-      hp: @hp
-      dex: @dex
-      name: @name
-      description: @description
-      avatar_url: @avatar_url
+      data: @data
       location: @location
       skills: @skillsJSON()
     }
 
-  loadFromJSON: (json, SkillLibrary) =>
-    @ac = json.ac
-    @hp = json.hp
-    @dex = json.dex
-    @name = json.name
-    @description = json.description
-    @avatar_url = json.avatar_url
+  loadFromJSON: (json, SkillLibrary, Zoo) =>
+    @data = json.data
     @location = json.location
-    console.log 'json.skills', json.skills
     for skill in json.skills
       s = SkillLibrary.create(skill)
-      console.log s
-      @skills.push s
+      @data.skills.push s
 
   skillsJSON: ->
-    $.map @skills, (skill) ->
+    @data ||= {}
+    @data.skills ||= {}
+    $.map @data.skills, (skill) ->
       skill.id
 
-  setCoords: (x, y, grid) =>
+  setCoords: (location, grid) =>
     @grid = grid
-    @location =
-      x: x
-      y: y
+    @location = location
 
-  moveTo: (x, y) =>
-    @setCoords(x, y)
+  moveTo: (location) =>
+    @setCoords(location)
 
   addAffect: (affect) =>
     @affects ||= []

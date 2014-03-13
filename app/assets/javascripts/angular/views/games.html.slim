@@ -5,7 +5,11 @@
   .game ng-repeat='(id, game) in games' 
     .name ng-click='c.editGame(game)'
       | {{ game.name }}
-    .pull-right.delete-link ng-click='c.showDeleteGameDialog(game)'
+      br
+      small
+        i
+          | {{ game.master }}
+    .pull-right.delete-link ng-click='c.showDeleteGameDialog(game)' ng-if='game.master_id == c.CurrentUser.currentUser.id'
       i.delete.fa.fa-trash-o
       | Delete game
 

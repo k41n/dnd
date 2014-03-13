@@ -18,7 +18,10 @@ describe 'EditCombatController', ->
     @characters = [new @Character({ id: 1, name: 'Элайя' })]
     @http.whenGET('/api/characters').respond(200, @characters)
 
-    
+    @Skill = @model('Skill')
+    @skills = [new @Skill({ id: 1, title: 'Удар ногой с разворота' })]
+    @http.whenGET('/api/skills').respond(200, @skills)
+
     @http.flush()
 
   describe 'load', ->

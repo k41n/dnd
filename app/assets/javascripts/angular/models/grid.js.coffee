@@ -1,5 +1,11 @@
 class window.Grid
   constructor: () ->
+    @createCells()
+    @creatures = []
+
+    @moveableCells = []
+
+  createCells: ->
     @cells = [0...25].map (x)->
       [0...25].map (y) ->
         new Cell()
@@ -8,7 +14,7 @@ class window.Grid
     y = 0
     for row in @cells
       for cell in row
-        cell.location = 
+        cell.location =
           x: x
           y: y
         x += 1
@@ -17,10 +23,6 @@ class window.Grid
 
     @rows = [0...25].map (x) =>
       @cells[x]
-
-    @creatures = []
-
-    @moveableCells = []
 
   saveToJSON: =>
     {
@@ -40,42 +42,43 @@ class window.Grid
     ret
 
 
-  loadFromJSON: (data, SkillLibrary) =>
+  loadFromJSON: (data, SkillLibrary, Zoo) =>
+    @createCells()
     @creatures = []
     for creatureJSON in data.creatures
       creature = new Creature()
-      creature.loadFromJSON(creatureJSON, SkillLibrary)
-      if creature.location?
-        @place creature, creature.location.x, creature.location.y
+      console.log "Zoo.monsters = ", Zoo.monsters
+      if Zoo.monsters[creatureJSON.data.id]?
+        creature.loadFromJSON(creatureJSON, SkillLibrary, Zoo)
+        if creature.location?
+          @place creature, creature.location
     for cellJSON in data.cells
-      cell = @get(cellJSON.location.x, cellJSON.location.y)
+      cell = @get(cellJSON.location)
       cell.loadFromJSON(cellJSON)
 
-  get: (x,y) =>
-    @cells[y][x]
+  get: (location) =>
+    @cells[location.y][location.x]
 
-  place: (creature, x, y) =>
-    @cells[y][x].addCreature creature
-    creature.setCoords x, y, @
+  place: (creature, location) ->
+    @get(location).addCreature creature
+    creature.setCoords location, @
     @creatures ||= []
     @creatures.push creature
 
   deleteMonster: (creature) ->
     index = @creatures.indexOf(creature)
-    cell = @get(creature.location.x, creature.location.y)
+    cell = @get(creature.location)
     cell.creature = null
     @creatures.splice(index, 1)
 
-  move: (creature, x, y) =>
-    @get(creature.location.x, creature.location.y).creature = undefined
-    @get(x, y).creature = creature
-    creature.moveTo(x, y)
+  move: (creature, location) =>
+    @get(creature.location).creature = undefined
+    @get(location).creature = creature
+    creature.moveTo(location)
     for c in @creatures
       c.trigger 'move',
         moved: creature
-        to:
-          x: x
-          y: y
+        to: location
     @unmarkMoveableCellsForCreature()
 
   creaturesInRadius: (location, radius) ->
@@ -97,8 +100,9 @@ class window.Grid
     for x in [minX..maxX]
       for y in [minY..maxY]
         if ( (Math.abs(x - position.x) + Math.abs(y - position.y) <= speed) )
-          @get(x, y).moveable = true
-          @moveableCells.push @get(x, y)
+          location = { x: x, y: y }
+          @get(location).moveable = true
+          @moveableCells.push @get(location)
 
   unmarkMoveableCellsForCreature: =>
     if @moveableCells.length > 0

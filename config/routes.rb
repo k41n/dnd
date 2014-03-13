@@ -13,7 +13,9 @@ Dnd::Application.routes.draw do
     resources :skills
     resources :monsters
     resources :games do
-      resources :combats, shallow: true
+      resources :combats, shallow: true do
+        post :background, on: :member
+      end
     end
   end
 

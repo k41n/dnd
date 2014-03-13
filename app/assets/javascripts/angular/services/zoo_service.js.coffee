@@ -1,6 +1,9 @@
 class window.Zoo
   constructor: (Monster, @$injector) ->
-    @monsters = Monster.query()
+    @loading = Monster.query {}, (monsters) =>
+      @monsters = {}
+      for m in monsters
+        @monsters[m.id] = new Creature(m)
 
 Zoo.$inject = ["Monster", "$injector"]
 

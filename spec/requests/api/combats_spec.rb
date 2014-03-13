@@ -24,6 +24,12 @@ describe "Api::CombatsController" do
       expect(json_body.size).to eq(5)
     end
 
+    it 'returns url of the combat background' do
+      combat = create :combat, game: game
+      do_get "/api/games/#{game.to_param}/combats", page: 1
+      expect(json_body[0]['background_url']).to eq(combat.background.url)
+    end
+
   end
 
   context 'PUT /api/games/:game_id/combats/:combat_id' do
