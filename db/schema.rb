@@ -11,13 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140312195343) do
+ActiveRecord::Schema.define(version: 20140313150208) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "btree_gist"
-  enable_extension "hstore"
-  enable_extension "pg_trgm"
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -138,11 +135,9 @@ ActiveRecord::Schema.define(version: 20140312195343) do
 
   create_table "skill_assignments", force: true do |t|
     t.string  "owner_type"
-    t.string  "owner_id"
     t.integer "skill_id"
+    t.integer "owner_id"
   end
-
-  add_index "skill_assignments", ["owner_id"], name: "index_skill_assignments_on_owner_id", using: :btree
 
   create_table "skills", force: true do |t|
     t.string   "title"
@@ -156,6 +151,23 @@ ActiveRecord::Schema.define(version: 20140312195343) do
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "weapon_assignments", force: true do |t|
+    t.string  "owner_type"
+    t.integer "owner_id"
+    t.integer "weapon_id"
+  end
+
+  add_index "weapon_assignments", ["owner_id"], name: "index_weapon_assignments_on_owner_id", using: :btree
+
+  create_table "weapons", force: true do |t|
+    t.string   "title"
+    t.integer  "damage_dice",  default: 0
+    t.integer  "damage_count", default: 1
+    t.integer  "prof",         default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
