@@ -1,8 +1,22 @@
 ActiveAdmin.register Skill do
   permit_params :title, :attack_char_from, :attack_char_to, :damage_dice, :damage_count, :damage_bonus, :avatar, :js_class
 
+  index do
+    id_column
+    column :title
+    column :avatar do |obj|
+      image_tag obj.avatar.url(:thumb), size: '25x25'
+    end
+    column :attack_char_from
+    column :attack_char_to
+    column :damage_dice
+    column :damage_count
+    column :damage_bonus
+    actions
+  end
+
   form do |f|
-    f.inputs "Skill Details" do
+    f.inputs 'Skill Details' do
       f.input :title
       f.input :js_class
       f.input :avatar, as: :file

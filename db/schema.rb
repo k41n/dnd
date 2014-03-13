@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140312195343) do
+ActiveRecord::Schema.define(version: 20140313150208) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,40 +67,6 @@ ActiveRecord::Schema.define(version: 20140312195343) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "json"
-  end
-
-  create_table "creature_weapons", force: true do |t|
-    t.integer  "creature_id"
-    t.integer  "weapon_id"
-    t.boolean  "trained"
-    t.integer  "atk_ench"
-    t.integer  "dmg_ench"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "creatures", force: true do |t|
-    t.string   "title"
-    t.integer  "level"
-    t.integer  "hp"
-    t.integer  "speed"
-    t.integer  "initiative"
-    t.integer  "str"
-    t.integer  "con"
-    t.integer  "dex"
-    t.integer  "int"
-    t.integer  "wis"
-    t.integer  "cha"
-    t.integer  "ac"
-    t.integer  "fort"
-    t.integer  "ref"
-    t.integer  "will"
-    t.string   "avatar_file_name"
-    t.string   "avatar_content_type"
-    t.integer  "avatar_file_size"
-    t.datetime "avatar_updated_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "games", force: true do |t|
@@ -169,11 +135,9 @@ ActiveRecord::Schema.define(version: 20140312195343) do
 
   create_table "skill_assignments", force: true do |t|
     t.string  "owner_type"
-    t.string  "owner_id"
     t.integer "skill_id"
+    t.integer "owner_id"
   end
-
-  add_index "skill_assignments", ["owner_id"], name: "index_skill_assignments_on_owner_id", using: :btree
 
   create_table "skills", force: true do |t|
     t.string   "title"
@@ -191,28 +155,19 @@ ActiveRecord::Schema.define(version: 20140312195343) do
     t.datetime "updated_at"
   end
 
-  create_table "spells", force: true do |t|
-    t.integer  "creature_id"
-    t.string   "title"
-    t.text     "description"
-    t.string   "damage"
-    t.string   "atk"
-    t.string   "def"
-    t.integer  "range"
-    t.integer  "dot_target"
-    t.integer  "dot_value"
-    t.integer  "dot_duration"
-    t.integer  "debuff_target"
-    t.integer  "debuff_value"
-    t.integer  "debuff_duration"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table "weapon_assignments", force: true do |t|
+    t.string  "owner_type"
+    t.integer "owner_id"
+    t.integer "weapon_id"
   end
+
+  add_index "weapon_assignments", ["owner_id"], name: "index_weapon_assignments_on_owner_id", using: :btree
 
   create_table "weapons", force: true do |t|
     t.string   "title"
-    t.integer  "dmg"
-    t.integer  "range"
+    t.integer  "damage_dice",  default: 0
+    t.integer  "damage_count", default: 1
+    t.integer  "prof",         default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
