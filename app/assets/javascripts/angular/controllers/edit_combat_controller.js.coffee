@@ -37,7 +37,7 @@ class window.EditCombatController
       unless cell.hasCreature()
         monster = new Creature(@$scope.selectedChar)
         @$scope.grid.place(monster, cell.location)
-        @$scope.selectedMonster = null
+        @$scope.selectedChar = null
         @saveCombat()
       return
 
@@ -56,7 +56,10 @@ class window.EditCombatController
     @$scope.selectedMonster = monster
 
   selectCharacter: (char) ->
-    @$scope.selectedChar = char
+    if @$scope.selectedChar == char
+      @$scope.selectedChar = null
+    else
+      @$scope.selectedChar = char
 
   activateZooPanel: ->
     @$scope.selectedCell = null
