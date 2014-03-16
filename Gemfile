@@ -46,6 +46,7 @@ gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
 gem 'kaminari'
 gem 'inherited_resources'
 gem 'devise'
+gem 'angular-ui-select2-rails'
 
 gem 'puma'
 gem 'capistrano'

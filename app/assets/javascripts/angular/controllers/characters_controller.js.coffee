@@ -1,5 +1,5 @@
 class window.CharactersController
-  constructor: (@$scope, @Character, @$injector, @$modal, @$fileUploader, @Faye) ->
+  constructor: (@$scope, @Character, @$injector, @$modal, @$fileUploader, @Faye, @Racing) ->
     @fetchCharacters()
     @$scope.c = @
     @initFileUploader()
@@ -68,6 +68,6 @@ class window.CharactersController
           @onCharacterDeleted(msg.character)
 
 
-CharactersController.$inject = ["$scope", "Character", "$injector", "$modal", "$fileUploader", "Faye"]
+CharactersController.$inject = ["$scope", "Character", "$injector", "$modal", "$fileUploader", "Faye", "Racing"]
 
 angular.module("dndApp").controller("CharactersController", CharactersController)

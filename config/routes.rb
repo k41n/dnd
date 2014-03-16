@@ -11,6 +11,7 @@ Dnd::Application.routes.draw do
       get :my, on: :collection
     end
     resources :skills
+    resources :races
     resources :monsters
     resources :games do
       resources :combats, shallow: true do

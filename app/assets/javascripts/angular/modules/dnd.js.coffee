@@ -5,7 +5,8 @@ window.app = angular.module "dndApp", [
   "ui.bootstrap",
   "ui.utils",
   "infinite-scroll",
-  "angularFileUpload"
+  "angularFileUpload",
+  "ui.select2"
 ]
 
 window.app.config ["$httpProvider", ($httpProvider) ->
