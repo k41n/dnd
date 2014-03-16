@@ -131,6 +131,9 @@ ActiveRecord::Schema.define(version: 20140316140329) do
   add_index "players", ["reset_password_token"], name: "index_players_on_reset_password_token", unique: true, using: :btree
 
   create_table "races", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.string   "js_class"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

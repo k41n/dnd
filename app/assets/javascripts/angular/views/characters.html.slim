@@ -16,7 +16,7 @@ h3 My characters
         .form-group
           label Race
           select ui-select2='1' ng-model='editedCharacter.race'
-            option value='race.id' ng-repeat='(id, race) in Racing.races'
+            option value='race.id' ng-repeat='(id, race) in c.Racing.races'
               | {{ race.name }}
 
       .form-group
