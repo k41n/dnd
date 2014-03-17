@@ -1,11 +1,16 @@
 class window.EditGameController
-  constructor: (@$scope, $routeParams, @Game, @Combats, @Combat, @$injector, @$modal, @Faye, @$location) ->
+  constructor: (@$scope, $routeParams, @Game, @Combats, @Combat, @$injector, @$modal, @Faye, @$location, @Chars) ->
     @$scope.c = @    
     @$scope.combats = {}
     @subscribeToFaye()
     @page = 1
     @$scope.game = Game.get { id: $routeParams.id }, =>
       @nextPage()
+      @assignInvitedCharacters()
+
+  assignInvitedCharacters: ->
+    @$scope.game.invitedCharacters = $.map @$scope.game.invitedCharacters, (c) =>
+      @Chars.characters[c.id]
 
   nextPage: ->
     return if @nextPageBeingRequested    
@@ -53,6 +58,25 @@ class window.EditGameController
       id: combat.id
       gameId: @$scope.game.id
 
+  inviteCharacter: (name) ->
+    @Chars.inviteByName(name, @$scope.game).then (data) =>
+      invitedChar = @Chars.findByName(name)
+      @$scope.game.invitedCharacters.push invitedChar if invitedChar 
+      @$scope.successMessage = "Invited #{name} to #{@$scope.game.name}"
+    , (data) =>
+      @$scope.errorMessage = 'Already invited'
+
+  uninviteCharacter: (name) ->
+    console.log "Uninviting", name
+    @Chars.uninviteByName(name, @$scope.game).then (data) =>
+      invitedChar = @Chars.findByName(name)
+      if invitedChar
+        index = @$scope.game.invitedCharacters.indexOf(invitedChar)
+        @$scope.game.invitedCharacters.splice(index, 1)
+        @$scope.successMessage = "Uninvited #{name} to #{@$scope.game.name}"
+    , (data) =>
+      @$scope.errorMessage = 'Not invited'
+
   subscribeToFaye: =>
     if @Faye?
       @Faye.subscribe "/combats", (msg) =>
@@ -62,6 +86,6 @@ class window.EditGameController
         if msg.type == 'deleted'
           @onCombatDeleted(msg.combat)
 
-EditGameController.$inject = ["$scope", "$routeParams", "Game", "Combats", "Combat", "$injector", "$modal", "Faye", "$location"]
+EditGameController.$inject = ["$scope", "$routeParams", "Game", "Combats", "Combat", "$injector", "$modal", "Faye", "$location", "Chars"]
 
 angular.module("dndApp").controller("EditGameController", EditGameController)

@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
 
   before_filter :debug_current_user
   before_filter :set_faye_host
+  before_filter :set_player_in_gon
 
   rescue_from ActiveRecord::RecordNotFound do
     render json: {error: 'not_found'}, status: :not_found

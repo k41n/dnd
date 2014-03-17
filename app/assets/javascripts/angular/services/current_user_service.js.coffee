@@ -22,6 +22,7 @@ dndApp.factory "current_user", [ 'local_storage', '$http', '$window', (local_sto
           service.currentUser = $window.gon.player
         else
           service.currentUser = null
+          local_storage.delete('currentUser')
       if local_storage.has_key 'currentUser'
         service.currentUser = local_storage.retrieve('currentUser')
         service.findShortUserName()

@@ -1,6 +1,9 @@
 class Game < ActiveRecord::Base
   include FayeObservable
 
+  has_many :game_invitations
+  has_many :invited_characters, through: :game_invitations, source: :character
+
 
   paginates_per 10
 

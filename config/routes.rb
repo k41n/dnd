@@ -8,7 +8,11 @@ Dnd::Application.routes.draw do
   namespace :api, defaults: { format: 'json' } do
     resources :characters do
       post :avatar, on: :member
-      get :my, on: :collection
+      collection do
+        post :invite
+        delete :uninvite
+        get :my
+      end
     end
     resources :skills
     resources :races

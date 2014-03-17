@@ -1,25 +1,38 @@
+.row
+  .lg-12.alert.alert-danger ng-show='errorMessage'
+    | {{errorMessage}}
+  .lg-12.alert.alert-success ng-show='successMessage'
+    | {{successMessage}}
+
+.game-players
+  .already-invited ng-show='game.invitedCharacters.length > 0'
+    h2 Already invited
+    .invited ng-repeat='character in game.invitedCharacters'
+      .avatar
+        img ng-src="{{ character.avatar_url }}"
+      .textual
+        | {{ character.name }}
+        a.alert.alert-danger ng-click='c.uninviteCharacter(character.name)' &#10006;
+
+
+  form role='form' name='invite' ui-keypress="{13: 'ok()'}" ng-submit='c.inviteCharacter(inviteName)'
+    .form-group
+      label Invite character
+      input.form-control type='text' ng-model='inviteName' typeahead="character for character in c.Chars.names() | filter:$viewValue | limitTo:8"
+
 .combats infinite-scroll='c.nextPage()'
   .newcombat ng-click='c.showNewCombatDialog()' 
     | New combat
 
-  .combat.btn-group ng-repeat='(id, combat) in combats'
-    .btn.btn-large.btn-primary ng-click='c.showCombat(combat)'
-      | {{ combat.name }}
-    .btn.btn-large.btn-success ng-click='c.editCombat(combat)'
-      | Edit combat
-    .btn.btn-large.btn-danger ng-click='c.showDeleteCombatDialog(combat)'
-      | Delete combat
-
-
-  /.combat ng-repeat='(id, combat) in combats'
-  /  .name ng-click='c.editCombat(combat)'
-  /    | {{ combat.name }}
-  /  .pull-right.delete-link ng-click='c.showCombat(combat)'
-  /    i.delete.fa.fa-trash-o
-  /    | Show combat
-  /  .pull-right.delete-link ng-click='c.showDeleteCombatDialog(combat)'
-  /    i.delete.fa.fa-trash-o
-  /    | Delete combat
+  .combat ng-repeat='(id, combat) in combats'
+   .name ng-click='c.editCombat(combat)'
+     | {{ combat.name }}
+   .pull-right.delete-link ng-click='c.showCombat(combat)'
+     i.delete.fa.fa-trash-o
+     | Show combat
+   .pull-right.delete-link ng-click='c.showDeleteCombatDialog(combat)'
+     i.delete.fa.fa-trash-o
+     | Delete combat
 
 
 
