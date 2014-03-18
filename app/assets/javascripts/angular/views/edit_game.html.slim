@@ -14,6 +14,16 @@
         | {{ character.name }}
         a.alert.alert-danger ng-click='c.uninviteCharacter(character.name)' &#10006;
 
+.game-players
+  .already-assigned ng-show='game.assignedCharacters.length > 0'
+    h2 Already assigned
+    .invited ng-repeat='character in game.assignedCharacters'
+      .avatar
+        img ng-src="{{ character.avatar_url }}"
+      .textual
+        | {{ character.name }}
+        a.alert.alert-danger ng-click='c.kickCharacter(character.name)' &#10006;
+
 
   form role='form' name='invite' ui-keypress="{13: 'ok()'}" ng-submit='c.inviteCharacter(inviteName)'
     .form-group

@@ -2,5 +2,7 @@
 
 FactoryGirl.define do
   factory :game_invitation do
+    game
+    character
   end
 end

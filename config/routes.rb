@@ -10,8 +10,15 @@ Dnd::Application.routes.draw do
       post :avatar, on: :member
       collection do
         post :invite
+        post 'accept/:invitation_id' => 'characters#accept'
         delete :uninvite
+        delete :kick
         get :my
+      end
+    end
+    resources :invites do
+      member do
+        post :accept
       end
     end
     resources :skills

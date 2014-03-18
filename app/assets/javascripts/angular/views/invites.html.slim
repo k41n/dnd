@@ -1,0 +1,9 @@
+.invite ng-repeat='(id, invite) in c.Invites.invites'
+  .pull-left.accept-link ng-click='c.acceptInvite(invite)'
+    i.fa.fa-thumbs-o-up
+    | Accept invitation
+  .textual
+    | {{invite.master_name}} ({{ invite.master_email }}) has invited your character {{ invite.character_name }} to participate in game {{ invite.game_name }}
+  .pull-right.delete-link ng-click='c.rejectInvite(invite)'
+    i.fa.fa-trash-o
+    | Reject invitation

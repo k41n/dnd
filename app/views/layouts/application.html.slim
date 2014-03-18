@@ -33,14 +33,17 @@ html lang="en" ng-app='dndApp'
             span.icon-bar
           a.navbar-brand href="#" DND
 
-        .collapse.navbar-collapse#navbar-collapse-1
-          ul.nav.navbar-nav
+        .collapse.navbar-collapse#navbar-collapse-1 
+          ul.nav.navbar-nav ng-controller='TopMenuController'
             li 
               a href="#" Dashboard
             li 
               a href="#/games" Games
             li 
               a href="#/characters" My characters
+            li 
+              a href="#/invites" 
+                | Invites ({{ c.Invites.invitesNumber() }})
           ul.nav.navbar-nav.pull-right ng-controller='AuthController'
             li 
               a href="#" ng-click='showLoginDialog()' ng-if='!currentUserService.loggedIn()' Sign In

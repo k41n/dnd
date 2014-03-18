@@ -8,16 +8,27 @@ class Character < ActiveRecord::Base
   has_many :game_invitations
   has_many :games_invited_to, through: :game_invitations, source: :game
 
+  has_many :game_assignments
+  has_many :games_assigned_to, through: :game_assignments, source: :game
+
   has_attached_file :avatar, styles: { thumb: '50x50' }, default_url: '/unknown-character.png'
 
   paginates_per 10  
 
   def invite_to(game)
-    games_invited_to << game
+    game_invitations.create!(game: game)
+  end
+
+  def assign_to(game)
+    game_assignments.create!(game: game)
   end
 
   def uninvite_from(game)
     games_invited_to.destroy(game)
+  end
+
+  def kick_from(game)
+    games_assigned_to.destroy(game)
   end
 
   def invited_to?(game)

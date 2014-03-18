@@ -8,5 +8,8 @@ describe 'appDnd', ->
     expect(@route.routes['/characters'].controller).toBe('CharactersController')
     expect(@route.routes['/characters'].templateUrl).toEqual('/characters.html');
 
+    expect(@route.routes['/invites'].controller).toBe('InvitesController')
+    expect(@route.routes['/invites'].templateUrl).toEqual('/invites.html');
+
     expect(@route.routes['/games/:id'].controller).toBe('EditGameController')
     expect(@route.routes['/games/:id'].templateUrl).toEqual('/edit_game.html');

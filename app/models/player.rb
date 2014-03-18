@@ -6,4 +6,8 @@ class Player < ActiveRecord::Base
   has_many :games, foreign_key: :master_id
   has_many :characters
 
+  def invites
+    GameInvitation.where(character_id: characters.map(&:id))
+  end
+
 end

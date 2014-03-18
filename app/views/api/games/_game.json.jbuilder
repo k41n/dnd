@@ -6,3 +6,6 @@ json.description        game.description
 json.invitedCharacters  game.invited_characters do |character|
   json.id     character.id
 end
+json.assignedCharacters  game.assigned_characters do |character|
+  json.id     character.id
+end

@@ -6,6 +6,10 @@ describe 'CharactersController', ->
     @Character = @model('Character')
     @characters = [new @Character({ id: 1, name: 'Элайя' })]
 
+    @Race = @model('Race')
+    @races = [new @Race({ id: 1, name: 'Гоблин' })]
+
+    @http.whenGET('/api/races').respond(200, @races)
     @http.whenGET('/api/characters').respond(200, @characters)
     @http.flush()
 

@@ -54,13 +54,26 @@ describe "Api::CharactersController" do
   end
 
   context 'POST /api/characters/invite' do
-
     let(:game) { create :game }
 
     it 'invites character to game if both specified' do
       expect {
         do_post '/api/characters/invite', gameId: game.id, name: character.name
       }.to change{ character.invited_to?(game) }.from(false).to(true)
+    end
+  end
+
+  context 'POST /api/characters/accept/:invitation_id' do
+    let(:game) { create :game }
+
+    before do
+      @invite = character.invite_to(game)
+    end
+
+    it 'accepting invite destroys it' do
+      expect {
+        do_post "/api/characters/accept/#{@invite.to_param}"
+      }.to change{ character.invited_to?(game) }.from(true).to(false)
     end
   end
 

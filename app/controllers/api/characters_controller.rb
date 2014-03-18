@@ -29,11 +29,31 @@ class Api::CharactersController < ApplicationController
     head :unprocessable_entity
   end
 
+  def accept
+    @invitation = GameInvitation.find(params[:invitation_id])
+    @invitation.accept
+    head :ok
+  end
+
   def uninvite
     @game = Game.find(params[:gameId])
     @character = Character.where(name: params[:name]).first
     if @game && @character
       @result = @character.uninvite_from(@game)
+      head :ok
+    else
+      head :not_found
+    end
+  rescue ActiveRecord::RecordInvalid
+    @result = false
+    head :unprocessable_entity
+  end
+
+  def kick
+    @game = Game.find(params[:gameId])
+    @character = Character.where(name: params[:name]).first
+    if @game && @character
+      @result = @character.kick_from(@game)
       head :ok
     else
       head :not_found

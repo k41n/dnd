@@ -13,6 +13,10 @@ class window.Chars
     c = new @Character()
     c.$uninvite {gameId: toGame.id, name: name}
 
+  kickByName: (name, fromGame) ->
+    c = new @Character()
+    c.$kick {gameId: fromGame.id, name: name}
+
   findByName: (name) ->
     for id, char of @characters
       return char if char.name == name

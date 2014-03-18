@@ -7,10 +7,17 @@ class window.EditGameController
     @$scope.game = Game.get { id: $routeParams.id }, =>
       @nextPage()
       @assignInvitedCharacters()
+      @assignAssignedCharacters()
 
   assignInvitedCharacters: ->
-    @$scope.game.invitedCharacters = $.map @$scope.game.invitedCharacters, (c) =>
-      @Chars.characters[c.id]
+    if @$scope.game.invitedCharacters?
+      @$scope.game.invitedCharacters = $.map @$scope.game.invitedCharacters, (c) =>
+        @Chars.characters[c.id]
+
+  assignAssignedCharacters: ->
+    if @$scope.game.assignedCharacters?
+      @$scope.game.assignedCharacters = $.map @$scope.game.assignedCharacters, (c) =>
+        @Chars.characters[c.id]
 
   nextPage: ->
     return if @nextPageBeingRequested    
@@ -76,6 +83,17 @@ class window.EditGameController
         @$scope.successMessage = "Uninvited #{name} to #{@$scope.game.name}"
     , (data) =>
       @$scope.errorMessage = 'Not invited'
+
+  kickCharacter: (name) ->
+    @Chars.kickByName(name, @$scope.game).then (data) =>
+      kickedChar = @Chars.findByName(name)
+      if kickedChar
+        index = @$scope.game.assignedCharacters.indexOf(kickedChar)
+        @$scope.game.assignedCharacters.splice(index, 1)
+        @$scope.successMessage = "Kicked #{name} from #{@$scope.game.name}"
+    , (data) =>
+      @$scope.errorMessage = 'Not assigned'
+
 
   subscribeToFaye: =>
     if @Faye?

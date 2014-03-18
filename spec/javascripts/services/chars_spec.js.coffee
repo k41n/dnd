@@ -12,4 +12,4 @@ describe 'Chars', ->
   describe 'init', ->
     it 'requests characters on init', ->
       expect(@service.characters).toBeDefined()
-      expect(@service.characters.length).toEqual(1)
+      expect(Object.keys(@service.characters).length).toEqual(1)

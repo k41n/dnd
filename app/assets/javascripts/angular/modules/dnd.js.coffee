@@ -31,4 +31,8 @@ window.app.config ["$httpProvider", ($httpProvider) ->
   .when "/games/:gameId/combats/:id",
     templateUrl: '/show_combat.html'
     controller: 'ShowCombatController'
+  .when "/invites",
+    templateUrl: '/invites.html'
+    controller: 'InvitesController'
+
 ])

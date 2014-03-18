@@ -4,6 +4,8 @@ class Game < ActiveRecord::Base
   has_many :game_invitations
   has_many :invited_characters, through: :game_invitations, source: :character
 
+  has_many :game_assignments
+  has_many :assigned_characters, through: :game_assignments, source: :character
 
   paginates_per 10
 

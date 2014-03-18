@@ -11,10 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140317211407) do
+ActiveRecord::Schema.define(version: 20140318183025) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "btree_gist"
+  enable_extension "hstore"
+  enable_extension "pg_trgm"
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -71,6 +74,13 @@ ActiveRecord::Schema.define(version: 20140317211407) do
     t.string   "background_content_type"
     t.integer  "background_file_size"
     t.datetime "background_updated_at"
+  end
+
+  create_table "game_assignments", force: true do |t|
+    t.integer  "game_id"
+    t.integer  "character_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "game_invitations", force: true do |t|
