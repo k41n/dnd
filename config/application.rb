@@ -22,9 +22,10 @@ module Dnd
     config.generators.stylesheets = false
     config.generators.javascripts = false
     config.generators.helper = false
-
-    config.middleware.insert_before(ActionDispatch::Static, Rack::Rewrite) do
-      rewrite   %r{/(\w+.html)$},  '/assets/angular/views/$1'
+    if Rails.env.development?
+        config.middleware.insert_before(ActionDispatch::Static, Rack::Rewrite) do
+          rewrite   %r{/(\w+.html)$},  '/assets/angular/views/$1'
+        end
     end
   end
 end
