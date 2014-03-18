@@ -1,4 +1,4 @@
 .creature-band
-  .creature-band-item ng-repeat='creature in creaturesBand'
+  .creature-band-item ng-repeat='creature in creaturesBand.getCreatures()' ng-class="{'acting': (creature == creaturesBand.getActingCreature())}"
     | {{ creature.data.name }}
   .clearfix

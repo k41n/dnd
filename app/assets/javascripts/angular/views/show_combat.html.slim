@@ -33,9 +33,10 @@
           | HP: {{ selectedCell.creature.data.hp }}
           br
           | AC: {{ selectedCell.creature.data.ac }}
-        .move
-          .btn.btn-large.btn-success ng-click='c.markMoveableCellsForCreature(selectedCell.creature)'
-           | Move
+        div ng-show="selectedCell.creature == creaturesBand.getActingCreature()"
+          .move
+            .btn.btn-large.btn-success ng-click='c.markMoveableCellsForCreature(selectedCell.creature)'
+             | Move
         .skill ng-repeat='skill in selectedCell.creature.data.skills' ng-click='c.startUsingSkill(skill)' ng-class="{'selected': (selectedSkill == skill)}"
           .avatar
             img ng-src='{{ skill.avatar_url }}'

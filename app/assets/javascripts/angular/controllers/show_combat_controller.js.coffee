@@ -1,5 +1,5 @@
 class window.ShowCombatController
-  constructor: (@$scope, @$routeParams, @Zoo, @Combat, @Faye, @SkillLibrary, @$timeout) ->
+  constructor: (@$scope, @$routeParams, @Zoo, @Combat, @Faye, @SkillLibrary, @$timeout, @CreaturesBand) ->
     @$scope.c = @
     @$scope.grid = new Grid()
     @fetchCombat()
@@ -43,9 +43,8 @@ class window.ShowCombatController
     @$scope.combat.json = JSON.parse(data.json)
     @$scope.grid.loadFromJSON(@$scope.combat.json, @SkillLibrary, @Zoo) if @$scope.combat.json?
     @$scope.background_url = data.background_url if data.background_url?
-    @$scope.creaturesBand = @$scope.combat.json.creatures
-    @$scope.creaturesBand.push { data: {name: 'Конец хода'} }
-
+    @$scope.creaturesBand = @CreaturesBand
+    @$scope.creaturesBand.loadCreatures @$scope.grid.creatures
 
   saveCombat: ->
     @$scope.combat.json = @$scope.grid.saveToJSON()
@@ -81,6 +80,6 @@ class window.ShowCombatController
         if msg.type == 'updated'
           @loadFromData(msg.combat)
 
-ShowCombatController.$inject = ["$scope", "$routeParams", "Zoo", "Combat", "Faye", "SkillLibrary", "$timeout"]
+ShowCombatController.$inject = ["$scope", "$routeParams", "Zoo", "Combat", "Faye", "SkillLibrary", "$timeout", "CreaturesBand"]
 
 angular.module("dndApp").controller("ShowCombatController", ShowCombatController)
