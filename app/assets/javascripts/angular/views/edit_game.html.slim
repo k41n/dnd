@@ -35,13 +35,14 @@
     | New combat
 
   .combat ng-repeat='(id, combat) in combats'
+   .pull-left.show-link ng-click='c.showCombat(combat)'
+     i.fa.fa-film
+     | Show combat
+
    .name ng-click='c.editCombat(combat)'
      | {{ combat.name }}
-   .pull-right.delete-link ng-click='c.showCombat(combat)'
-     i.delete.fa.fa-trash-o
-     | Show combat
    .pull-right.delete-link ng-click='c.showDeleteCombatDialog(combat)'
-     i.delete.fa.fa-trash-o
+     i.fa.fa-trash-o
      | Delete combat
 
 
