@@ -6,8 +6,9 @@ class window.EditGameController
     @page = 1
     @$scope.game = Game.get { id: $routeParams.id }, =>
       @nextPage()
-      @assignInvitedCharacters()
-      @assignAssignedCharacters()
+      @Chars.loading.$promise.then =>
+        @assignInvitedCharacters()
+        @assignAssignedCharacters()
 
   assignInvitedCharacters: ->
     if @$scope.game.invitedCharacters?

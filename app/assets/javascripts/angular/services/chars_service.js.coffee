@@ -1,6 +1,6 @@
 class window.Chars
   constructor: (@Character, @$injector, @$http) ->
-    @Character.query {}, (data) =>
+    @loading = @Character.query {}, (data) =>
       @characters = {}
       for c in data
         @characters[c.id] = c
