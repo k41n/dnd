@@ -1,8 +1,6 @@
 .row
-  .col-md-12
-    /creature-band
-.row
   .col-md-10.static
+    creature-band
     .grid
       table style="background-image: url('{{ background_url }}')"
         tr ng-repeat='row in grid.rows'
@@ -37,7 +35,7 @@
           | AC: {{ selectedCell.creature.data.ac }}
         .move
           .btn.btn-large.btn-success ng-click='c.markMoveableCellsForCreature(selectedCell.creature)'
-            | Move
+           | Move
         .skill ng-repeat='skill in selectedCell.creature.data.skills' ng-click='c.startUsingSkill(skill)' ng-class="{'selected': (selectedSkill == skill)}"
           .avatar
             img ng-src='{{ skill.avatar_url }}'
