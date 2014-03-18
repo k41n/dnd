@@ -19,7 +19,7 @@ html lang="en" ng-app='dndApp'
     /= javascript_include_tag "i18n/#{locale}"
     = include_gon
     = javascript_include_tag "application"
-    = javascript_include_tag "angular_templates"
+    = javascript_include_tag "angular_templates" unless Rails.env.development?
     = javascript_include_tag App.faye_host ? "#{App.faye_host}/faye/client.js" : "http://0.0.0.0:9292/faye/client.js"
 
   body

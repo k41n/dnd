@@ -29,7 +29,7 @@ set :db_pass, 'hul5OP6DaK6a'
 # Load RVM's capistrano plugin.
 require 'rvm/capistrano'
 
-set :rvm_ruby_string, '2.1.0@dnd'
+set :rvm_ruby_string, '2.1.1@dnd'
 set :rvm_type, :user
 
 depend :remote, :command, 'git'

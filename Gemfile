@@ -52,6 +52,7 @@ gem 'puma'
 gem 'capistrano'
 gem 'rvm-capistrano'
 gem 'eye'
+gem 'rack-rewrite', '~> 1.2.1'
 
 
 group :development, :test do
