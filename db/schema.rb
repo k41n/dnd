@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140318183025) do
+ActiveRecord::Schema.define(version: 20140318205408) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,6 +61,16 @@ ActiveRecord::Schema.define(version: 20140318183025) do
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
+    t.integer  "str",                 default: 10
+    t.integer  "con",                 default: 10
+    t.integer  "dex",                 default: 10
+    t.integer  "int",                 default: 10
+    t.integer  "wis",                 default: 10
+    t.integer  "cha",                 default: 8
+    t.integer  "speed",               default: 6
+    t.integer  "xp",                  default: 0
+    t.integer  "level",               default: 1
+    t.integer  "stat_points",         default: 22
   end
 
   create_table "combats", force: true do |t|

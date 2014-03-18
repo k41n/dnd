@@ -19,12 +19,51 @@
 .edited-character
   clear: both
   display: block
-  .avatar
-    display: inline-block
+  .main
+    display: table-cell
     vertical-align: top
+    border: solid 1px black
+    padding: 10px
+    border-radius: 10px
+    width: 250px
     img
+      float: left
       width: 80px
       height: 80px
+      margin: 5px
+    .select2-container
+      width: 100%
+  .stats
+    width: 250px
+    display: table-cell
+    vertical-align: middle
+    fieldset
+      border: solid 1px black
+      padding: 10px
+      border-radius: 10px
+    .stat
+      display: inline-block
+      width: 80px
+    .val
+      display: inline-block
+      width: 40px
+    .controls
+      display: inline-block
+      width: 90px
+      i
+        width: 40px
+        height: 40px
+        background: green
+        border-radius: 5px
+        line-height: 40px
+        font-size: 24px
+        color: white
+        text-align: center
+        margin-right: 4px
+        margin-bottom: 4px
+        display: inline-block
+        &.down
+          background: red
   form
     margin-left: 10px
     display: inline-block

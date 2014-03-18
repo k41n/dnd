@@ -2,23 +2,72 @@ h3 My characters
 .edited-character.panel.panel-primary ng-show='editedCharacter'
   .panel-heading Edit character
   .panel-body
-    .avatar
+    .main
+      h4 Main
       img ng-src="{{ editedCharacter.avatar_url }}"
-    form role='form' novalidate='1'
-      .col-xs-12.col-sm6.col-md-4.col-lg-3
-        .form-group
-          label Upload avatar
-          input type='file' ng-file-select='1'
-        .form-group
-          label Name
-          input.form-control type='text' ng-model='editedCharacter.name'
-      .col-xs-12.col-sm6.col-md-4.col-lg-3            
-        .form-group
-          label Race
-          select ui-select2='1' ng-model='editedCharacter.race'
-            option value='race.id' ng-repeat='(id, race) in c.Racing.races'
-              | {{ race.name }}
+      b
+        | {{ editedCharacter.name }}
+      .form-group
+        label Upload avatar
+        input type='file' ng-file-select='1'
+      .form-group
+        label Name
+        input.form-control type='text' ng-model='editedCharacter.name'
+      .form-group
+        label Race
+        select ui-select2='1' ng-model='editedCharacter.race' ng-if='editedCharacter'
+          option value=''
+          option value='{{ race.id }}' ng-repeat='(id, race) in c.Racing.races'
+            | {{ race.name }}
 
+    .stats
+      fieldset
+        h4 Stats
+        .stat STR:
+        .val
+          | {{ editedCharacter.str }}
+        .controls
+          i.fa.fa-angle-up ng-if="c.canIncrease('str', editedCharacter)" ng-click="c.increase('str', editedCharacter)"
+          i.down.fa.fa-angle-down ng-if="c.canDecrease('str', editedCharacter)" ng-click="c.decrease('str', editedCharacter)"
+        .stat CON:
+        .val
+          | {{ editedCharacter.con }}
+        .controls
+          i.fa.fa-angle-up ng-if="c.canIncrease('con', editedCharacter)" ng-click="c.increase('con', editedCharacter)"
+          i.down.fa.fa-angle-down ng-if="c.canDecrease('con', editedCharacter)" ng-click="c.decrease('con', editedCharacter)"
+
+        .stat DEX:
+        .val
+          | {{ editedCharacter.dex }}
+        .controls
+          i.fa.fa-angle-up ng-if="c.canIncrease('dex', editedCharacter)" ng-click="c.increase('dex', editedCharacter)"
+          i.down.fa.fa-angle-down ng-if="c.canDecrease('dex', editedCharacter)" ng-click="c.decrease('dex', editedCharacter)"
+
+        .stat INT:
+        .val
+          | {{ editedCharacter.int }}
+        .controls
+          i.fa.fa-angle-up ng-if="c.canIncrease('int', editedCharacter)" ng-click="c.increase('int', editedCharacter)"
+          i.down.fa.fa-angle-down ng-if="c.canDecrease('int', editedCharacter)" ng-click="c.decrease('int', editedCharacter)"
+
+        .stat WIS:
+        .val
+          | {{ editedCharacter.wis }}
+        .controls
+          i.fa.fa-angle-up ng-if="c.canIncrease('wis', editedCharacter)" ng-click="c.increase('wis', editedCharacter)"
+          i.down.fa.fa-angle-down ng-if="c.canDecrease('wis', editedCharacter)" ng-click="c.decrease('wis', editedCharacter)"
+
+        .stat CHA:
+        .val
+          | {{ editedCharacter.cha }}
+        .controls
+          i.fa.fa-angle-up ng-if="c.canIncrease('cha', editedCharacter)" ng-click="c.increase('cha', editedCharacter)"
+          i.down.fa.fa-angle-down ng-if="c.canDecrease('cha', editedCharacter)" ng-click="c.decrease('cha', editedCharacter)"
+
+        div
+          b
+            | Remaining points: {{ editedCharacter.stat_points }}
+    form role='form' novalidate='1'
       .form-group
         .col-sm-offset-2.col-sm-10
           button.btn.btn-primary ng-click='c.saveCharacter()' SAVE 
