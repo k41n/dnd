@@ -2,6 +2,8 @@ class window.Creature
   constructor: (monster_resource) ->
     @data = monster_resource if monster_resource?
     @location = undefined
+    @rotation = 'north'
+    @rotateable = false
     @installEvents()
 
   saveToJSON: =>

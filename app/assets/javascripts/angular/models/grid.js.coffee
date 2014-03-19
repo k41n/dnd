@@ -81,6 +81,9 @@ class window.Grid
         to: location
     @unmarkMoveableCellsForCreature()
 
+  rotate: (creature, direction) =>
+    creature.rotation = direction
+
   creaturesInRadius: (location, radius) ->
     $.grep @creatures, (c) =>
       @distance(location, c.location) < radius + 1

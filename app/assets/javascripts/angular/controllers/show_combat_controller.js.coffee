@@ -44,7 +44,7 @@ class window.ShowCombatController
     @$scope.grid.loadFromJSON(@$scope.combat.json, @SkillLibrary, @Zoo) if @$scope.combat.json?
     @$scope.background_url = data.background_url if data.background_url?
     @$scope.creaturesBand = @CreaturesBand
-    @$scope.creaturesBand.loadCreatures @$scope.grid.creatures
+    @$scope.creaturesBand.loadCreatures @$scope.grid
 
   saveCombat: ->
     @$scope.combat.json = @$scope.grid.saveToJSON()
@@ -79,6 +79,16 @@ class window.ShowCombatController
         console.log 'Faye: msg = ', msg
         if msg.type == 'updated'
           @loadFromData(msg.combat)
+
+  endTurn: (creature) ->
+    @$scope.creaturesBand.endTurn(creature)
+
+  setCreatureRotatable: (creature) =>
+    creature.rotatable = true
+
+  rotateCreature: (creature, direction) =>
+    @$scope.grid.rotate(creature, direction)
+    creature.rotatable = false
 
 ShowCombatController.$inject = ["$scope", "$routeParams", "Zoo", "Combat", "Faye", "SkillLibrary", "$timeout", "CreaturesBand"]
 

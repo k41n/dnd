@@ -9,6 +9,17 @@
               .overlay
               .monster-in-grid ng-show='cell.creature'
                 img ng-src='{{ cell.creature.data.avatar_url }}'
+              .rotation-marker ng-show='cell.creature' ng-class="cell.creature.rotation"
+                /rotation rotation-direction='north' rotation-to-symbol="{'north': 123}"
+                span ng-if="cell.creature.rotation == 'north'"
+                  | &#8657;
+                span ng-if="cell.creature.rotation == 'south'"
+                  | &#8659;
+                span ng-if="cell.creature.rotation == 'east'"
+                  | &#8656;
+                span ng-if="cell.creature.rotation == 'west'"
+                  | &#8658;
+
   .col-md-2
     .active-cell ng-show='c.isCellSelected()'
       h3
@@ -33,10 +44,24 @@
           | HP: {{ selectedCell.creature.data.hp }}
           br
           | AC: {{ selectedCell.creature.data.ac }}
+
         div ng-show="selectedCell.creature == creaturesBand.getActingCreature()"
-          .move
+          .actions
             .btn.btn-large.btn-success ng-click='c.markMoveableCellsForCreature(selectedCell.creature)'
-             | Move
+              | Move
+            .btn.btn-large.btn-warning ng-click='c.endTurn(selectedCell.creature)'
+              | End Turn
+            .btn.btn-large.btn-success ng-click='c.setCreatureRotatable(selectedCell.creature)'
+              | Rotate
+            div ng-if='selectedCell.creature.rotatable == true'
+              .btn.btn-large.btn-success ng-click='c.rotateCreature(selectedCell.creature, "north")'
+                | North
+              .btn.btn-large.btn-success ng-click='c.rotateCreature(selectedCell.creature, "south")'
+                | South
+              .btn.btn-large.btn-success ng-click='c.rotateCreature(selectedCell.creature, "east")'
+                | East
+              .btn.btn-large.btn-success ng-click='c.rotateCreature(selectedCell.creature, "west")'
+                | West
         .skill ng-repeat='skill in selectedCell.creature.data.skills' ng-click='c.startUsingSkill(skill)' ng-class="{'selected': (selectedSkill == skill)}"
           .avatar
             img ng-src='{{ skill.avatar_url }}'

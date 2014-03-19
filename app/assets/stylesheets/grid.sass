@@ -29,6 +29,18 @@
               position: absolute
               z-index: 10
               opacity: 0.3
+            .rotation-marker
+              display: block
+              width: 50px
+              height: 50px
+              left:  0
+              top: 0
+              position: absolute
+              z-index: 100
+              color: red
+              font-size: 24px
+              font-weight: bold
+              text-shadow: 1px 1px 2px black
         td.selected
           div
             .overlay
@@ -45,6 +57,7 @@
           div
             .overlay
               background-color: green
+
 .moveability-option
   width: 90%
   margin: 4px auto
@@ -76,7 +89,6 @@
       height: 50px
       margin: 10px
   .textual
-    height: 70px
     .name
       font-weight: bold
     .desc

@@ -1,17 +1,28 @@
 class window.CreaturesBand
   constructor: (@$injector) ->
 
-  loadCreatures: (creatures) ->
-    @creatures = creatures
-    @creatures.push { data: {name: 'Конец хода'} }
-    @actingCreature = @creatures[0]
+  loadCreatures: (grid) ->
+    @grid = grid
+    @creatures = grid.creatures.slice(0)
+    @creatures.push { data: {name: 'End of Turn'} }
+    @current = 0
 
   getCreatures: ->
     @creatures
 
   getActingCreature: ->
-    @actingCreature
+    @creatures[@current]
 
+  endTurn: (creature) ->
+    creature.trigger 'endOfTurn'
+    @current += 1
+    @endRound() if @getActingCreature().data.name == 'End of Turn'
+    @current
+
+  endRound: ->
+    @current = 0
+    for creature in @grid.creatures
+      creature.trigger 'endOfRound'
 
 CreaturesBand.$inject = ["$injector"]
 
