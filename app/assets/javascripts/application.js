@@ -22,7 +22,8 @@
 //= require ui-utils
 //= require ng-infinite-scroll
 //= require angular-file-upload
-//= require angular-ui-select2
+//= require select2
+//= require angular-select2
 //= require_tree ./angular/modules
 //= require_tree ./angular/factories
 //= require_tree ./angular/services

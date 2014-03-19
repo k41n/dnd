@@ -1,5 +1,6 @@
 json.title              weapon.title
 json.id                 weapon.id
+json.js_class           weapon.js_class
 json.avatar_url         weapon.avatar.url(:thumb)
 json.attack_char_from   weapon.attack_char_from
 json.attack_char_to     weapon.attack_char_to

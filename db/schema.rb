@@ -11,10 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140319150405) do
+ActiveRecord::Schema.define(version: 20140319214038) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "btree_gist"
+  enable_extension "hstore"
+  enable_extension "pg_trgm"
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -49,6 +52,32 @@ ActiveRecord::Schema.define(version: 20140319150405) do
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
   add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
 
+  create_table "armors", force: true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.string   "js_class"
+    t.integer  "ac_bonus"
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "armor_type"
+  end
+
+  create_table "character_classes", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.string   "js_class"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
+  end
+
   create_table "characters", force: true do |t|
     t.string   "name"
     t.integer  "player_id"
@@ -58,16 +87,28 @@ ActiveRecord::Schema.define(version: 20140319150405) do
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
-    t.integer  "str",                 default: 10
-    t.integer  "con",                 default: 10
-    t.integer  "dex",                 default: 10
-    t.integer  "int",                 default: 10
-    t.integer  "wis",                 default: 10
-    t.integer  "cha",                 default: 8
-    t.integer  "speed",               default: 6
-    t.integer  "xp",                  default: 0
-    t.integer  "level",               default: 1
-    t.integer  "stat_points",         default: 22
+    t.integer  "str",                  default: 10
+    t.integer  "con",                  default: 10
+    t.integer  "dex",                  default: 10
+    t.integer  "int",                  default: 10
+    t.integer  "wis",                  default: 10
+    t.integer  "cha",                  default: 8
+    t.integer  "speed",                default: 6
+    t.integer  "xp",                   default: 0
+    t.integer  "level",                default: 1
+    t.integer  "stat_points",          default: 22
+    t.integer  "hp",                   default: 0
+    t.integer  "max_hp",               default: 0
+    t.integer  "stamina"
+    t.integer  "reaction"
+    t.integer  "will"
+    t.integer  "ac",                   default: 0
+    t.integer  "race_id"
+    t.integer  "character_class_id"
+    t.integer  "right_hand_weapon_id"
+    t.integer  "left_hand_weapon_id"
+    t.integer  "heals_count",          default: 0
+    t.integer  "initiative_bonus"
   end
 
   create_table "combats", force: true do |t|
@@ -213,6 +254,7 @@ ActiveRecord::Schema.define(version: 20140319150405) do
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
+    t.string   "js_class"
   end
 
 end

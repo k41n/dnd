@@ -19,3 +19,4 @@ log
 config/database.yml
 public/system
 .rvmrc
+bower_components

@@ -1,5 +1,5 @@
 ActiveAdmin.register Weapon do
-  permit_params :title, :damage_dice, :damage_count, :prof, :avatar
+  permit_params :title, :damage_dice, :damage_count, :prof, :avatar, :js_class
 
   index do
     id_column
@@ -17,6 +17,7 @@ ActiveAdmin.register Weapon do
     f.inputs 'Weapon Details' do
       f.input :title
       f.input :avatar, as: :file
+      f.input :js_class
       f.input :damage_dice
       f.input :damage_count
       f.input :prof
