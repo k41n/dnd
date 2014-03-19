@@ -1,5 +1,5 @@
 ActiveAdmin.register Skill do
-  permit_params :title, :attack_char_from, :attack_char_to, :damage_dice, :damage_count, :damage_bonus, :avatar, :js_class
+  permit_params :title, :attack_char_from, :attack_char_to, :damage_dice, :damage_count, :damage_bonus, :avatar, :js_class, :text
 
   index do
     id_column
@@ -18,6 +18,7 @@ ActiveAdmin.register Skill do
   form do |f|
     f.inputs 'Skill Details' do
       f.input :title
+      f.input :text
       f.input :js_class
       f.input :avatar, as: :file
       f.input :attack_char_from, as: :select, collection: %w|str con dex int wis cha|

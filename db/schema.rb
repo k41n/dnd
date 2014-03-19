@@ -11,13 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140318205408) do
+ActiveRecord::Schema.define(version: 20140319150405) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "btree_gist"
-  enable_extension "hstore"
-  enable_extension "pg_trgm"
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -192,6 +189,7 @@ ActiveRecord::Schema.define(version: 20140318205408) do
     t.datetime "avatar_updated_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "text"
   end
 
   create_table "weapon_assignments", force: true do |t|
@@ -204,13 +202,17 @@ ActiveRecord::Schema.define(version: 20140318205408) do
 
   create_table "weapons", force: true do |t|
     t.string   "title"
-    t.integer  "damage_dice",      default: 0
-    t.integer  "damage_count",     default: 1
-    t.integer  "prof",             default: 0
+    t.integer  "damage_dice",         default: 0
+    t.integer  "damage_count",        default: 1
+    t.integer  "prof",                default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "attack_char_from"
     t.string   "attack_char_to"
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
   end
 
 end

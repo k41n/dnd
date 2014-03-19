@@ -1,14 +1,13 @@
 class Character < ActiveRecord::Base
   include FayeObservable    
   belongs_to :player
-  has_many :skill_assignments, as: :owner
+  has_many :skill_assignments, as: :owner, dependent: :destroy
   has_many :skills, through: :skill_assignments
-  has_many :weapon_assignments, as: :owner
+  has_many :weapon_assignments, as: :owner, dependent: :destroy
   has_many :weapons, through: :weapon_assignments
-  has_many :game_invitations
+  has_many :game_invitations, dependent: :destroy
   has_many :games_invited_to, through: :game_invitations, source: :game
-
-  has_many :game_assignments
+  has_many :game_assignments, dependent: :destroy
   has_many :games_assigned_to, through: :game_assignments, source: :game
 
   has_attached_file :avatar, styles: { thumb: '50x50' }, default_url: '/unknown-character.png'

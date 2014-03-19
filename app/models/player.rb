@@ -3,8 +3,8 @@ class Player < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable
 
-  has_many :games, foreign_key: :master_id
-  has_many :characters
+  has_many :games, foreign_key: :master_id, dependent: :destroy
+  has_many :characters, dependent: :destroy
 
   def invites
     GameInvitation.where(character_id: characters.map(&:id))

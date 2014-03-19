@@ -1,9 +1,12 @@
 ActiveAdmin.register Weapon do
-  permit_params :title, :damage_dice, :damage_count, :prof
+  permit_params :title, :damage_dice, :damage_count, :prof, :avatar
 
   index do
     id_column
     column :title
+    column :avatar do |obj|
+      image_tag obj.avatar.url(:thumb), size: '25x25'
+    end
     column :damage_dice
     column :damage_count
     column :prof
@@ -13,6 +16,7 @@ ActiveAdmin.register Weapon do
   form do |f|
     f.inputs 'Weapon Details' do
       f.input :title
+      f.input :avatar, as: :file
       f.input :damage_dice
       f.input :damage_count
       f.input :prof
