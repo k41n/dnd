@@ -7,8 +7,10 @@ class window.Racing
 
   create: (id) ->
     race = @races[id]
-    if race?
+    if race? && race.js_class? && eval(race.js_class)?
       return new (eval(race.js_class))(race)
+    else
+      return new Races.BaseRace(race)
 
 Racing.$inject = ["Race", "$injector"]
 

@@ -1,9 +1,7 @@
 window.CharacterClasses ||= {}
 class window.CharacterClasses.Paladin extends CharacterClasses.BaseCharacterClass
   onSelected: (char) ->
-    char.staminaBonus ||= 0
-    char.reactionBonus ||= 0
-    char.willBonus ||= 0
+    super(char)
     char.staminaBonus += 1    
     char.reactionBonus += 1
     char.willBonus += 1

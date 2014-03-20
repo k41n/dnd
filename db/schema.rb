@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140320202304) do
+ActiveRecord::Schema.define(version: 20140320210036) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -128,9 +128,9 @@ ActiveRecord::Schema.define(version: 20140320202304) do
     t.integer  "stat_points",           default: 22
     t.integer  "hp",                    default: 0
     t.integer  "max_hp",                default: 0
-    t.integer  "stamina"
-    t.integer  "reaction"
-    t.integer  "will"
+    t.integer  "stamina",               default: 0
+    t.integer  "reaction",              default: 0
+    t.integer  "will",                  default: 0
     t.integer  "ac",                    default: 0
     t.integer  "race_id"
     t.integer  "character_class_id"
