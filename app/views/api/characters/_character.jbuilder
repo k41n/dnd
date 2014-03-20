@@ -17,6 +17,12 @@ json.reaction     resource.reaction
 json.will         resource.will
 json.ac           resource.ac
 json.stat_points  resource.stat_points
+json.race_id      resource.race_id
+json.character_class_id resource.character_class_id
+json.armor_id     resource.armor_id
+json.shield_id    resource.shield_id
+json.weapon_id    resource.weapon_id
+json.character_ability_ids resource.character_ability_ids
 
 json.skills resource.skills do |skill|
     json.partial! 'api/skills/skill', skill: skill

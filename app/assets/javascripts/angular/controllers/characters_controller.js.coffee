@@ -10,6 +10,11 @@ class window.CharactersController
     characters = @Character.query {}, =>
       for character in characters
         @$scope.characters[character.id] = character
+        character.abilityTrainings = {}
+        for a in character.character_ability_ids
+          ability = @CharacterAbilities.character_abilities[a]
+          character.abilityTrainings[ability.name] = true
+
 
   createCharacter: (params)->
     new @Character(params).$save()
@@ -25,22 +30,19 @@ class window.CharactersController
     @$scope.editedCharacter = new CharacterModel(char)
     @$scope.uploader.url = "/api/characters/#{char.id}/avatar"
     @$scope.$watch 'editedCharacter.race_id', (newVal, oldVal) =>
-      if newVal?
+      if newVal? && @$scope.editedCharacter?
         race = @Racing.create(newVal)
         if race?
+          if @$scope.editedCharacter.race? && @$scope.editedCharacter.race.id != race.id
+            @$scope.editedCharacter.race.deselectedFor(@$scope.editedCharacter) 
           race.selectedFor(@$scope.editedCharacter)
           @$scope.editedCharacter.race = race
-      if oldVal?
-        race = @Racing.create(oldVal)
-        if race?
-          race.deselectedFor(@$scope.editedCharacter)
-        @$scope.editedCharacter.race = null
 
     @$scope.$watch 'editedCharacter.character_class_id', (newVal, oldVal) =>
       if newVal?
         character_class = @CharacterClasses.create(newVal)
         if character_class?
-          if @$scope.editedCharacter.character_class
+          if @$scope.editedCharacter.character_class? && @$scope.editedCharacter.character_class.id != character_class.id
             @$scope.editedCharacter.character_class.onDeselected(@$scope.editedCharacter)
           @$scope.editedCharacter.character_class = character_class
           character_class.onSelected(@$scope.editedCharacter)
@@ -65,7 +67,10 @@ class window.CharactersController
           @$scope.editedCharacter.weapon = weapon
 
   saveCharacter: ->
-    new @Character(@$scope.editedCharacter).$update()
+    console.log "@$scope.editedCharacter.trainedAbilityIds(@CharacterAbilities) = ", @$scope.editedCharacter.trainedAbilityIds(@CharacterAbilities)
+    @$scope.editedCharacter.character_ability_ids = @$scope.editedCharacter.trainedAbilityIds(@CharacterAbilities)
+    nc = new @Character(@$scope.editedCharacter)
+    nc.$update()
     @$scope.editedCharacter = null
 
   deleteCharacter: ->
@@ -90,6 +95,15 @@ class window.CharactersController
 
   onCharacterUpdated: (data) =>
     @$scope.characters[data.id] = data
+    character = @$scope.characters[data.id]
+    character.abilityTrainings ||= {}
+    for a in character.character_ability_ids
+      ability = @CharacterAbilities.character_abilities[a]
+      console.log "ability = ", ability
+
+      character.abilityTrainings[ability.name] = true
+
+
     unless @$scope.characters[data.id].avatar_url?
       @$scope.characters[data.id].avatar_url = '/unknown-character.png'
 
@@ -131,9 +145,6 @@ class window.CharactersController
     price = @priceOfIncrementFrom(previousValue - 1)
     editedCharacter[attr] -= 1
     editedCharacter.stat_points += price
-
-  modifier: (val) ->
-    Math.floor (val - 10)/2
 
   subscribeToFaye: =>
     if @Faye?

@@ -7,8 +7,10 @@ class window.Weapons
 
   create: (id) ->
     weapon = @weapons[id]
-    if weapon?
+    if weapon? && weapon.js_class? && eval(weapon.js_class)?
       return new (eval(weapon.js_class))(weapon)
+    else
+      return new Weapons.BaseWeapon(weapon)
 
 Weapons.$inject = ["Weapon"]
 

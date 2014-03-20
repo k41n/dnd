@@ -13,6 +13,12 @@ class window.CharacterAbilities
       else
         return new Abilities.BaseAbility(character_ability)
 
+  findByName: (name) ->
+    for id, a of @character_abilities
+      return a if a.name == name
+    return null
+
+
 CharacterAbilities.$inject = ["CharacterAbility"]
 
 angular.module("dndApp").service("CharacterAbilities", CharacterAbilities)

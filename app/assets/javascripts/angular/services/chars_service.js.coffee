@@ -1,9 +1,10 @@
 class window.Chars
-  constructor: (@Character, @$injector, @$http) ->
+  constructor: (@Character, @$injector, @$http, @CharacterAbilities) ->
     @loading = @Character.query {}, (data) =>
       @characters = {}
       for c in data
         @characters[c.id] = c
+
 
   inviteByName: (name, toGame) ->
     c = new @Character()
@@ -28,6 +29,6 @@ class window.Chars
       ret.push char.name
     ret
 
-Chars.$inject = ["Character", "$injector"]
+Chars.$inject = ["Character", "$injector", 'CharacterAbilities']
 
 angular.module("dndApp").service("Chars", Chars)

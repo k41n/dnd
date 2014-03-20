@@ -1,9 +1,16 @@
 window.Races ||= {}
 class window.Races.Dragonborn
   selectedFor: (char) ->
-    char.cha += 2
-    char.str += 2
+    char.statBonuses ||= {}
+    char.statBonuses.cha ||= 0
+    char.statBonuses.cha += 2
+    char.statBonuses.str ||= 0
+    char.statBonuses.str += 2
 
   deselectedFor: (char) ->
-    char.cha -= 2
-    char.str -= 2
+    if char?
+      char.statBonuses ||= {}
+      char.statBonuses.cha ||= 0
+      char.statBonuses.cha -= 2
+      char.statBonuses.str ||= 0
+      char.statBonuses.str -= 2

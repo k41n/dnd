@@ -1,5 +1,6 @@
 class window.CharacterModel
   constructor: (data) ->
+    console.log "Creating Character Model from ", data
     for key,val of data
       @[key] = val
 
@@ -52,8 +53,27 @@ class window.CharacterModel
     @trainings_count - trained_abilities
 
   canTrain: (ability) ->
-    @getTrainingsCount() > 0 && @abilityTrainings[ability.name] != true
+    return false unless @character_class?
+    @getTrainingsCount() > 0 && @abilityTrainings[ability.name] != true && @character_class.trainable_abilities.indexOf(ability.id) != -1
+
+  canUntrain: (ability) ->
+    return false unless @character_class?
+    @abilityTrainings[ability.name] && @forcedTrainings.indexOf(ability.name) == -1
 
   train: (ability) ->
     if @canTrain(ability)
       @abilityTrainings[ability.name] = true
+
+  untrain: (ability) ->
+    if @canUntrain(ability)
+      delete @abilityTrainings[ability.name]
+
+  getStat: (stat_name) ->
+    bonus = if @statBonuses? && @statBonuses[stat_name]? then @statBonuses[stat_name] else 0
+    @[stat_name] + bonus
+
+  trainedAbilityIds: (CharacterAbilities) ->
+    ret = []
+    for k,v of @abilityTrainings
+      ret.push CharacterAbilities.findByName(k).id if v? && v
+    ret

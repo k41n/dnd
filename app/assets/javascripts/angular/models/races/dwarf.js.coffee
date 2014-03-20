@@ -1,7 +1,12 @@
 window.Races ||= {}
 class window.Races.Dwarf
   selectedFor: (char) ->
-    char.con += 2
+    char.statBonuses ||= {}
+    char.statBonuses.con ||= 0
+    char.statBonuses.con += 2
 
   deselectedFor: (char) ->
-    char.con -= 2
+    if char?
+      char.statBonuses ||= {}
+      char.statBonuses.con ||= 0
+      char.statBonuses.con -= 2

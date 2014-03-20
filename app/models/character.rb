@@ -10,6 +10,12 @@ class Character < ActiveRecord::Base
   has_many :game_assignments, dependent: :destroy
   has_many :games_assigned_to, through: :game_assignments, source: :game
 
+  belongs_to :race
+  belongs_to :character_class
+  belongs_to :armor
+  belongs_to :shield
+  belongs_to :weapon
+
   has_attached_file :avatar, styles: { thumb: '50x50' }, default_url: '/unknown-character.png'
 
   paginates_per 10  
@@ -33,5 +39,4 @@ class Character < ActiveRecord::Base
   def invited_to?(game)
     games_invited_to.include?(game)
   end
-
 end

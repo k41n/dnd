@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140320183917) do
+ActiveRecord::Schema.define(version: 20140320202304) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -116,29 +116,33 @@ ActiveRecord::Schema.define(version: 20140320183917) do
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
-    t.integer  "str",                  default: 10
-    t.integer  "con",                  default: 10
-    t.integer  "dex",                  default: 10
-    t.integer  "int",                  default: 10
-    t.integer  "wis",                  default: 10
-    t.integer  "cha",                  default: 8
-    t.integer  "speed",                default: 6
-    t.integer  "xp",                   default: 0
-    t.integer  "level",                default: 1
-    t.integer  "stat_points",          default: 22
-    t.integer  "hp",                   default: 0
-    t.integer  "max_hp",               default: 0
+    t.integer  "str",                   default: 10
+    t.integer  "con",                   default: 10
+    t.integer  "dex",                   default: 10
+    t.integer  "int",                   default: 10
+    t.integer  "wis",                   default: 10
+    t.integer  "cha",                   default: 8
+    t.integer  "speed",                 default: 6
+    t.integer  "xp",                    default: 0
+    t.integer  "level",                 default: 1
+    t.integer  "stat_points",           default: 22
+    t.integer  "hp",                    default: 0
+    t.integer  "max_hp",                default: 0
     t.integer  "stamina"
     t.integer  "reaction"
     t.integer  "will"
-    t.integer  "ac",                   default: 0
+    t.integer  "ac",                    default: 0
     t.integer  "race_id"
     t.integer  "character_class_id"
     t.integer  "right_hand_weapon_id"
     t.integer  "left_hand_weapon_id"
-    t.integer  "heals_count",          default: 0
+    t.integer  "heals_count",           default: 0
     t.integer  "initiative_bonus"
-    t.integer  "trainings_count",      default: 0
+    t.integer  "trainings_count",       default: 0
+    t.integer  "armor_id"
+    t.integer  "shield_id"
+    t.integer  "weapon_id"
+    t.integer  "character_ability_ids", default: [], array: true
   end
 
   create_table "combats", force: true do |t|

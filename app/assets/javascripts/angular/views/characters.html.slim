@@ -31,41 +31,41 @@ h3 My characters
         h4 Stats
         .stat STR:
         .val
-          | {{ editedCharacter.str }} ( {{ c.modifier(editedCharacter.str) }})
+          | {{ editedCharacter.getStat('str') }} ( {{ editedCharacter.mod('str') }})
         .controls
           i.fa.fa-angle-up ng-if="c.canIncrease('str', editedCharacter)" ng-click="c.increase('str', editedCharacter)"
           i.down.fa.fa-angle-down ng-if="c.canDecrease('str', editedCharacter)" ng-click="c.decrease('str', editedCharacter)"
         .stat CON:
         .val
-          | {{ editedCharacter.con }} ( {{ c.modifier(editedCharacter.con) }})
+          | {{ editedCharacter.getStat('con') }} ( {{ editedCharacter.mod('con') }})
         .controls
           i.fa.fa-angle-up ng-if="c.canIncrease('con', editedCharacter)" ng-click="c.increase('con', editedCharacter)"
           i.down.fa.fa-angle-down ng-if="c.canDecrease('con', editedCharacter)" ng-click="c.decrease('con', editedCharacter)"
 
         .stat DEX:
         .val
-          | {{ editedCharacter.dex }} ( {{ c.modifier(editedCharacter.dex) }})
+          | {{ editedCharacter.getStat('dex') }} ( {{ editedCharacter.mod('dex') }})
         .controls
           i.fa.fa-angle-up ng-if="c.canIncrease('dex', editedCharacter)" ng-click="c.increase('dex', editedCharacter)"
           i.down.fa.fa-angle-down ng-if="c.canDecrease('dex', editedCharacter)" ng-click="c.decrease('dex', editedCharacter)"
 
         .stat INT:
         .val
-          | {{ editedCharacter.int }} ( {{ c.modifier(editedCharacter.int) }})
+          | {{ editedCharacter.getStat('int') }} ( {{ editedCharacter.mod('int') }})
         .controls
           i.fa.fa-angle-up ng-if="c.canIncrease('int', editedCharacter)" ng-click="c.increase('int', editedCharacter)"
           i.down.fa.fa-angle-down ng-if="c.canDecrease('int', editedCharacter)" ng-click="c.decrease('int', editedCharacter)"
 
         .stat WIS:
         .val
-          | {{ editedCharacter.wis }} ( {{ c.modifier(editedCharacter.wis) }})
+          | {{ editedCharacter.getStat('wis') }} ( {{ editedCharacter.mod('wis') }})
         .controls
           i.fa.fa-angle-up ng-if="c.canIncrease('wis', editedCharacter)" ng-click="c.increase('wis', editedCharacter)"
           i.down.fa.fa-angle-down ng-if="c.canDecrease('wis', editedCharacter)" ng-click="c.decrease('wis', editedCharacter)"
 
         .stat CHA:
         .val
-          | {{ editedCharacter.cha }} ( {{ c.modifier(editedCharacter.cha) }})
+          | {{ editedCharacter.getStat('cha') }} ( {{ editedCharacter.mod('cha') }})
         .controls
           i.fa.fa-angle-up ng-if="c.canIncrease('cha', editedCharacter)" ng-click="c.increase('cha', editedCharacter)"
           i.down.fa.fa-angle-down ng-if="c.canDecrease('cha', editedCharacter)" ng-click="c.decrease('cha', editedCharacter)"
@@ -132,7 +132,8 @@ h3 My characters
           | {{ ability.name}}
         .val
           | {{ editedCharacter.getMasteryIn(ability) }}
-        a.btn.btn-primary  ng-repeat-end='1' ng-click='editedCharacter.train(ability)' ng-show='editedCharacter.canTrain(ability) > 0' Train
+        a.btn.btn-primary ng-click='editedCharacter.train(ability)' ng-show='editedCharacter.canTrain(ability) > 0' Train
+        a.btn.btn-danger ng-repeat-end='1' ng-click='editedCharacter.untrain(ability)' ng-show='editedCharacter.canUntrain(ability) > 0' Untrain
         div
           b
             | Remaining trainings: {{ editedCharacter.getTrainingsCount() }}
