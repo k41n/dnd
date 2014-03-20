@@ -6,6 +6,9 @@ Dnd::Application.routes.draw do
   root 'dashboard#index'
 
   namespace :api, defaults: { format: 'json' } do
+    resources :armors    
+    resources :weapons
+    resources :character_classes
     resources :characters do
       post :avatar, on: :member
       collection do

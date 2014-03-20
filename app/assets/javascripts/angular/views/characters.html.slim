@@ -15,51 +15,57 @@ h3 My characters
         input.form-control type='text' ng-model='editedCharacter.name'
       .form-group
         label Race
-        select ui-select2='1' ng-model='editedCharacter.race' ng-if='editedCharacter'
+        select ui-select2='1' ng-model='editedCharacter.race_id' ng-if='editedCharacter'
           option value=''
           option value='{{ race.id }}' ng-repeat='(id, race) in c.Racing.races'
             | {{ race.name }}
+      .form-group
+        label Class
+        select ui-select2='1' ng-model='editedCharacter.character_class_id' ng-if='editedCharacter'
+          option value=''
+          option value='{{ character_class.id }}' ng-repeat='(id, character_class) in c.CharacterClasses.character_classes'
+            | {{ character_class.name }}
 
     .stats
       fieldset
         h4 Stats
         .stat STR:
         .val
-          | {{ editedCharacter.str }}
+          | {{ editedCharacter.str }} ( {{ c.modifier(editedCharacter.str) }})
         .controls
           i.fa.fa-angle-up ng-if="c.canIncrease('str', editedCharacter)" ng-click="c.increase('str', editedCharacter)"
           i.down.fa.fa-angle-down ng-if="c.canDecrease('str', editedCharacter)" ng-click="c.decrease('str', editedCharacter)"
         .stat CON:
         .val
-          | {{ editedCharacter.con }}
+          | {{ editedCharacter.con }} ( {{ c.modifier(editedCharacter.con) }})
         .controls
           i.fa.fa-angle-up ng-if="c.canIncrease('con', editedCharacter)" ng-click="c.increase('con', editedCharacter)"
           i.down.fa.fa-angle-down ng-if="c.canDecrease('con', editedCharacter)" ng-click="c.decrease('con', editedCharacter)"
 
         .stat DEX:
         .val
-          | {{ editedCharacter.dex }}
+          | {{ editedCharacter.dex }} ( {{ c.modifier(editedCharacter.dex) }})
         .controls
           i.fa.fa-angle-up ng-if="c.canIncrease('dex', editedCharacter)" ng-click="c.increase('dex', editedCharacter)"
           i.down.fa.fa-angle-down ng-if="c.canDecrease('dex', editedCharacter)" ng-click="c.decrease('dex', editedCharacter)"
 
         .stat INT:
         .val
-          | {{ editedCharacter.int }}
+          | {{ editedCharacter.int }} ( {{ c.modifier(editedCharacter.int) }})
         .controls
           i.fa.fa-angle-up ng-if="c.canIncrease('int', editedCharacter)" ng-click="c.increase('int', editedCharacter)"
           i.down.fa.fa-angle-down ng-if="c.canDecrease('int', editedCharacter)" ng-click="c.decrease('int', editedCharacter)"
 
         .stat WIS:
         .val
-          | {{ editedCharacter.wis }}
+          | {{ editedCharacter.wis }} ( {{ c.modifier(editedCharacter.wis) }})
         .controls
           i.fa.fa-angle-up ng-if="c.canIncrease('wis', editedCharacter)" ng-click="c.increase('wis', editedCharacter)"
           i.down.fa.fa-angle-down ng-if="c.canDecrease('wis', editedCharacter)" ng-click="c.decrease('wis', editedCharacter)"
 
         .stat CHA:
         .val
-          | {{ editedCharacter.cha }}
+          | {{ editedCharacter.cha }} ( {{ c.modifier(editedCharacter.cha) }})
         .controls
           i.fa.fa-angle-up ng-if="c.canIncrease('cha', editedCharacter)" ng-click="c.increase('cha', editedCharacter)"
           i.down.fa.fa-angle-down ng-if="c.canDecrease('cha', editedCharacter)" ng-click="c.decrease('cha', editedCharacter)"
@@ -67,6 +73,63 @@ h3 My characters
         div
           b
             | Remaining points: {{ editedCharacter.stat_points }}
+
+    .defence
+      fieldset
+        h4 Defence
+        .form-group
+          label Armor
+          select ui-select2='1' ng-model='editedCharacter.armor_id' ng-if='editedCharacter'
+            option value=''
+            option value='{{ armor.id }}' ng-repeat='(id, armor) in c.Armors.armors'
+              | {{ armor.name }}
+        .form-group
+          label Shield
+          select ui-select2='1' ng-model='editedCharacter.shield_id' ng-if='editedCharacter'
+            option
+            option value='{{ armor.id }}' ng-repeat='(id, armor) in c.Armors.shields'
+              | {{ armor.name }}
+
+        .stat HP:
+        .val
+          | {{ editedCharacter.maxHP() }}
+        .stat AC:
+        .val
+          | {{ editedCharacter.getAC() }}
+        .stat Stamina:
+        .val
+          | {{ editedCharacter.getStamina() }}
+        .stat Reaction:
+        .val
+          | {{ editedCharacter.getReaction() }}
+        .stat Will:
+        .val
+          | {{ editedCharacter.getWill() }}
+        .stat Heals:
+        .val
+          | {{ editedCharacter.getHealsCount() }}
+
+    .defence
+      fieldset
+        h4 Offence
+        .form-group
+          label Right Hand
+          select ui-select2='1' ng-model='editedCharacter.right_hand_id' ng-if='editedCharacter'
+            option value=''
+            option value='{{ weapon.id }}' ng-repeat='(id, weapon) in c.Weapons.weapons'
+              | {{ weapon.title }}
+        .form-group
+          label Left Hand
+          select ui-select2='1' ng-model='editedCharacter.left_hand_id' ng-if='editedCharacter'
+            option
+            option value='{{ weapon.id }}' ng-repeat='(id, weapon) in c.Weapons.weapons'
+              | {{ weapon.title }}
+
+        .stat Initiative:
+        .val
+          | {{ editedCharacter.getInitiative() }}
+      
+
     form role='form' novalidate='1'
       .form-group
         .col-sm-offset-2.col-sm-10

@@ -1,5 +1,5 @@
 class window.CharactersController
-  constructor: (@$scope, @Character, @$injector, @$modal, @$fileUploader, @Faye, @Racing) ->
+  constructor: (@$scope, @Character, @$injector, @$modal, @$fileUploader, @Faye, @Racing, @CharacterClasses, @Armors, @Weapons) ->
     @fetchCharacters()
     @$scope.c = @
     @initFileUploader()
@@ -22,21 +22,53 @@ class window.CharactersController
       @createCharacter(requisites)
 
   editCharacter: (char) ->
-    console.log "editCharacter", char
-    @$scope.editedCharacter = char
+    @$scope.editedCharacter = new CharacterModel(char)
     @$scope.uploader.url = "/api/characters/#{char.id}/avatar"
-    @$scope.$watch 'editedCharacter.race', (newVal, oldVal) =>
+    @$scope.$watch 'editedCharacter.race_id', (newVal, oldVal) =>
       if newVal?
-        console.log "Changed race to", newVal 
         race = @Racing.create(newVal)
         if race?
           race.selectedFor(@$scope.editedCharacter)
+          @$scope.editedCharacter.race = race
       if oldVal?
-        console.log "Changed race from", oldVal 
         race = @Racing.create(oldVal)
         if race?
           race.deselectedFor(@$scope.editedCharacter)
+        @$scope.editedCharacter.race = null
 
+    @$scope.$watch 'editedCharacter.character_class_id', (newVal, oldVal) =>
+      if newVal?
+        character_class = @CharacterClasses.create(newVal)
+        if character_class?
+          character_class.selectedFor(@$scope.editedCharacter)
+          @$scope.editedCharacter.character_class = character_class
+      if oldVal?
+        character_class = @CharacterClasses.create(oldVal)
+        if character_classes?
+          character_classes.deselectedFor(@$scope.editedCharacter)
+        @$scope.editedCharacter.race = null
+
+    @$scope.$watch 'editedCharacter.armor_id', (newVal, oldVal) =>
+      if newVal?
+        armor = @Armors.create(newVal)
+        if armor?
+          @$scope.editedCharacter.armor = armor
+
+    @$scope.$watch 'editedCharacter.shield_id', (newVal, oldVal) =>
+      if newVal?
+        shield = @Armors.create_shield(newVal)
+        if shield?
+          @$scope.editedCharacter.shield = shield
+          @$scope.editedCharacter.left_hand_id = ''
+          @$scope.editedCharacter.left_hand = null
+
+    @$scope.$watch 'editedCharacter.left_hand_id', (newVal, oldVal) =>
+      if newVal?
+        weapon = @Weapons.create(newVal)
+        if weapon?
+          @$scope.editedCharacter.left_hand = weapon
+          @$scope.editedCharacter.shield_id = ''
+          @$scope.editedCharacter.shield = null
 
   saveCharacter: ->
     new @Character(@$scope.editedCharacter).$update()
@@ -87,6 +119,12 @@ class window.CharactersController
     return 2 if previousValue == 14
     return 2 if previousValue == 15
     return 3 if previousValue == 16
+    return 4 if previousValue == 17
+    return 4 if previousValue == 18
+    return 5 if previousValue == 19
+    return 5 if previousValue == 20
+    return 6 if previousValue == 21
+    return 6 if previousValue == 22
 
   increase: (attr, editedCharacter) ->
     previousValue = editedCharacter[attr]
@@ -100,6 +138,9 @@ class window.CharactersController
     editedCharacter[attr] -= 1
     editedCharacter.stat_points += price
 
+  modifier: (val) ->
+    Math.floor (val - 10)/2
+
   subscribeToFaye: =>
     if @Faye?
       @Faye.subscribe "/characters", (msg) =>
@@ -110,6 +151,6 @@ class window.CharactersController
           @onCharacterDeleted(msg.character)
 
 
-CharactersController.$inject = ["$scope", "Character", "$injector", "$modal", "$fileUploader", "Faye", "Racing"]
+CharactersController.$inject = ["$scope", "Character", "$injector", "$modal", "$fileUploader", "Faye", "Racing", "CharacterClasses", "Armors", "Weapons"]
 
 angular.module("dndApp").controller("CharactersController", CharactersController)
