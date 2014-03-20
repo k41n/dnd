@@ -1,13 +1,13 @@
 #= require './../roll'
 
 window.Skills ||= {}
-class window.BaseAttack
+class window.Skills.BaseAttack
   constructor: (factory_params) ->
     if factory_params
       for k,v of factory_params
         @[k] = v
 
-  highlightInRadius: (grid, applicator, radius)
+  highlightInRadius: (grid, applicator, radius) ->
     for creature in grid.creaturesInRadius(applicator.location, radius)
       cell = grid.get(creature.location)
       cell.attackable = true unless creature == applicator

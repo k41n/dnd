@@ -1,17 +1,23 @@
 window.CharacterClasses ||= {}
 class window.CharacterClasses.Paladin
-  selectedFor: (char) ->
-    char.stamina += 1
-    char.reaction += 1
-    char.will += 1
+  onSelected: (char) ->
+    char.staminaBonus ||= 0
+    char.reactionBonus ||= 0
+    char.willBonus ||= 0
+    char.staminaBonus += 1    
+    char.reactionBonus += 1
+    char.willBonus += 1
+    char.calculateHP = ->
+      ( @level - 1 ) * 6 + 15 + @con
 
-  deselectedFor: (char) ->
-    char.stamina -= 1
-    char.reaction -= 1
-    char.will -= 1
+  onDeselected: (char) ->
+    char.staminaBonus ||= 0
+    char.reactionBonus ||= 0
+    char.willBonus ||= 0
+    char.staminaBonus -= 1    
+    char.reactionBonus -= 1
+    char.willBonus -= 1
 
-  calculateHP: (char) ->
-    ( char.level - 1 ) * 6 + 15 + char.con
 
   healsCount: (char) ->
     10 + char.mod('con')

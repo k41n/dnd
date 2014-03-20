@@ -11,10 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140319214038) do
+ActiveRecord::Schema.define(version: 20140320183917) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "btree_gist"
+  enable_extension "hstore"
+  enable_extension "pg_trgm"
+
+  create_table "ability_trainabilities", force: true do |t|
+    t.integer  "character_class_id"
+    t.integer  "character_ability_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -63,6 +73,28 @@ ActiveRecord::Schema.define(version: 20140319214038) do
     t.string   "armor_type"
   end
 
+  create_table "character_abilities", force: true do |t|
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
+    t.string   "name"
+    t.text     "description"
+    t.string   "dependent_on_stat"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "js_class"
+  end
+
+  create_table "character_ability_assignments", force: true do |t|
+    t.integer  "character_id"
+    t.integer  "character_ability_id"
+    t.integer  "mastery"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "trained",              default: false
+  end
+
   create_table "character_classes", force: true do |t|
     t.string   "name"
     t.text     "description"
@@ -96,9 +128,9 @@ ActiveRecord::Schema.define(version: 20140319214038) do
     t.integer  "stat_points",          default: 22
     t.integer  "hp",                   default: 0
     t.integer  "max_hp",               default: 0
-    t.integer  "stamina",              default: 0
-    t.integer  "reaction",             default: 0
-    t.integer  "will",                 default: 0
+    t.integer  "stamina"
+    t.integer  "reaction"
+    t.integer  "will"
     t.integer  "ac",                   default: 0
     t.integer  "race_id"
     t.integer  "character_class_id"
@@ -106,6 +138,7 @@ ActiveRecord::Schema.define(version: 20140319214038) do
     t.integer  "left_hand_weapon_id"
     t.integer  "heals_count",          default: 0
     t.integer  "initiative_bonus"
+    t.integer  "trainings_count",      default: 0
   end
 
   create_table "combats", force: true do |t|
@@ -195,6 +228,7 @@ ActiveRecord::Schema.define(version: 20140319214038) do
     t.string   "js_class"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "size"
   end
 
   create_table "sessions", force: true do |t|

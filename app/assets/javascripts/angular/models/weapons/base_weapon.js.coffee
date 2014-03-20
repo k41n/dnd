@@ -1,5 +1,5 @@
 window.Weapons ||= {}
-class window.Weapons.DiamondDick
+class window.Weapons.BaseWeapon
   constructor: (data) ->
     for key,val of data
       @[key] = val

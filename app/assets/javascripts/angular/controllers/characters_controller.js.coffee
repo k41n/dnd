@@ -1,5 +1,5 @@
 class window.CharactersController
-  constructor: (@$scope, @Character, @$injector, @$modal, @$fileUploader, @Faye, @Racing, @CharacterClasses, @Armors, @Weapons) ->
+  constructor: (@$scope, @Character, @$injector, @$modal, @$fileUploader, @Faye, @Racing, @CharacterClasses, @Armors, @Weapons, @CharacterAbilities) ->
     @fetchCharacters()
     @$scope.c = @
     @initFileUploader()
@@ -40,13 +40,11 @@ class window.CharactersController
       if newVal?
         character_class = @CharacterClasses.create(newVal)
         if character_class?
-          character_class.selectedFor(@$scope.editedCharacter)
+          if @$scope.editedCharacter.character_class
+            @$scope.editedCharacter.character_class.onDeselected(@$scope.editedCharacter)
           @$scope.editedCharacter.character_class = character_class
-      if oldVal?
-        character_class = @CharacterClasses.create(oldVal)
-        if character_classes?
-          character_classes.deselectedFor(@$scope.editedCharacter)
-        @$scope.editedCharacter.race = null
+          character_class.onSelected(@$scope.editedCharacter)
+
 
     @$scope.$watch 'editedCharacter.armor_id', (newVal, oldVal) =>
       if newVal?
@@ -59,16 +57,12 @@ class window.CharactersController
         shield = @Armors.create_shield(newVal)
         if shield?
           @$scope.editedCharacter.shield = shield
-          @$scope.editedCharacter.left_hand_id = ''
-          @$scope.editedCharacter.left_hand = null
 
-    @$scope.$watch 'editedCharacter.left_hand_id', (newVal, oldVal) =>
+    @$scope.$watch 'editedCharacter.weapon_id', (newVal, oldVal) =>
       if newVal?
         weapon = @Weapons.create(newVal)
         if weapon?
-          @$scope.editedCharacter.left_hand = weapon
-          @$scope.editedCharacter.shield_id = ''
-          @$scope.editedCharacter.shield = null
+          @$scope.editedCharacter.weapon = weapon
 
   saveCharacter: ->
     new @Character(@$scope.editedCharacter).$update()
@@ -151,6 +145,6 @@ class window.CharactersController
           @onCharacterDeleted(msg.character)
 
 
-CharactersController.$inject = ["$scope", "Character", "$injector", "$modal", "$fileUploader", "Faye", "Racing", "CharacterClasses", "Armors", "Weapons"]
+CharactersController.$inject = ["$scope", "Character", "$injector", "$modal", "$fileUploader", "Faye", "Racing", "CharacterClasses", "Armors", "Weapons", "CharacterAbilities"]
 
 angular.module("dndApp").controller("CharactersController", CharactersController)

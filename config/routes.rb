@@ -7,6 +7,7 @@ Dnd::Application.routes.draw do
 
   namespace :api, defaults: { format: 'json' } do
     resources :armors    
+    resources :character_abilities
     resources :weapons
     resources :character_classes
     resources :characters do

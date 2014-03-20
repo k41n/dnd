@@ -96,10 +96,10 @@ h3 My characters
         .stat AC:
         .val
           | {{ editedCharacter.getAC() }}
-        .stat Stamina:
+        .stat Fortitude:
         .val
           | {{ editedCharacter.getStamina() }}
-        .stat Reaction:
+        .stat Reflex:
         .val
           | {{ editedCharacter.getReaction() }}
         .stat Will:
@@ -113,22 +113,29 @@ h3 My characters
       fieldset
         h4 Offence
         .form-group
-          label Right Hand
-          select ui-select2='1' ng-model='editedCharacter.right_hand_id' ng-if='editedCharacter'
+          label Weapon
+          select ui-select2='1' ng-model='editedCharacter.weapon_id' ng-if='editedCharacter'
             option value=''
             option value='{{ weapon.id }}' ng-repeat='(id, weapon) in c.Weapons.weapons'
               | {{ weapon.title }}
-        .form-group
-          label Left Hand
-          select ui-select2='1' ng-model='editedCharacter.left_hand_id' ng-if='editedCharacter'
-            option
-            option value='{{ weapon.id }}' ng-repeat='(id, weapon) in c.Weapons.weapons'
-              | {{ weapon.title }}
-
         .stat Initiative:
         .val
           | {{ editedCharacter.getInitiative() }}
-      
+        .stat Weapon Damage:
+        .val
+          | {{ editedCharacter.getWeaponDamage() }}
+
+    .abilities
+      fieldset
+        h4 Abilities
+        .stat ng-repeat-start='ability in c.CharacterAbilities.character_abilities'
+          | {{ ability.name}}
+        .val
+          | {{ editedCharacter.getMasteryIn(ability) }}
+        a.btn.btn-primary  ng-repeat-end='1' ng-click='editedCharacter.train(ability)' ng-show='editedCharacter.canTrain(ability) > 0' Train
+        div
+          b
+            | Remaining trainings: {{ editedCharacter.getTrainingsCount() }}
 
     form role='form' novalidate='1'
       .form-group
