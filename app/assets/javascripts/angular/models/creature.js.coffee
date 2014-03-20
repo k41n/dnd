@@ -2,7 +2,6 @@ class window.Creature
   constructor: (monster_resource) ->
     @data = monster_resource if monster_resource?
     @location = undefined
-    @rotation = 'north'
     @rotateable = false
     @installEvents()
 
@@ -58,7 +57,8 @@ class window.Creature
 
   installEvents: ->
     @registerEventHandler 'received_damage', (params) =>
+      console.log params
       console.log "#{@name} received #{params.damage} from #{params.enemy.name}"
-      @hp -= params.damage
-      if @hp <= 0
+      @data.hp -= params.damage
+      if @data.hp <= 0
         @grid.deleteMonster(@)

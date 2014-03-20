@@ -82,7 +82,7 @@ class window.Grid
     @unmarkMoveableCellsForCreature()
 
   rotate: (creature, direction) =>
-    creature.rotation = direction
+    creature.data.rotation = direction
 
   creaturesInRadius: (location, radius) ->
     $.grep @creatures, (c) =>

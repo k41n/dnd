@@ -33,9 +33,11 @@ dndApp.directive 'rotation', ->
       south: '&#8659;'
       west: '&#8656;'
       east: '&#8658;'
+
+    $scope.rotation = 123
   ]
 
 
-#  template: "<div>{{rotationToSymbol['north']}}</div>"
-  templateUrl: '/rotation.html'
+  template: "<div ng-bind-html='{{rotation}}'></div>"
+#  templateUrl: '/rotation.html'
 

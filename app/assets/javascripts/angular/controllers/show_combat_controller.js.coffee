@@ -1,7 +1,8 @@
 class window.ShowCombatController
-  constructor: (@$scope, @$routeParams, @Zoo, @Combat, @Faye, @SkillLibrary, @$timeout, @CreaturesBand) ->
+  constructor: (@$scope, @$routeParams, @Zoo, @Combat, @Faye, @SkillLibrary, @$timeout, @CreaturesBand, @current_user) ->
     @$scope.c = @
     @$scope.grid = new Grid()
+    @$scope.currentUser = @current_user
     @fetchCombat()
     @subscribeToFaye()
 
@@ -10,7 +11,10 @@ class window.ShowCombatController
       @moveToCell(@$scope.selectedCreature, cell)
       @saveCombat()
     if cell.attackable
-      @$scope.selectedSkill.apply @$scope.selectedCell.creature, cell.creature
+      if @$scope.selectedSkill.name == 'God Hand'
+        @$scope.selectedSkill.apply cell.creature
+      else
+        @$scope.selectedSkill.apply @$scope.selectedCell.creature, cell.creature
       @$scope.selectedSkill = undefined
       @$scope.grid.resetAttackHighlight()
       @saveCombat()
@@ -56,7 +60,6 @@ class window.ShowCombatController
     @$scope.selectedSkill = skill
     @$scope.selectedSkill.highlightTargets(@$scope.grid, @$scope.selectedCreature)
 
-
   moveToCell: (creature, cell) ->
     @$scope.grid.move(creature, cell.location)
 
@@ -89,7 +92,14 @@ class window.ShowCombatController
   rotateCreature: (creature, direction) =>
     @$scope.grid.rotate(creature, direction)
     creature.rotatable = false
+    @saveCombat()
 
-ShowCombatController.$inject = ["$scope", "$routeParams", "Zoo", "Combat", "Faye", "SkillLibrary", "$timeout", "CreaturesBand"]
+  turnOnGodDamageMode: ->
+    @$scope.selectedSkill = new Skills.GodDamage()
+    @$scope.selectedSkill.highlightTargets(@$scope.grid, @$scope.selectedCreature)
+    console.log @$scope.selectedSkill
+
+
+ShowCombatController.$inject = ["$scope", "$routeParams", "Zoo", "Combat", "Faye", "SkillLibrary", "$timeout", "CreaturesBand", "current_user"]
 
 angular.module("dndApp").controller("ShowCombatController", ShowCombatController)

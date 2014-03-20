@@ -10,17 +10,19 @@
               .monster-in-grid ng-show='cell.creature'
                 img ng-src='{{ cell.creature.data.avatar_url }}'
               .rotation-marker ng-show='cell.creature' ng-class="cell.creature.rotation"
-                /rotation rotation-direction='north' rotation-to-symbol="{'north': 123}"
-                span ng-if="cell.creature.rotation == 'north'"
+                span ng-if="cell.creature.data.rotation == 'north'"
                   | &#8657;
-                span ng-if="cell.creature.rotation == 'south'"
+                span ng-if="cell.creature.data.rotation == 'south'"
                   | &#8659;
-                span ng-if="cell.creature.rotation == 'east'"
+                span ng-if="cell.creature.data.rotation == 'east'"
                   | &#8656;
-                span ng-if="cell.creature.rotation == 'west'"
+                span ng-if="cell.creature.data.rotation == 'west'"
                   | &#8658;
 
   .col-md-2
+    .hands-of-god ng-show='currentUser.currentUser.email == combat.gm'
+      .skill.btn.btn-large.btn-danger ng-click='c.turnOnGodDamageMode()' ng-class="{'selected': (selectedSkill == skill)}"
+        | Inflict Damage
     .active-cell ng-show='c.isCellSelected()'
       h3
         | Location: ({{ selectedCell.location.x }}, {{ selectedCell.location.y }})
