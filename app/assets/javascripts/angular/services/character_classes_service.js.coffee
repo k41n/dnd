@@ -7,8 +7,10 @@ class window.CharacterClasses
 
   create: (id) ->
     character_class = @character_classes[id]
-    if character_class?
+    if character_class? && character_class.js_class? && eval(character_class.js_class)?
       return new (eval(character_class.js_class))(character_class)
+    else
+      return new CharacterClasses.BaseCharacterClass.new(character_class)
 
 CharacterClasses.$inject = ["CharacterClass"]
 

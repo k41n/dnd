@@ -9,3 +9,12 @@ class window.CharacterClasses.BaseCharacterClass
     char.reactionBonus ||= 0
     char.willBonus ||= 0
     char.abilityTrainings ||= {}
+
+  onDeselected: (char) ->
+    char.staminaBonus ||= 0
+    char.reactionBonus ||= 0
+    char.willBonus ||= 0
+    char.abilityTrainings = {}    
+    char.trainings_count = undefined
+    char.forcedTrainings = undefined
+    

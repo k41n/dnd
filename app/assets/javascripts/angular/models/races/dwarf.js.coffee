@@ -1,12 +1,12 @@
 window.Races ||= {}
-class window.Races.Dwarf
+class window.Races.Dwarf extends Races.BaseRace
   selectedFor: (char) ->
-    char.statBonuses ||= {}
-    char.statBonuses.con ||= 0
+    super(char)
     char.statBonuses.con += 2
+    char.speed = 5
 
   deselectedFor: (char) ->
     if char?
-      char.statBonuses ||= {}
-      char.statBonuses.con ||= 0
+      super(char)
       char.statBonuses.con -= 2
+      char.speed = undefined

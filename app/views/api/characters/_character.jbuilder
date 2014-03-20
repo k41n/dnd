@@ -23,6 +23,7 @@ json.armor_id     resource.armor_id
 json.shield_id    resource.shield_id
 json.weapon_id    resource.weapon_id
 json.character_ability_ids resource.character_ability_ids
+json.stat_increment_points resource.stat_increment_points
 
 json.skills resource.skills do |skill|
     json.partial! 'api/skills/skill', skill: skill

@@ -44,6 +44,7 @@ class window.CharacterModel
 
   getMasteryIn: (ability) ->
     train_bonus = if @abilityTrainings? && @abilityTrainings[ability.name]? && @abilityTrainings[ability.name] then 5 else 0
+    train_bonus += @abilityBonus[ability.name] if @abilityBonus? && @abilityBonus[ability.name]?
     Math.floor(@level / 2) + @mod(ability.dependent_on_stat) + train_bonus
 
   getTrainingsCount: ->

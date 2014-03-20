@@ -33,7 +33,7 @@ class window.CharactersController
       if newVal? && @$scope.editedCharacter?
         race = @Racing.create(newVal)
         if race?
-          if @$scope.editedCharacter.race? && @$scope.editedCharacter.race.id != race.id
+          if @$scope.editedCharacter.race? && @$scope.editedCharacter.race.id != newVal
             @$scope.editedCharacter.race.deselectedFor(@$scope.editedCharacter) 
           race.selectedFor(@$scope.editedCharacter)
           @$scope.editedCharacter.race = race
@@ -112,7 +112,7 @@ class window.CharactersController
 
   canIncrease: (attr, editedCharacter) ->
     return false unless editedCharacter?
-    @priceOfIncrementFrom(editedCharacter[attr]) <= editedCharacter.stat_points
+    (@priceOfIncrementFrom(editedCharacter[attr]) <= editedCharacter.stat_points) || (editedCharacter.stat_increment_points > 0)
 
   canDecrease: (attr, editedCharacter) ->
     editedCharacter? && editedCharacter[attr] > 8
@@ -137,14 +137,20 @@ class window.CharactersController
   increase: (attr, editedCharacter) ->
     previousValue = editedCharacter[attr]
     price = @priceOfIncrementFrom(previousValue)
-    editedCharacter[attr] += 1
-    editedCharacter.stat_points -= price
+    if @priceOfIncrementFrom(editedCharacter[attr]) <= editedCharacter.stat_points
+      editedCharacter.stat_points -= price
+    else
+      editedCharacter.stat_increment_points -= 1
+    editedCharacter[attr] += 1      
 
   decrease: (attr, editedCharacter) ->
     previousValue = editedCharacter[attr]
     price = @priceOfIncrementFrom(previousValue - 1)
-    editedCharacter[attr] -= 1
-    editedCharacter.stat_points += price
+    if editedCharacter.stat_increment_points >= 2
+      editedCharacter.stat_points += price
+    else
+      editedCharacter.stat_increment_points += 1
+    editedCharacter[attr] -= 1      
 
   subscribeToFaye: =>
     if @Faye?
