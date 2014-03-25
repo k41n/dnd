@@ -7,7 +7,6 @@ class window.Creature
 
   saveToJSON: =>
     skills = @data.skills
-    @data.skills = []
     res =
       data: @data
       location: @location
@@ -17,15 +16,14 @@ class window.Creature
 
   loadFromJSON: (json, SkillLibrary, Zoo) =>
     @data = json.data
-    @data.skills = []
+    @skills = []
     @location = json.location
     for skill in json.skills
       s = SkillLibrary.create(skill)
-      @data.skills.push s
+      @skills.push s
 
   skillsJSON: ->
-    @data ||= {}
-    @data.skills ||= {}
+    @skills ||= {}
     $.map @data.skills, (skill) ->
       skill.id
 

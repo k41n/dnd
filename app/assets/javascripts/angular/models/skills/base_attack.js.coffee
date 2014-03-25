@@ -5,7 +5,6 @@ class window.Skills.BaseAttack
   constructor: (factory_params) ->
     if factory_params
       for k,v of factory_params
-        console.log k,v
         @[k] = v
 
   highlightInRadius: (grid, applicator, radius) ->
@@ -15,7 +14,6 @@ class window.Skills.BaseAttack
 
   toHit: ->
     # Rolling on hit
-    console.log @applicator
     @to_hit = Roll.do(20, 1)
     console.log 'to_hit = ', @to_hit
     @to_hit_bonus = @applicator.data[@attack_char_from]
@@ -53,10 +51,10 @@ class window.Skills.BaseAttack
       enemy: @applicator
       damage: damage_done
 
-    afterHit()
+    @afterHit()
 
   afterHit: ->
-    console.log 'after hit'
+    1
 
   beforeHit: ->
     1
