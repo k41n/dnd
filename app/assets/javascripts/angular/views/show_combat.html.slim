@@ -5,7 +5,7 @@
       table style="background-image: url('{{ background_url }}')"
         tr ng-repeat='row in grid.rows'
           td ng-repeat='cell in row' ng-class="{'selected': (cell == selectedCell), 'obstacle': (cell.moveability == 3), 'moveable': (cell.moveable == true), 'attackable': cell.attackable }" ng-click='c.selectCell(cell)'
-            div.cell
+            div.cell data-id='{{cell.location.x}}{{cell.location.y}}'
               .overlay
               .monster-in-grid ng-show='cell.creature'
                 img ng-src='{{ cell.creature.data.avatar_url }}'

@@ -6,14 +6,18 @@ class window.Creature
     @installEvents()
 
   saveToJSON: =>
-    {
+    skills = @data.skills
+    @data.skills = []
+    res =
       data: @data
       location: @location
       skills: @skillsJSON()
-    }
+    @data.skills = skills
+    res
 
   loadFromJSON: (json, SkillLibrary, Zoo) =>
     @data = json.data
+    @data.skills = []
     @location = json.location
     for skill in json.skills
       s = SkillLibrary.create(skill)
@@ -37,7 +41,7 @@ class window.Creature
     @affects.push affect
 
   trigger: (name, params) =>
-    console.log "#{@name} Received event #{name} with params", params
+    console.log "#{@data.name} Received event #{name} with params", params
     if @eventHandlers? and @eventHandlers[name]?
       for callback in @eventHandlers[name]
         return false unless callback(params)
@@ -57,8 +61,8 @@ class window.Creature
 
   installEvents: ->
     @registerEventHandler 'received_damage', (params) =>
-      console.log params
       console.log "#{@name} received #{params.damage} from #{params.enemy.name}"
       @data.hp -= params.damage
       if @data.hp <= 0
         @grid.deleteMonster(@)
+      new CombatScroll("-#{params.damage}", '#ff0000', @location).act()

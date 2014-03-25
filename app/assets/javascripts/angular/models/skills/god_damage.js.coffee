@@ -26,7 +26,7 @@ class window.Skills.GodDamage
      enemy:
       name: 'God'
 
-    damage_done = 20
+    damage_done = 0
 
     target.trigger 'received_damage',
       damage: damage_done

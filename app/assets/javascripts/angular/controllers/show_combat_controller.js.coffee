@@ -52,6 +52,7 @@ class window.ShowCombatController
 
   saveCombat: ->
     @$scope.combat.json = @$scope.grid.saveToJSON()
+    console.log @$scope.combat.json
     params =
       json: JSON.stringify(@$scope.combat.json)
     @Combat.update { id: @$scope.combat.id }, { combat: params }

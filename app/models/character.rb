@@ -13,7 +13,7 @@ class Character < ActiveRecord::Base
   belongs_to :race
   belongs_to :character_class
   belongs_to :armor
-  belongs_to :shield
+  #belongs_to :shield
   belongs_to :weapon
 
   has_attached_file :avatar, styles: { thumb: '50x50' }, default_url: '/unknown-character.png'

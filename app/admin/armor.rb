@@ -1,6 +1,6 @@
 ActiveAdmin.register Armor do
-  permit_params :name, 
-    :description, 
+  permit_params :name,
+    :description,
     :avatar,
     :js_class,
     :ac_bonus,

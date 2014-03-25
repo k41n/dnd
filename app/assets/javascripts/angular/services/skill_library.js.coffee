@@ -8,8 +8,10 @@ class window.SkillLibrary
   create: (id) ->
     console.log 'SkillLibrary create', id
     skill = @skills[id]
-    if skill?
+    if skill? && skill.js_class? && eval(skill.js_class)
       return new (eval(skill.js_class))(skill)
+    else
+      return new Skills.BaseAttack()
 
 
 

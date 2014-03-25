@@ -14,6 +14,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
+//= require combat_scroll
 //= require angular
 //= require angular-ui-bootstrap-tpls
 //= require angular-route
