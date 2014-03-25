@@ -1,5 +1,5 @@
 class window.CharactersController
-  constructor: (@$scope, @Character, @$injector, @$modal, @$fileUploader, @Faye, @Racing, @CharacterClasses, @Armors, @Weapons, @CharacterAbilities) ->
+  constructor: (@$scope, @Character, @$injector, @$modal, @$fileUploader, @Faye, @Racing, @CharacterClasses, @Armors, @Weapons, @CharacterAbilities, @Deities, @Perks) ->
     @fetchCharacters()
     @$scope.c = @
     @initFileUploader()
@@ -14,6 +14,10 @@ class window.CharactersController
         for a in character.character_ability_ids
           ability = @CharacterAbilities.character_abilities[a]
           character.abilityTrainings[ability.name] = true
+        character.perks = {}
+        for perk_id in character.perk_ids
+          perk = @Perks.perks[perk_id]
+          character.perks[perk.id] = perk
 
 
   createCharacter: (params)->
@@ -47,6 +51,11 @@ class window.CharactersController
           @$scope.editedCharacter.character_class = character_class
           character_class.onSelected(@$scope.editedCharacter)
 
+    @$scope.$watch 'editedCharacter.deity_id', (newVal) =>
+      if newVal?
+        deity = @Deities.deities[newVal]
+        if deity?
+          @$scope.editedCharacter.deity = deity
 
     @$scope.$watch 'editedCharacter.armor_id', (newVal, oldVal) =>
       if newVal?
@@ -67,8 +76,9 @@ class window.CharactersController
           @$scope.editedCharacter.weapon = weapon
 
   saveCharacter: ->
-    console.log "@$scope.editedCharacter.trainedAbilityIds(@CharacterAbilities) = ", @$scope.editedCharacter.trainedAbilityIds(@CharacterAbilities)
     @$scope.editedCharacter.character_ability_ids = @$scope.editedCharacter.trainedAbilityIds(@CharacterAbilities)
+    @$scope.editedCharacter.perk_ids = @$scope.editedCharacter.perkIds()
+    console.log "@$scope.editedCharacter.perk_ids", @$scope.editedCharacter.perk_ids
     nc = new @Character(@$scope.editedCharacter)
     nc.$update()
     @$scope.editedCharacter = null
@@ -162,6 +172,6 @@ class window.CharactersController
           @onCharacterDeleted(msg.character)
 
 
-CharactersController.$inject = ["$scope", "Character", "$injector", "$modal", "$fileUploader", "Faye", "Racing", "CharacterClasses", "Armors", "Weapons", "CharacterAbilities"]
+CharactersController.$inject = ["$scope", "Character", "$injector", "$modal", "$fileUploader", "Faye", "Racing", "CharacterClasses", "Armors", "Weapons", "CharacterAbilities", "Deities", "Perks"]
 
 angular.module("dndApp").controller("CharactersController", CharactersController)

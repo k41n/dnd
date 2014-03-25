@@ -26,6 +26,14 @@ h3 My characters
           option value='{{ character_class.id }}' ng-repeat='(id, character_class) in c.CharacterClasses.character_classes'
             | {{ character_class.name }}
 
+      .form-group
+        label Deity
+        select ui-select2='1' ng-model='editedCharacter.deity_id' ng-if='editedCharacter'
+          option value=''
+          option value='{{ deity.id }}' ng-repeat='(id, deity) in c.Deities.deities'
+            | {{ deity.name }}
+
+
     .stats
       fieldset
         h4 Stats
@@ -135,11 +143,28 @@ h3 My characters
           | {{ ability.name}}
         .val
           | {{ editedCharacter.getMasteryIn(ability) }}
-        a.btn.btn-primary ng-click='editedCharacter.train(ability)' ng-show='editedCharacter.canTrain(ability) > 0' Train
+        a.btn.btn-primary ng-click='editedCharacter.train(ability)' ng-show='editedCharacter.canTrain(ability)' Train
         a.btn.btn-danger ng-repeat-end='1' ng-click='editedCharacter.untrain(ability)' ng-show='editedCharacter.canUntrain(ability) > 0' Untrain
         div
           b
             | Remaining trainings: {{ editedCharacter.getTrainingsCount() }}
+
+    .perks
+      h4 Perks
+      h5 Picker
+      ul
+        li ng-repeat='perk in editedCharacter.getPerks()'
+          | {{ perk.name }}
+          i.fa.fa-minus ng-click='editedCharacter.removePerk(perk)'
+      h5 Available
+      .form-group
+        input.form-control type='text' ng-model='perkFilter' placeholder='Type perk name'
+        ul.available-perks
+          li ng-repeat='perk in editedCharacter.availablePerks(c.Perks)'
+            | {{ perk.name }}
+            i.fa.fa-plus ng-click='editedCharacter.addPerk(perk)'
+
+
 
     form role='form' novalidate='1'
       .form-group

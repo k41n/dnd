@@ -24,7 +24,7 @@ class window.Creature
 
   skillsJSON: ->
     @skills ||= {}
-    $.map @data.skills, (skill) ->
+    $.map @skills, (skill) ->
       skill.id
 
   setCoords: (location, grid) =>
@@ -39,14 +39,12 @@ class window.Creature
     @affects.push affect
 
   trigger: (name, params) =>
-    console.log "#{@data.name} Received event #{name} with params", params
     if @eventHandlers? and @eventHandlers[name]?
       for callback in @eventHandlers[name]
         return false unless callback(params)
     return true
 
   registerEventHandler: (name, callback) =>
-    console.log "Registering event handler on #{@name} for #{name}"
     @eventHandlers ||= {}
     @eventHandlers[name] = new Array() unless @eventHandlers[name]?
     @eventHandlers[name].push callback

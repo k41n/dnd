@@ -19,6 +19,10 @@ describe 'EditGameController', ->
 
     @http.whenGET('/api/characters').respond(200, @characters)
 
+    @CharacterAbility = @model('CharacterAbility')
+    @character_abilities = [new @CharacterAbility({id: '1', name: 'Знание улиц'})]
+    @http.whenGET('/api/character_abilities').respond(200, @character_abilities)
+
     @http.flush()
 
   describe 'load', ->

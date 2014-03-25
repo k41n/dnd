@@ -10,11 +10,15 @@ class Character < ActiveRecord::Base
   has_many :game_assignments, dependent: :destroy
   has_many :games_assigned_to, through: :game_assignments, source: :game
 
+  has_many :character_perk_assignments
+  has_many :perks, through: :character_perk_assignments
+
   belongs_to :race
   belongs_to :character_class
   belongs_to :armor
   #belongs_to :shield
   belongs_to :weapon
+  belongs_to :deity
 
   has_attached_file :avatar, styles: { thumb: '50x50' }, default_url: '/unknown-character.png'
 

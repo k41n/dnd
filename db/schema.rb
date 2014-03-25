@@ -11,10 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140325151624) do
+ActiveRecord::Schema.define(version: 20140325230016) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "btree_gist"
+  enable_extension "hstore"
+  enable_extension "pg_trgm"
 
   create_table "ability_trainabilities", force: true do |t|
     t.integer  "character_class_id"
@@ -104,6 +107,11 @@ ActiveRecord::Schema.define(version: 20140325151624) do
     t.datetime "avatar_updated_at"
   end
 
+  create_table "character_perk_assignments", force: true do |t|
+    t.integer "character_id"
+    t.integer "perk_id"
+  end
+
   create_table "characters", force: true do |t|
     t.string   "name"
     t.integer  "player_id"
@@ -141,6 +149,8 @@ ActiveRecord::Schema.define(version: 20140325151624) do
     t.integer  "weapon_id"
     t.integer  "character_ability_ids", default: [], array: true
     t.integer  "stat_increment_points", default: 0
+    t.integer  "deity_id"
+    t.integer  "perk_ids",              default: [], array: true
   end
 
   create_table "combats", force: true do |t|
@@ -154,6 +164,17 @@ ActiveRecord::Schema.define(version: 20140325151624) do
     t.string   "background_content_type"
     t.integer  "background_file_size"
     t.datetime "background_updated_at"
+  end
+
+  create_table "deities", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
   end
 
   create_table "game_assignments", force: true do |t|
@@ -203,6 +224,14 @@ ActiveRecord::Schema.define(version: 20140325151624) do
     t.integer  "int",                 default: 0
     t.integer  "wis",                 default: 0
     t.integer  "cha",                 default: 0
+  end
+
+  create_table "perks", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.string   "js_class"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "players", force: true do |t|

@@ -98,6 +98,24 @@
         display: inline-block
         &.down
           background: red
+
+  .perks
+    width: 250px
+    display: table-cell
+    vertical-align: top
+    border: solid 1px black
+    padding: 10px
+    border-radius: 10px
+    ul
+      padding-left: 20px
+      li
+        text-align: left
+        i
+          float: right
+      &.available-perks
+        max-height: 300px
+        overflow-y: auto
+
   form
     margin-left: 10px
     display: inline-block

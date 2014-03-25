@@ -10,6 +10,8 @@ Dnd::Application.routes.draw do
     resources :character_abilities
     resources :weapons
     resources :character_classes
+    resources :deities
+    resources :perks
     resources :characters do
       post :avatar, on: :member
       collection do

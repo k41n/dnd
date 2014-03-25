@@ -54,7 +54,6 @@ gem 'rvm-capistrano'
 gem 'eye'
 gem 'rack-rewrite', '~> 1.2.1'
 
-
 group :development, :test do
   gem 'rspec-rails', '  3.0.0.beta1'
   gem 'factory_girl_rails', '~> 4.0'

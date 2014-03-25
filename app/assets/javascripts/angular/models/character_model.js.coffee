@@ -55,6 +55,7 @@ class window.CharacterModel
 
   canTrain: (ability) ->
     return false unless @character_class?
+    @abilityTrainings ||= {}
     @getTrainingsCount() > 0 && @abilityTrainings[ability.name] != true && @character_class.trainable_abilities.indexOf(ability.id) != -1
 
   canUntrain: (ability) ->
@@ -78,3 +79,23 @@ class window.CharacterModel
     for k,v of @abilityTrainings
       ret.push CharacterAbilities.findByName(k).id if v? && v
     ret
+
+  availablePerks: (Perks) ->
+    ret = []
+    @perks ||= {}
+    for k,v of Perks.perks
+      ret.push v if v.pickable(@) && !@perks[k]?
+    ret
+
+  perkIds: ->
+    Object.keys(@perks)
+
+  addPerk: (perk) ->
+    @perks ||= {}
+    @perks[perk.id] = perk
+
+  removePerk: (perk) ->
+    delete @perks[perk.id]
+
+  getPerks: ->
+    @perks
