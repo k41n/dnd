@@ -43,4 +43,8 @@ class Character < ActiveRecord::Base
   def invited_to?(game)
     games_invited_to.include?(game)
   end
+
+  def as_json
+    super(methods: :perk_ids)
+  end
 end

@@ -79,6 +79,7 @@ class window.CharactersController
     @$scope.editedCharacter.character_ability_ids = @$scope.editedCharacter.trainedAbilityIds(@CharacterAbilities)
     @$scope.editedCharacter.perk_ids = @$scope.editedCharacter.perkIds()
     console.log "@$scope.editedCharacter.perk_ids", @$scope.editedCharacter.perk_ids
+    @$scope.editedCharacter.perk_ids = [''] unless @$scope.editedCharacter.perk_ids.length
     nc = new @Character(@$scope.editedCharacter)
     nc.$update()
     @$scope.editedCharacter = null
@@ -109,10 +110,11 @@ class window.CharactersController
     character.abilityTrainings ||= {}
     for a in character.character_ability_ids
       ability = @CharacterAbilities.character_abilities[a]
-      console.log "ability = ", ability
-
       character.abilityTrainings[ability.name] = true
-
+    character.perks || = {}
+    for perk_id in character.perk_ids
+      perk = @Perks.perks[perk_id]
+      character.perks[perk.id] = perk
 
     unless @$scope.characters[data.id].avatar_url?
       @$scope.characters[data.id].avatar_url = '/unknown-character.png'

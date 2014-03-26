@@ -11,10 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140326062540) do
+ActiveRecord::Schema.define(version: 20140326205055) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "btree_gist"
+  enable_extension "hstore"
+  enable_extension "pg_trgm"
 
   create_table "ability_trainabilities", force: true do |t|
     t.integer  "character_class_id"
@@ -147,7 +150,6 @@ ActiveRecord::Schema.define(version: 20140326062540) do
     t.integer  "character_ability_ids", default: [], array: true
     t.integer  "stat_increment_points", default: 0
     t.integer  "deity_id"
-    t.integer  "perk_ids",              default: [], array: true
   end
 
   create_table "combats", force: true do |t|

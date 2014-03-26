@@ -4,7 +4,7 @@ describe 'CharactersController', ->
   beforeEach ->
     @controller('CharactersController', { $scope: @scope })
     @Character = @model('Character')
-    @characters = [new @Character({ id: 1, name: 'Элайя', character_ability_ids: [] })]
+    @characters = [new @Character({ id: 1, name: 'Элайя', character_ability_ids: [], perk_ids: [] })]
 
     @Race = @model('Race')
     @races = [new @Race({ id: 1, name: 'Гоблин' })]

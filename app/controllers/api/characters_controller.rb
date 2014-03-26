@@ -73,8 +73,8 @@ class Api::CharactersController < ApplicationController
     current_player
   end
 
-  def permitted_params
-    params.permit(character: [:name, :str, :con, :dex, :int, :wis, :cha, :speed, :xp, :level, :stat_points, :hp, :max_hp, :stamina, :reaction, :will, :ac, :race_id, :character_class_id, :armor_id, :shield_id, :weapon_id, :deity_id, character_ability_ids: [], perk_ids: []])
+  def build_resource_params
+    [ params.permit(:name, :str, :con, :dex, :int, :wis, :cha, :speed, :xp, :level, :stat_points, :hp, :max_hp, :stamina, :reaction, :will, :ac, :race_id, :character_class_id, :armor_id, :shield_id, :weapon_id, :deity_id, character_ability_ids: [], perk_ids: []) ]
   end
 
 end

@@ -1,6 +1,5 @@
 class window.Deities
   constructor: (@Deity) ->
-    console.log "Deities service constructor"
     @loading = @Deity.query {}, (data) =>
       @deities = {}
       for deity in data

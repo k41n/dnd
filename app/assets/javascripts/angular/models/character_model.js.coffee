@@ -88,7 +88,11 @@ class window.CharacterModel
     ret
 
   perkIds: ->
-    Object.keys(@perks)
+    if @perks? && Object.keys(@perks)?
+      Object.keys(@perks).map (k) ->
+        parseInt(k)
+    else 
+      []
 
   addPerk: (perk) ->
     @perks ||= {}
