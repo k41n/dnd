@@ -61,4 +61,7 @@ class window.Creature
       @data.hp -= params.damage
       if @data.hp <= 0
         @grid.deleteMonster(@)
-      new CombatScroll("-#{params.damage}", '#ff0000', @location).act()
+
+  mod: (attr) ->
+    Math.floor( @data[attr] - 10 )
+

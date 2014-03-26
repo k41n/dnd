@@ -11,13 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140325230016) do
+ActiveRecord::Schema.define(version: 20140326062540) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "btree_gist"
-  enable_extension "hstore"
-  enable_extension "pg_trgm"
 
   create_table "ability_trainabilities", force: true do |t|
     t.integer  "character_class_id"

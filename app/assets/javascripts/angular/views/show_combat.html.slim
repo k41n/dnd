@@ -64,6 +64,7 @@
                 | East
               .btn.btn-large.btn-success ng-click='c.rotateCreature(selectedCell.creature, "west")'
                 | West
+        | {{selectedCell.creature.skills}}
         .skill ng-repeat='skill in selectedCell.creature.skills' ng-click='c.startUsingSkill(skill)' ng-class="{'selected': (selectedSkill == skill)}"
           .avatar
             img ng-src='{{ skill.avatar_url }}'

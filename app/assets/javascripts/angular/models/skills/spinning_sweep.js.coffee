@@ -2,7 +2,7 @@
 #RU: Косящий удар, воин, 1 уровень, неограниченный.
 
 window.Skills ||= {}
-class window.Skills.ReapingStrike extends Skills.BaseAttack
+class window.Skills.SpinningSweep extends Skills.BaseAttack
   constructor: (factory_params) ->
     super(factory_params)
 
@@ -20,3 +20,6 @@ class window.Skills.ReapingStrike extends Skills.BaseAttack
     else
       @pullMissTriggers()
       new CombatScroll("Miss", '#ffff00', target.location).act()
+
+  afterHit: ->
+    new CombatScroll("KnockBack", '#ffff00', @target.location).act()

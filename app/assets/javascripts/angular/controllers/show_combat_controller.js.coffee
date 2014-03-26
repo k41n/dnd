@@ -18,6 +18,9 @@ class window.ShowCombatController
       @$scope.selectedSkill = undefined
       @$scope.grid.resetAttackHighlight()
       @saveCombat()
+    if @$scope.selectedSkill and not cell.attackable
+      @$scope.selectedSkill = null
+      @$scope.grid.resetAttackHighlight()
     @$scope.selectedCell = cell
     @$scope.selectedCreature = cell.creature if cell.hasCreature()
 

@@ -41,20 +41,21 @@ class window.Skills.BaseAttack
 
     # Roll on damage
 
-    damage_done = @countDamageDone()
+    @damage_done = @countDamageDone()
 
     @applicator.trigger 'dealed_damage',
       target: @target
-      damage: damage_done
+      damage: @damage_done
 
     @target.trigger 'received_damage',
       enemy: @applicator
-      damage: damage_done
+      damage: @damage_done
 
     @afterHit()
 
   afterHit: ->
-    1
+    new CombatScroll("-#{@damage_done}", '#ff0000', @target.location).act()
+
 
   beforeHit: ->
     1
