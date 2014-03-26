@@ -1,5 +1,5 @@
 class window.CharactersController
-  constructor: (@$scope, @Character, @$injector, @$modal, @$fileUploader, @Faye, @Racing, @CharacterClasses, @Armors, @Weapons, @CharacterAbilities, @Deities, @Perks) ->
+  constructor: (@$scope, @Character, @$injector, @$modal, @$fileUploader, @Faye, @Racing, @CharacterClasses, @Armors, @Weapons, @CharacterAbilities, @Deities, @Perks, @SkillLibrary) ->
     @fetchCharacters()
     @$scope.c = @
     @initFileUploader()
@@ -18,6 +18,10 @@ class window.CharactersController
         for perk_id in character.perk_ids
           perk = @Perks.perks[perk_id]
           character.perks[perk.id] = perk
+        character.skills = {}
+        for skill_id in character.skill_ids
+          skill = @SkillLibrary.skills[skill_id]
+          character.skills[skill.id] = skill
 
 
   createCharacter: (params)->
@@ -31,7 +35,7 @@ class window.CharactersController
       @createCharacter(requisites)
 
   editCharacter: (char) ->
-    @$scope.editedCharacter = new CharacterModel(char)
+    @$scope.editedCharacter = new CharacterModel(char, @SkillLibrary)
     @$scope.uploader.url = "/api/characters/#{char.id}/avatar"
     @$scope.$watch 'editedCharacter.race_id', (newVal, oldVal) =>
       if newVal? && @$scope.editedCharacter?
@@ -78,8 +82,7 @@ class window.CharactersController
   saveCharacter: ->
     @$scope.editedCharacter.character_ability_ids = @$scope.editedCharacter.trainedAbilityIds(@CharacterAbilities)
     @$scope.editedCharacter.perk_ids = @$scope.editedCharacter.perkIds()
-    console.log "@$scope.editedCharacter.perk_ids", @$scope.editedCharacter.perk_ids
-    @$scope.editedCharacter.perk_ids = [''] unless @$scope.editedCharacter.perk_ids.length
+    @$scope.editedCharacter.skill_ids = @$scope.editedCharacter.skillIds()
     nc = new @Character(@$scope.editedCharacter)
     nc.$update()
     @$scope.editedCharacter = null
@@ -115,6 +118,11 @@ class window.CharactersController
     for perk_id in character.perk_ids
       perk = @Perks.perks[perk_id]
       character.perks[perk.id] = perk
+    character.skills = {}
+    for skill_id in character.skill_ids
+      skill = @SkillLibrary.skills[skill_id]
+      character.skills[skill.id] = skill
+
 
     unless @$scope.characters[data.id].avatar_url?
       @$scope.characters[data.id].avatar_url = '/unknown-character.png'
@@ -174,6 +182,6 @@ class window.CharactersController
           @onCharacterDeleted(msg.character)
 
 
-CharactersController.$inject = ["$scope", "Character", "$injector", "$modal", "$fileUploader", "Faye", "Racing", "CharacterClasses", "Armors", "Weapons", "CharacterAbilities", "Deities", "Perks"]
+CharactersController.$inject = ["$scope", "Character", "$injector", "$modal", "$fileUploader", "Faye", "Racing", "CharacterClasses", "Armors", "Weapons", "CharacterAbilities", "Deities", "Perks", "SkillLibrary"]
 
 angular.module("dndApp").controller("CharactersController", CharactersController)

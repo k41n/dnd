@@ -115,6 +115,45 @@
       &.available-perks
         max-height: 300px
         overflow-y: auto
+  .skills
+    .skill-group
+      width: 24%
+      min-width: 24%
+      display: table-cell
+      vertical-align: top
+      .skill-available, .skill-picked
+        display: inline-block
+        min-width: 100%
+        border-radius: 10px
+        border: solid 1px black
+        padding: 10px
+        .avatar
+          float: left
+          margin-right: 10px
+        .textual
+          p
+            font-size: 80%
+            color: gray
+          .skill-stats
+            float: right
+            padding: 4px
+            width: 40%
+            font-size: 80%
+            font-weight: bold
+            border: 1px solid gray
+            border-radius: 5px
+        i.fa-plus
+          float: right
+          color: white
+          padding: 10px
+          background: blue
+          border-radius: 4px
+        i.fa-minus
+          float: right
+          color: white
+          padding: 10px
+          background: red
+          border-radius: 4px
 
   form
     margin-left: 10px

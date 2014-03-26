@@ -151,7 +151,7 @@ h3 My characters
 
     .perks
       h4 Perks
-      h5 Picker
+      h5 Picked
       ul
         li ng-repeat='perk in editedCharacter.getPerks()'
           | {{ perk.name }}
@@ -164,6 +164,105 @@ h3 My characters
             | {{ perk.name }}
             i.fa.fa-plus ng-click='editedCharacter.addPerk(perk)'
 
+    .skills
+      h4 Skills
+      h5 Picked
+      .skill-group
+        h6 Unlimited
+        .skill-picked ng-repeat='(id, skill) in editedCharacter.getSkills("unlimited")'
+          .avatar
+            img ng-src='{{ skill.avatar_url }}'
+          i.fa.fa-minus ng-click='editedCharacter.removeSkill(skill)'          
+          .textual
+            strong 
+              | {{ skill.title }}
+            .skill-stats
+              | To hit: {{ skill.toHitBonus(editedCharacter) }}
+              br
+              | Damage: {{ skill.damage(editedCharacter) }}
+            p
+              | {{ skill.text }}
+      .skill-group
+        h6 Instant
+        .skill-picked ng-repeat='(id, skill) in editedCharacter.getSkills("instant")'
+          .avatar
+            img ng-src='{{ skill.avatar_url }}'
+          i.fa.fa-minus ng-click='editedCharacter.removeSkill(skill)'          
+          .textual
+            strong 
+              | {{ skill.title }}
+            p
+              | {{ skill.text }}
+      .skill-group
+        h6 Per combat
+        .skill-picked ng-repeat='(id, skill) in editedCharacter.getSkills("combat")'
+          .avatar
+            img ng-src='{{ skill.avatar_url }}'
+          i.fa.fa-minus ng-click='editedCharacter.removeSkill(skill)'          
+          .textual
+            strong 
+              | {{ skill.title }}
+            p
+              | {{ skill.text }}
+      .skill-group
+        h6 Per day
+        .skill-picked ng-repeat='(id, skill) in editedCharacter.getSkills("day")'
+          .avatar
+            img ng-src='{{ skill.avatar_url }}'
+          i.fa.fa-minus ng-click='editedCharacter.removeSkill(skill)'          
+          .textual
+            strong 
+              | {{ skill.title }}
+            p
+              | {{ skill.text }}
+
+      h5 Available
+      .form-group
+        input.form-control type='text' ng-model='skillFilter' placeholder='Type skill name'
+      .skill-group
+        h6 Unlimited
+        .skill-available ng-repeat='skill in editedCharacter.availableSkills(c.SkillLibrary, "unlimited")'
+          .avatar
+            img ng-src='{{ skill.avatar_url }}'
+          i.fa.fa-plus ng-click='editedCharacter.addSkill(skill)'          
+          .textual
+            strong 
+              | {{ skill.title }}
+            p
+              | {{ skill.text }}
+      .skill-group
+        h6 Instant
+        .skill-available ng-repeat='skill in editedCharacter.availableSkills(c.SkillLibrary, "instant")'
+          .avatar
+            img ng-src='{{ skill.avatar_url }}'
+          i.fa.fa-plus ng-click='editedCharacter.addSkill(skill)'          
+          .textual
+            strong 
+              | {{ skill.title }}
+            p
+              | {{ skill.text }}
+      .skill-group
+        h6 Per combat
+        .skill-available ng-repeat='skill in editedCharacter.availableSkills(c.SkillLibrary, "combat")'
+          .avatar
+            img ng-src='{{ skill.avatar_url }}'
+          i.fa.fa-plus ng-click='editedCharacter.addSkill(skill)'          
+          .textual
+            strong 
+              | {{ skill.title }}
+            p
+              | {{ skill.text }}
+      .skill-group
+        h6 Per day
+        .skill-available ng-repeat='skill in editedCharacter.availableSkills(c.SkillLibrary, "day")'
+          .avatar
+            img ng-src='{{ skill.avatar_url }}'
+          i.fa.fa-plus ng-click='editedCharacter.addSkill(skill)'          
+          .textual
+            strong 
+              | {{ skill.title }}
+            p
+              | {{ skill.text }}
 
 
     form role='form' novalidate='1'

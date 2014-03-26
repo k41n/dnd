@@ -1,8 +1,11 @@
 class window.CharacterModel
-  constructor: (data) ->
-    console.log "Creating Character Model from ", data
+  constructor: (data, @SkillLibrary) ->
     for key,val of data
       @[key] = val
+    @skills = {}
+    if @skill_ids
+      for skill_id in @skill_ids
+        @addSkill @SkillLibrary.skills[skill_id]
 
   maxHP: ->
     return '-' unless @character_class?
@@ -103,3 +106,29 @@ class window.CharacterModel
 
   getPerks: ->
     @perks
+
+  availableSkills: (Skills, cooldown_type) ->
+    ret = []
+    @skills ||= {}
+    for k,v of Skills.skills
+      ret.push v if v.pickable(@) && !@skills[k]? && v.cooldown_type == cooldown_type
+    ret
+
+  addSkill: (skill) ->
+    @skills[skill.id] = skill
+
+  removeSkill: (skill) ->
+    delete @skills[skill.id]
+
+  getSkills: (cooldown_type) ->
+    ret = {}
+    for k,v of @skills
+      ret[k] = v if v.cooldown_type == cooldown_type
+    ret
+
+  skillIds: ->
+    if @skills? && Object.keys(@skills)?
+      Object.keys(@skills).map (k) ->
+        parseInt(k)
+    else 
+      []

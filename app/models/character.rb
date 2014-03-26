@@ -44,7 +44,7 @@ class Character < ActiveRecord::Base
     games_invited_to.include?(game)
   end
 
-  def as_json
-    super(methods: :perk_ids)
+  def as_json(options = {})
+    super(methods: [:perk_ids, :skill_ids] )
   end
 end

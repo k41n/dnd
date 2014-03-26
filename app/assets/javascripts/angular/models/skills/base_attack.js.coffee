@@ -15,11 +15,14 @@ class window.Skills.BaseAttack
   toHit: ->
     # Rolling on hit
     @to_hit = Roll.do(20, 1)
-    console.log 'to_hit = ', @to_hit
     @to_hit_bonus = @applicator.data[@attack_char_from]
-    console.log 'to_hit_bonus = ', @to_hit_bonus
     @to_hit_penalty = @target.data[@attack_char_to]
-    console.log 'to_hit_penalty = ', @to_hit_penalty
+
+  toHitBonus: (char) ->
+    Math.floor(char.level / 2.0) + char.mod(@attack_char_from)
+
+  damage: (char) ->
+    char.getWeaponDamage()
 
   checkHit: ->
     @toHit()
@@ -73,3 +76,6 @@ class window.Skills.BaseAttack
 
   countDamageDone: ->
     damage_done = Roll.do(@damage_count, @damage_dice, @damage_bonus)
+
+  pickable: (char) ->
+    @available_for.indexOf(char.character_class_id) != -1

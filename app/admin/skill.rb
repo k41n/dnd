@@ -1,5 +1,5 @@
 ActiveAdmin.register Skill do
-  permit_params :title, :attack_char_from, :attack_char_to, :damage_dice, :damage_count, :damage_bonus, :avatar, :js_class, :text
+  permit_params :title, :attack_char_from, :attack_char_to, :damage_dice, :damage_count, :damage_bonus, :avatar, :js_class, :text, :cooldown_type, available_for_ids: []
 
   index do
     id_column
@@ -21,6 +21,8 @@ ActiveAdmin.register Skill do
       f.input :text
       f.input :js_class
       f.input :avatar, as: :file
+      f.input :cooldown_type, as: :select, collection: %w|unlimited instant combat day|
+      f.input :available_for, as: :check_boxes
       f.input :attack_char_from, as: :select, collection: %w|str con dex int wis cha|
       f.input :attack_char_to, as: :select, collection: %w|ac endurance reaction will|
       f.input :damage_dice
