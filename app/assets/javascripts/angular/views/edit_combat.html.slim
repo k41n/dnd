@@ -7,7 +7,7 @@
             div.cell 
               .overlay
               .monster-in-grid ng-show='cell.creature'
-                img ng-src='{{ cell.creature.data.avatar_url }}'
+                img ng-src='{{ cell.creature.p.avatar_url }}'
   .col-md-2
     ul.sidebar.nav.nav-pills
       li ng-class="{ 'active': zooActive }"
@@ -44,21 +44,21 @@
       h3 Zoo
       .zoo-monster ng-repeat='monster in c.Zoo.monsters' ng-click='c.selectMonster(monster)' ng-class="{'selected': (selectedMonster == monster) }"
         .avatar
-          img ng-src='{{ monster.data.avatar_url }}'
+          img ng-src='{{ monster.p.avatar_url }}'
         .textual
           .name
-            | {{ monster.data.name }}
+            | {{ monster.p.name }}
           .desc
-            | {{ monster.data.description }}
+            | {{ monster.p.description }}
 
     .charset ng-show='charsetActive'
       h3 Characters
-      .char-in-set ng-repeat='char in c.Chars.characters' ng-click='c.selectCharacter(char)' ng-class="{'selected': (selectedChar == char) }"
+      .char-in-set ng-repeat='char in c.Chars.characters' ng-click='c.selectCharacter(char)' ng-class="{'selected': (selectedChar == char) }" ng-hide='char.location'
         .avatar
-          img ng-src='{{ char.avatar_url }}'
+          img ng-src='{{ char.p.avatar_url }}'
         .textual
           .name
-            | {{ char.name }}
+            | {{ char.p.name }}
 
     .settings ng-show='settingsActive'
       form role='form' novalidate='1'

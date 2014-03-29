@@ -26,7 +26,8 @@ class window.Grid
 
   saveToJSON: =>
     {
-      creatures: $.map @creatures, (creature) ->
+      creatures: $.map @creatures, (creature) =>
+        console.log "creature", creature
         creature.saveToJSON()
       cells: @cellsJSON()
     }
@@ -49,7 +50,7 @@ class window.Grid
     for creatureJSON in data.creatures
       if creatureJSON.type == 'monster'
         creature = new Creature()
-        if Zoo.monsters[creatureJSON.data.id]?
+        if Zoo.monsters[creatureJSON.id]?
           creature.loadFromJSON(creatureJSON, SkillLibrary, Zoo)
           if creature.location?
             @place creature, creature.location

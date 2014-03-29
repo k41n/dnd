@@ -11,7 +11,6 @@ ActiveAdmin.register CharacterAbility do
       f.input :description
       f.input :js_class
       f.input :avatar, as: :file
-      f.input :character_abilities, as: :checkboxes
     end
     f.actions
   end

@@ -1,9 +1,11 @@
 class window.ShowCombatController
-  constructor: (@$scope, @$routeParams, @Zoo, @Combat, @Faye, @SkillLibrary, @$timeout, @CreaturesBand, @current_user, @Chars) ->
+  constructor: (@$scope, @$routeParams, @Zoo, @Combat, @Faye, @SkillLibrary, @$timeout, @CreaturesBand, @current_user, @Chars, @Perks) ->
     @$scope.c = @
     @$scope.grid = new Grid()
     @$scope.currentUser = @current_user
-    @fetchCombat()
+    @Zoo.loading.$promise.then =>
+      @Perks.loading.$promise.then =>
+        @fetchCombat()
     @subscribeToFaye()
 
   selectCell: (cell) ->
@@ -104,6 +106,6 @@ class window.ShowCombatController
     console.log @$scope.selectedSkill
 
 
-ShowCombatController.$inject = ["$scope", "$routeParams", "Zoo", "Combat", "Faye", "SkillLibrary", "$timeout", "CreaturesBand", "current_user", 'Chars']
+ShowCombatController.$inject = ["$scope", "$routeParams", "Zoo", "Combat", "Faye", "SkillLibrary", "$timeout", "CreaturesBand", "current_user", 'Chars', 'Perks']
 
 angular.module("dndApp").controller("ShowCombatController", ShowCombatController)

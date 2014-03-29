@@ -57,6 +57,8 @@ class window.CharactersController
       if newVal?
         weapon = @Weapons.create(newVal)
         if weapon?
+          if editedCharacter?
+            console.log "New weapon", editedCharacter.p.weapon_id
           @$scope.editedCharacter.weapon = weapon
 
   saveCharacter: ->
@@ -109,48 +111,6 @@ class window.CharactersController
 
   onCharacterDeleted: (data) =>
     delete @$scope.characters[data.id]
-
-  canIncrease: (attr, editedCharacter) ->
-    return false unless editedCharacter?
-    (@priceOfIncrementFrom(editedCharacter[attr]) <= editedCharacter.stat_points) || (editedCharacter.stat_increment_points > 0)
-
-  canDecrease: (attr, editedCharacter) ->
-    editedCharacter? && editedCharacter[attr] > 8
-
-  priceOfIncrementFrom: (previousValue) ->
-    return 1 if previousValue == 8
-    return 1 if previousValue == 9
-    return 1 if previousValue == 10
-    return 1 if previousValue == 11
-    return 1 if previousValue == 12
-    return 2 if previousValue == 13
-    return 2 if previousValue == 14
-    return 2 if previousValue == 15
-    return 3 if previousValue == 16
-    return 4 if previousValue == 17
-    return 4 if previousValue == 18
-    return 5 if previousValue == 19
-    return 5 if previousValue == 20
-    return 6 if previousValue == 21
-    return 6 if previousValue == 22
-
-  increase: (attr, editedCharacter) ->
-    previousValue = editedCharacter[attr]
-    price = @priceOfIncrementFrom(previousValue)
-    if @priceOfIncrementFrom(editedCharacter[attr]) <= editedCharacter.stat_points
-      editedCharacter.stat_points -= price
-    else
-      editedCharacter.stat_increment_points -= 1
-    editedCharacter[attr] += 1      
-
-  decrease: (attr, editedCharacter) ->
-    previousValue = editedCharacter[attr]
-    price = @priceOfIncrementFrom(previousValue - 1)
-    if editedCharacter.stat_increment_points >= 2
-      editedCharacter.stat_points += price
-    else
-      editedCharacter.stat_increment_points += 1
-    editedCharacter[attr] -= 1      
 
 CharactersController.$inject = ["$scope", "CharacterAPI", 'CharacterModel', "$injector", "$modal", "$fileUploader", "Faye", "Racing", "CharacterClasses", "Armors", "Weapons", "CharacterAbilities", "Deities", "Perks", "SkillLibrary", "Chars"]
 

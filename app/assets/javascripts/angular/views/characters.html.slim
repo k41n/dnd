@@ -41,49 +41,49 @@ h3 My characters
         .val
           | {{ editedCharacter.getStat('str') }} ( {{ editedCharacter.mod('str') }})
         .controls
-          i.fa.fa-angle-up ng-if="c.canIncrease('str', editedCharacter)" ng-click="c.increase('str', editedCharacter)"
-          i.down.fa.fa-angle-down ng-if="c.canDecrease('str', editedCharacter)" ng-click="c.decrease('str', editedCharacter)"
+          i.fa.fa-angle-up ng-if="editedCharacter.canIncrease('str')" ng-click="editedCharacter.increase('str')"
+          i.down.fa.fa-angle-down ng-if="editedCharacter.canDecrease('str')" ng-click="editedCharacter.decrease('str')"
         .stat CON:
         .val
           | {{ editedCharacter.getStat('con') }} ( {{ editedCharacter.mod('con') }})
         .controls
-          i.fa.fa-angle-up ng-if="c.canIncrease('con', editedCharacter)" ng-click="c.increase('con', editedCharacter)"
-          i.down.fa.fa-angle-down ng-if="c.canDecrease('con', editedCharacter)" ng-click="c.decrease('con', editedCharacter)"
+          i.fa.fa-angle-up ng-if="editedCharacter.canIncrease('con')" ng-click="editedCharacter.increase('con')"
+          i.down.fa.fa-angle-down ng-if="editedCharacter.canDecrease('con')" ng-click="editedCharacter.decrease('con')"
 
         .stat DEX:
         .val
           | {{ editedCharacter.getStat('dex') }} ( {{ editedCharacter.mod('dex') }})
         .controls
-          i.fa.fa-angle-up ng-if="c.canIncrease('dex', editedCharacter)" ng-click="c.increase('dex', editedCharacter)"
-          i.down.fa.fa-angle-down ng-if="c.canDecrease('dex', editedCharacter)" ng-click="c.decrease('dex', editedCharacter)"
+          i.fa.fa-angle-up ng-if="editedCharacter.canIncrease('dex')" ng-click="editedCharacter.increase('dex')"
+          i.down.fa.fa-angle-down ng-if="editedCharacter.canDecrease('dex')" ng-click="editedCharacter.decrease('dex')"
 
         .stat INT:
         .val
           | {{ editedCharacter.getStat('int') }} ( {{ editedCharacter.mod('int') }})
         .controls
-          i.fa.fa-angle-up ng-if="c.canIncrease('int', editedCharacter)" ng-click="c.increase('int', editedCharacter)"
-          i.down.fa.fa-angle-down ng-if="c.canDecrease('int', editedCharacter)" ng-click="c.decrease('int', editedCharacter)"
+          i.fa.fa-angle-up ng-if="editedCharacter.canIncrease('int')" ng-click="editedCharacter.increase('int')"
+          i.down.fa.fa-angle-down ng-if="editedCharacter.canDecrease('int')" ng-click="editedCharacter.decrease('int')"
 
         .stat WIS:
         .val
           | {{ editedCharacter.getStat('wis') }} ( {{ editedCharacter.mod('wis') }})
         .controls
-          i.fa.fa-angle-up ng-if="c.canIncrease('wis', editedCharacter)" ng-click="c.increase('wis', editedCharacter)"
-          i.down.fa.fa-angle-down ng-if="c.canDecrease('wis', editedCharacter)" ng-click="c.decrease('wis', editedCharacter)"
+          i.fa.fa-angle-up ng-if="editedCharacter.canIncrease('wis')" ng-click="editedCharacter.increase('wis')"
+          i.down.fa.fa-angle-down ng-if="editedCharacter.canDecrease('wis')" ng-click="editedCharacter.decrease('wis')"
 
         .stat CHA:
         .val
           | {{ editedCharacter.getStat('cha') }} ( {{ editedCharacter.mod('cha') }})
         .controls
-          i.fa.fa-angle-up ng-if="c.canIncrease('cha', editedCharacter)" ng-click="c.increase('cha', editedCharacter)"
-          i.down.fa.fa-angle-down ng-if="c.canDecrease('cha', editedCharacter)" ng-click="c.decrease('cha', editedCharacter)"
+          i.fa.fa-angle-up ng-if="editedCharacter.canIncrease('cha')" ng-click="editedCharacter.increase('cha')"
+          i.down.fa.fa-angle-down ng-if="editedCharacter.canDecrease('cha')" ng-click="editedCharacter.decrease('cha')"
 
         div
           b
-            | Remaining points: {{ editedCharacter.stat_points }}
+            | Remaining points: {{ editedCharacter.p.stat_points }}
           br
           b
-            | Stat points: {{ editedCharacter.stat_increment_points }}
+            | Stat points: {{ editedCharacter.p.stat_increment_points }}
 
     .defence
       fieldset
@@ -125,7 +125,7 @@ h3 My characters
         h4 Offence
         .form-group
           label Weapon
-          select ui-select2='1' ng-model='editedCharacter.weapon_id' ng-if='editedCharacter'
+          select ui-select2='1' ng-model='editedCharacter.p.weapon_id' ng-if='editedCharacter'
             option value=''
             option value='{{ weapon.id }}' ng-repeat='(id, weapon) in c.Weapons.weapons'
               | {{ weapon.title }}
@@ -221,7 +221,7 @@ h3 My characters
         input.form-control type='text' ng-model='skillFilter' placeholder='Type skill name'
       .skill-group
         h6 Unlimited
-        .skill-available ng-repeat='skill in editedCharacter.availableSkills(c.SkillLibrary, "unlimited")'
+        .skill-available ng-repeat='skill in editedCharacter.availableSkills("unlimited")'
           .avatar
             img ng-src='{{ skill.avatar_url }}'
           i.fa.fa-plus ng-click='editedCharacter.addSkill(skill)'          
@@ -232,7 +232,7 @@ h3 My characters
               | {{ skill.text }}
       .skill-group
         h6 Instant
-        .skill-available ng-repeat='skill in editedCharacter.availableSkills(c.SkillLibrary, "instant")'
+        .skill-available ng-repeat='skill in editedCharacter.availableSkills("instant")'
           .avatar
             img ng-src='{{ skill.avatar_url }}'
           i.fa.fa-plus ng-click='editedCharacter.addSkill(skill)'          
@@ -243,7 +243,7 @@ h3 My characters
               | {{ skill.text }}
       .skill-group
         h6 Per combat
-        .skill-available ng-repeat='skill in editedCharacter.availableSkills(c.SkillLibrary, "combat")'
+        .skill-available ng-repeat='skill in editedCharacter.availableSkills("combat")'
           .avatar
             img ng-src='{{ skill.avatar_url }}'
           i.fa.fa-plus ng-click='editedCharacter.addSkill(skill)'          
@@ -254,7 +254,7 @@ h3 My characters
               | {{ skill.text }}
       .skill-group
         h6 Per day
-        .skill-available ng-repeat='skill in editedCharacter.availableSkills(c.SkillLibrary, "day")'
+        .skill-available ng-repeat='skill in editedCharacter.availableSkills("day")'
           .avatar
             img ng-src='{{ skill.avatar_url }}'
           i.fa.fa-plus ng-click='editedCharacter.addSkill(skill)'          

@@ -16,6 +16,9 @@ class window.SkillLibrary
     else
       return new Skills.BaseAttack(skill)
 
+  getById: (id) ->
+    @skills[id]
+
 
 
 SkillLibrary.$inject = ["Skill", "$injector"]

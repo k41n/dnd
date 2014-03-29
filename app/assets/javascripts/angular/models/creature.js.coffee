@@ -1,22 +1,26 @@
 class window.Creature
   constructor: (monster_resource) ->
-    @data = monster_resource if monster_resource?
+    @p = monster_resource if monster_resource?
+    @p ||= {}
+    @i = {}
     @location = undefined
     @rotateable = false
     @installEvents()
 
   saveToJSON: =>
-    skills = @data.skills
+    console.log 'Creature::saveToJSON'
+    console.log @
     res =
-      data: @data
+      instance: @i
+      id: @p.id
       location: @location
       skills: @skillsJSON()
       type: 'monster'
-    @data.skills = skills
     res
 
   loadFromJSON: (json, SkillLibrary, Zoo) =>
-    @data = json.data
+    console.log 'json = ', json
+    @p = Zoo.monsters[json.id].p
     @skills = []
     @location = json.location
     for skill in json.skills
@@ -63,8 +67,8 @@ class window.Creature
   installEvents: ->
     @registerEventHandler 'received_damage', (params) =>
       console.log "#{@name} received #{params.damage} from #{params.enemy.name}"
-      @data.hp -= params.damage
-      if @data.hp <= 0
+      @hp -= params.damage
+      if @hp <= 0
         @grid.deleteMonster(@)
 
   mod: (attr) ->

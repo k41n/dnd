@@ -1,10 +1,11 @@
 class window.EditCombatController
-  constructor: (@$scope, @$routeParams, @Combat, @Zoo, @Chars, @SkillLibrary, @$fileUploader) ->
+  constructor: (@$scope, @$routeParams, @Combat, @Zoo, @Chars, @SkillLibrary, @$fileUploader, @Perks) ->
     @$scope.c = @
     @$scope.grid = new Grid()
     @initFileUploader()
     Zoo.loading.$promise.then =>
-      @fetchCombat()
+      Perks.loading.$promise.then =>
+        @fetchCombat()
     @$scope.zooActive = true
 
   initFileUploader: ->
@@ -27,7 +28,7 @@ class window.EditCombatController
   selectCell: (cell) ->
     if @$scope.selectedMonster
       unless cell.hasCreature()
-        monster = new Creature(@$scope.selectedMonster.data)
+        monster = @$scope.selectedMonster
         @$scope.grid.place(monster, cell.location)
         @$scope.selectedMonster = null
         @saveCombat()
@@ -35,8 +36,8 @@ class window.EditCombatController
 
     if @$scope.selectedChar
       unless cell.hasCreature()
-        monster = new CharacterModel(@$scope.selectedChar, @SkillLibrary)
-        @$scope.grid.place(monster, cell.location)
+        console.log 'Placing', @$scope.selectedChar
+        @$scope.grid.place(@$scope.selectedChar, cell.location)
         @$scope.selectedChar = null
         @saveCombat()
       return
@@ -54,6 +55,7 @@ class window.EditCombatController
 
   selectMonster: (monster) ->
     @$scope.selectedMonster = monster
+    console.log '@$scope.selectedMonster', @$scope.selectedMonster
 
   selectCharacter: (char) ->
     if @$scope.selectedChar == char
@@ -97,6 +99,6 @@ class window.EditCombatController
     @Combat.update { id: @$scope.combat.id }, { combat: params }
 
 
-EditCombatController.$inject = ["$scope", "$routeParams", "Combat", "Zoo", "Chars", "SkillLibrary", "$fileUploader"]
+EditCombatController.$inject = ["$scope", "$routeParams", "Combat", "Zoo", "Chars", "SkillLibrary", "$fileUploader", 'Perks']
 
 angular.module("dndApp").controller("EditCombatController", EditCombatController)    

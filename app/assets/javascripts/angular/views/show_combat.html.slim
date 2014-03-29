@@ -8,7 +8,7 @@
             div.cell data-id='{{cell.location.x}}{{cell.location.y}}'
               .overlay
               .monster-in-grid ng-show='cell.creature'
-                img ng-src='{{ cell.creature.data.avatar_url }}'
+                img ng-src='{{ cell.creature.p.avatar_url }}'
               .rotation-marker ng-show='cell.creature' ng-class="cell.creature.rotation"
                 span ng-if="cell.creature.data.rotation == 'north'"
                   | &#8657;
@@ -37,15 +37,15 @@
         | Monster in cell
       .cell-monster ng-show='selectedCell.hasCreature()'
         .avatar
-          img ng-src='{{ selectedCell.creature.data.avatar_url }}'
+          img ng-src='{{ selectedCell.creature.p.avatar_url }}'
         .textual
           .name
-            | {{ selectedCell.creature.data.name }}
+            | {{ selectedCell.creature.p.name }}
           .desc
-            | {{ selectedCell.creature.data.description }}
-          | HP: {{ selectedCell.creature.data.hp }}
+            | {{ selectedCell.creature.p.description }}
+          | HP: {{ selectedCell.creature.i.hp }}
           br
-          | AC: {{ selectedCell.creature.data.ac }}
+          | AC: {{ selectedCell.creature.i.ac }}
 
         div ng-show="selectedCell.creature == creaturesBand.getActingCreature()"
           .actions

@@ -1,19 +1,38 @@
-#= require './creature'
-
-class window.CharacterModel extends Creature
-  constructor: (@SkillLibrary) ->
-    super()
+class window.CharacterModel
+  constructor: (@SkillLibrary, @Perks) ->
+    console.log 'Constructor'
 
   new: (permanent_data, instance_data) ->
-    ret = new CharacterModel()
+    ret = new CharacterModel(@SkillLibrary, @Perks)
     angular.extend ret, @
     ret.p = permanent_data
     ret.i = instance_data
+    ret.perks = {}
+    if ret.p.perk_ids?
+      for perk_id in ret.p.perk_ids
+        console.log 'Filling in perk with id', perk_id
+        perk = @Perks.getById(perk_id)
+        if perk?
+          ret.perks[perk.id] = perk
+
+    ret.skills = {}          
+    if ret.p.skill_ids?
+      for skill_id in ret.p.skill_ids
+        console.log 'Filling in perk with id', perk_id
+        skill = @SkillLibrary.getById(skill_id)
+        if skill?
+          ret.skills[skill.id] = skill
     ret
 
-  saveToJSON: =>
+  setCoords: (location, grid) ->
+    console.log 'setCoords', location, grid
+    @grid = grid
+    @location = location
+    console.log '@', @
+
+  saveToJSON: ->
     res =
-      id: @data.id
+      id: @p.id
       type: 'character'
       location: @location
     res
@@ -39,15 +58,15 @@ class window.CharacterModel extends Creature
 
   getStamina: ->
     bonus = if @staminaBonus? then @staminaBonus else 0
-    return 10 + bonus + Math.max(@mod('str'), @mod('con')) + Math.floor(@level / 2)
+    return 10 + bonus + Math.max(@mod('str'), @mod('con')) + Math.floor(@p.level / 2)
 
   getReaction: ->
     bonus = if @reactionBonus? then @reactionBonus else 0
-    return 10 + bonus + Math.max(@mod('dex'), @mod('int')) + Math.floor(@level / 2)
+    return 10 + bonus + Math.max(@mod('dex'), @mod('int')) + Math.floor(@p.level / 2)
 
   getWill: ->
     bonus = if @willBonus then @willBonus else 0
-    return 10 + bonus + Math.max(@mod('wis'), @mod('cha')) + Math.floor(@level / 2)
+    return 10 + bonus + Math.max(@mod('wis'), @mod('cha')) + Math.floor(@p.level / 2)
 
   mod: (attr) ->
     Math.floor( (@p[attr] - 10) / 2 )
@@ -57,7 +76,7 @@ class window.CharacterModel extends Creature
     @character_class.healsCount(@)
 
   getInitiative: ->
-    Math.floor( @level / 2 ) + @mod('dex')
+    Math.floor( @p.level / 2 ) + @mod('dex')
 
   getWeaponDamage: ->
     return '-' unless @weapon
@@ -66,7 +85,7 @@ class window.CharacterModel extends Creature
   getMasteryIn: (ability) ->
     train_bonus = if @abilityTrainings? && @abilityTrainings[ability.name]? && @abilityTrainings[ability.name] then 5 else 0
     train_bonus += @abilityBonus[ability.name] if @abilityBonus? && @abilityBonus[ability.name]?
-    Math.floor(@level / 2) + @mod(ability.dependent_on_stat) + train_bonus
+    Math.floor(@p.level / 2) + @mod(ability.dependent_on_stat) + train_bonus
 
   getTrainingsCount: ->
     trained_abilities = 0
@@ -125,18 +144,22 @@ class window.CharacterModel extends Creature
   getPerks: ->
     @perks
 
-  availableSkills: (Skills, cooldown_type) ->
+  availableSkills: (cooldown_type) ->
     ret = []
     @skills ||= {}
-    for k,v of Skills.skills
+    console.log 'availableSkills'
+    console.log '@SkillLibrary.skills', @SkillLibrary.skills
+    for k,v of @SkillLibrary.skills
       ret.push v if v.pickable(@) && !@skills[k]? && v.cooldown_type == cooldown_type
     ret
 
   addSkill: (skill) ->
     @skills[skill.id] = skill
+    @p.skill_ids = @skillIds()
 
   removeSkill: (skill) ->
     delete @skills[skill.id]
+    @p.skill_ids = @skillIds()
 
   getSkills: (cooldown_type) ->
     ret = {}
@@ -151,6 +174,47 @@ class window.CharacterModel extends Creature
     else 
       []
 
-CharacterModel.$inject = ["SkillLibrary"]
+  canIncrease: (attr) ->
+    (@priceOfIncrementFrom(@p[attr]) <= @p.stat_points) || (@p.stat_increment_points > 0)
 
-angular.module("dndApp").factory('CharacterModel', -> new CharacterModel(SkillLibrary))
+  canDecrease: (attr) ->
+    @p[attr] > 8
+
+  priceOfIncrementFrom: (previousValue) ->
+    return 1 if previousValue == 8
+    return 1 if previousValue == 9
+    return 1 if previousValue == 10
+    return 1 if previousValue == 11
+    return 1 if previousValue == 12
+    return 2 if previousValue == 13
+    return 2 if previousValue == 14
+    return 2 if previousValue == 15
+    return 3 if previousValue == 16
+    return 4 if previousValue == 17
+    return 4 if previousValue == 18
+    return 5 if previousValue == 19
+    return 5 if previousValue == 20
+    return 6 if previousValue == 21
+    return 6 if previousValue == 22
+
+  increase: (attr) ->
+    previousValue = @p[attr]
+    price = @priceOfIncrementFrom(previousValue)
+    if @priceOfIncrementFrom(@p[attr]) <= @p.stat_points
+      @p.stat_points -= price
+    else
+      @p.stat_increment_points -= 1
+    @p[attr] += 1      
+
+  decrease: (attr, editedCharacter) ->
+    previousValue = @p[attr]
+    price = @priceOfIncrementFrom(previousValue - 1)
+    if @p.stat_increment_points >= 2
+      @p.stat_points += price
+    else
+      @p.stat_increment_points += 1
+    @p[attr] -= 1      
+
+CharacterModel.$inject = ['SkillLibrary', 'Perks']
+
+angular.module("dndApp").factory('CharacterModel', (SkillLibrary, Perks) -> new CharacterModel(SkillLibrary, Perks))

@@ -78,4 +78,4 @@ class window.Skills.BaseAttack
     damage_done = Roll.do(@damage_count, @damage_dice, @damage_bonus)
 
   pickable: (char) ->
-    @available_for.indexOf(char.character_class_id) != -1
+    @available_for.indexOf(char.p.character_class_id) != -1

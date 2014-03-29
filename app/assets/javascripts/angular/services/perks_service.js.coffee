@@ -11,6 +11,9 @@ class window.Perks
     else
       new Perks.BasePerk(data)
 
+  getById: (id) ->
+    @create(@perks[id])
+
 Perks.$inject = ["Perk"]
 
 angular.module("dndApp").service("Perks", Perks)
