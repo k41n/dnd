@@ -109,6 +109,8 @@ class window.Skills.BaseAttack
       char.skillPoints(@cooldown_type) > 0
 
   apply: (applicator, target) ->
+    console.log "Applying from", applicator
+    console.log "Applying to", target
     @applicator = applicator
     @target = target
     if @checkHit()

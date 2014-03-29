@@ -32,17 +32,17 @@
         | Monster in cell
       .cell-monster ng-show='selectedCell.hasCreature()'
         .avatar
-          img ng-src='{{ selectedCell.creature.data.avatar_url }}'
+          img ng-src='{{ selectedCell.creature.p.avatar_url }}'
         .textual
           .name
-            | {{ selectedCell.creature.data.name }}
+            | {{ selectedCell.creature.p.name }}
           .desc
-            | {{ selectedCell.creature.data.description }}
+            | {{ selectedCell.creature.p.description }}
         button.btn.btn-danger ng-click='c.deleteMonster(selectedCell.creature)' Delete
 
     .zoo ng-show='zooActive'
       h3 Zoo
-      .zoo-monster ng-repeat='monster in c.Zoo.monsters' ng-click='c.selectMonster(monster)' ng-class="{'selected': (selectedMonster == monster) }"
+      .zoo-monster ng-repeat='(id, monster) in c.Zoo.monsters' ng-click='c.selectMonster(monster)' ng-class="{'selected': (selectedMonster == monster) }"
         .avatar
           img ng-src='{{ monster.p.avatar_url }}'
         .textual

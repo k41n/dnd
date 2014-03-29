@@ -16,6 +16,7 @@ class window.ShowCombatController
       if @$scope.selectedSkill.name == 'God Hand'
         @$scope.selectedSkill.apply cell.creature
       else
+        console.log "cell.creature = ", cell.creature
         @$scope.selectedSkill.apply @$scope.selectedCell.creature, cell.creature
       @$scope.selectedSkill = undefined
       @$scope.grid.resetAttackHighlight()

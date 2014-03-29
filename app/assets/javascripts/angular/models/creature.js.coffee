@@ -69,13 +69,13 @@ class window.Creature
     $.map @affects, (a) ->
       a.type
 
-  trigger: (name, params) =>
+  trigger: (name, params) ->
     if @eventHandlers? and @eventHandlers[name]?
       for callback in @eventHandlers[name]
         return false unless callback(params)
     return true
 
-  registerEventHandler: (name, callback) =>
+  registerEventHandler: (name, callback) ->
     @eventHandlers ||= {}
     @eventHandlers[name] = new Array() unless @eventHandlers[name]?
     @eventHandlers[name].push callback
@@ -92,10 +92,10 @@ class window.Creature
 
   installEvents: ->
     @registerEventHandler 'received_damage', (params) =>
-      console.log "#{@.p.name} received #{params.damage} of damage"
-      console.log "HP changes from #{i.hp}"
+      console.log "#{@p.name} received #{params.damage} of damage"
+      console.log "HP changes from #{@i.hp}"
       @i.hp -= params.damage
-      console.log "to #{i.hp}"
+      console.log "to #{@i.hp}"
       if @i.hp <= 0
         @grid.deleteMonster(@)
 
