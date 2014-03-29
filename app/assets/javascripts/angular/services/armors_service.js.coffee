@@ -11,13 +11,17 @@ class window.Armors
 
   create: (id) ->
     armor = @armors[id]
-    if armor?
+    if armor? && eval(armor.js_class)?
       return new (eval(armor.js_class))(armor)
+    else 
+      return new Armors.BaseArmor(armor)
 
   create_shield: (id) ->
     shield = @shields[id]
-    if shield?
+    if shield? && eval(shield.js_class)?
       return new (eval(shield.js_class))(shield)
+    else
+      return new Armors.BaseArmor(shield)
 
 Armors.$inject = ["Armor"]
 

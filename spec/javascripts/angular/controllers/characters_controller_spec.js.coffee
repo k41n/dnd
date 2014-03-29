@@ -3,7 +3,7 @@
 describe 'CharactersController', ->
   beforeEach ->
     @controller('CharactersController', { $scope: @scope })
-    @Character = @model('Character')
+    @Character = @model('CharacterAPI')
     @characters = [new @Character({ id: 1, name: 'Элайя', character_ability_ids: [], perk_ids: [] })]
 
     @Race = @model('Race')
@@ -20,6 +20,10 @@ describe 'CharactersController', ->
 
     @CharacterAbility = @model('CharacterAbility')
     @character_abilities = [new @CharacterAbility({id: '1', name: 'Знание улиц'})]
+
+    @Skill = @model('Skill')
+    @skills = [new @Skill({ id: 1, title: 'Удар ногой с разворота' })]
+    @http.whenGET('/api/skills').respond(200, @skills)
 
     @http.whenGET('/api/races').respond(200, @races)
     @http.whenGET('/api/characters').respond(200, @characters)
@@ -39,8 +43,8 @@ describe 'CharactersController', ->
     @http.flush()
 
   describe 'load', ->
-    it 'sets up the list of current characters', ->
-      expect(Object.keys(@scope.characters).length).toEqual(1)
+    it 'injects Chars service', ->
+      expect(@scope.c.Chars).toBeDefined()
 
   describe 'new character', ->
     it 'can create new character', ->

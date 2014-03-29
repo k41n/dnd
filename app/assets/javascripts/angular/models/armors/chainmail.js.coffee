@@ -1,5 +1,4 @@
 window.Armors ||= {}
-class window.Armors.Chainmail
+class window.Armors.Chainmail extends Armors.BaseArmor
   constructor: (data) ->
-    for key,val of data
-      @[key] = val
+    super

@@ -12,6 +12,8 @@ beforeEach inject (_$httpBackend_, _$compile_, $rootScope, $controller, $locatio
   @compile = _$compile_
   @location = $location
   @controller = $controller
+  @factory = (name) =>
+    @injector.get(name)
   @injector = $injector
   @timeout = $timeout
   @route = $route

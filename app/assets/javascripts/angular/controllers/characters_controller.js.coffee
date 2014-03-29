@@ -1,18 +1,10 @@
 class window.CharactersController
-  constructor: (@$scope, @Character, @$injector, @$modal, @$fileUploader, @Faye, @Racing, @CharacterClasses, @Armors, @Weapons, @CharacterAbilities, @Deities, @Perks, @SkillLibrary) ->
-    @fetchCharacters()
+  constructor: (@$scope, @CharacterAPI, @CharacterModel, @$injector, @$modal, @$fileUploader, @Faye, @Racing, @CharacterClasses, @Armors, @Weapons, @CharacterAbilities, @Deities, @Perks, @SkillLibrary, @Chars) ->
     @$scope.c = @
     @initFileUploader()
-    @subscribeToFaye()
-
-  fetchCharacters: ->
-    @$scope.characters = {}
-    characters = @Character.query {}, =>
-      for character in characters
-        @$scope.characters[character.id] = @Chars.create(character_id)
 
   createCharacter: (params)->
-    new @Character(params).$save()
+    @Chars.createNew()
 
   showNewCharacterDialog: ->
     modalInstance = @$modal.open
@@ -22,9 +14,10 @@ class window.CharactersController
       @createCharacter(requisites)
 
   editCharacter: (char) ->
-    @$scope.editedCharacter = new CharacterModel(char, @SkillLibrary)
+    @$scope.editedCharacter = char
+    console.log "char = ", char
     @$scope.uploader.url = "/api/characters/#{char.id}/avatar"
-    @$scope.$watch 'editedCharacter.race_id', (newVal, oldVal) =>
+    @$scope.$watch 'editedCharacter.p.race_id', (newVal, oldVal) =>
       if newVal? && @$scope.editedCharacter?
         race = @Racing.create(newVal)
         if race?
@@ -33,7 +26,7 @@ class window.CharactersController
           race.selectedFor(@$scope.editedCharacter)
           @$scope.editedCharacter.race = race
 
-    @$scope.$watch 'editedCharacter.character_class_id', (newVal, oldVal) =>
+    @$scope.$watch 'editedCharacter.p.character_class_id', (newVal, oldVal) =>
       if newVal?
         character_class = @CharacterClasses.create(newVal)
         if character_class?
@@ -42,25 +35,25 @@ class window.CharactersController
           @$scope.editedCharacter.character_class = character_class
           character_class.onSelected(@$scope.editedCharacter)
 
-    @$scope.$watch 'editedCharacter.deity_id', (newVal) =>
+    @$scope.$watch 'editedCharacter.p.deity_id', (newVal) =>
       if newVal?
         deity = @Deities.deities[newVal]
         if deity?
           @$scope.editedCharacter.deity = deity
 
-    @$scope.$watch 'editedCharacter.armor_id', (newVal, oldVal) =>
+    @$scope.$watch 'editedCharacter.p.armor_id', (newVal, oldVal) =>
       if newVal?
         armor = @Armors.create(newVal)
         if armor?
           @$scope.editedCharacter.armor = armor
 
-    @$scope.$watch 'editedCharacter.shield_id', (newVal, oldVal) =>
+    @$scope.$watch 'editedCharacter.p.shield_id', (newVal, oldVal) =>
       if newVal?
         shield = @Armors.create_shield(newVal)
         if shield?
           @$scope.editedCharacter.shield = shield
 
-    @$scope.$watch 'editedCharacter.weapon_id', (newVal, oldVal) =>
+    @$scope.$watch 'editedCharacter.p.weapon_id', (newVal, oldVal) =>
       if newVal?
         weapon = @Weapons.create(newVal)
         if weapon?
@@ -70,7 +63,7 @@ class window.CharactersController
     @$scope.editedCharacter.character_ability_ids = @$scope.editedCharacter.trainedAbilityIds(@CharacterAbilities)
     @$scope.editedCharacter.perk_ids = @$scope.editedCharacter.perkIds()
     @$scope.editedCharacter.skill_ids = @$scope.editedCharacter.skillIds()
-    nc = new @Character(@$scope.editedCharacter)
+    nc = new @CharacterAPI(@$scope.editedCharacter.p)
     nc.$update()
     @$scope.editedCharacter = null
 
@@ -95,7 +88,7 @@ class window.CharactersController
       console.log e
 
   onCharacterUpdated: (data) =>
-    @$scope.characters[data.id] = data
+    @$scope.characters[data.id] = @CharacterModel.new(data)
     character = @$scope.characters[data.id]
     character.abilityTrainings ||= {}
     for a in character.character_ability_ids
@@ -159,16 +152,6 @@ class window.CharactersController
       editedCharacter.stat_increment_points += 1
     editedCharacter[attr] -= 1      
 
-  subscribeToFaye: =>
-    if @Faye?
-      @Faye.subscribe "/characters", (msg) =>
-        console.log 'Faye: msg = ', msg
-        if msg.type == 'created' || msg.type == 'updated'
-          @onCharacterUpdated(msg.character)
-        if msg.type == 'deleted'
-          @onCharacterDeleted(msg.character)
-
-
-CharactersController.$inject = ["$scope", "Character", "$injector", "$modal", "$fileUploader", "Faye", "Racing", "CharacterClasses", "Armors", "Weapons", "CharacterAbilities", "Deities", "Perks", "SkillLibrary"]
+CharactersController.$inject = ["$scope", "CharacterAPI", 'CharacterModel', "$injector", "$modal", "$fileUploader", "Faye", "Racing", "CharacterClasses", "Armors", "Weapons", "CharacterAbilities", "Deities", "Perks", "SkillLibrary", "Chars"]
 
 angular.module("dndApp").controller("CharactersController", CharactersController)

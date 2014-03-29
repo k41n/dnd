@@ -1,12 +1,15 @@
 #= require './creature'
 
 class window.CharacterModel extends Creature
-  constructor: (data, @SkillLibrary) ->
-    super(data)
-    @skills = {}
-    if @data.skill_ids
-      for skill_id in @data.skill_ids
-        @addSkill @SkillLibrary.skills[skill_id]
+  constructor: (@SkillLibrary) ->
+    super()
+
+  new: (permanent_data, instance_data) ->
+    ret = new CharacterModel()
+    angular.extend ret, @
+    ret.p = permanent_data
+    ret.i = instance_data
+    ret
 
   saveToJSON: =>
     res =
@@ -30,9 +33,9 @@ class window.CharacterModel extends Creature
     armor_bonus = if @armor? then @armor.ac_bonus else 0 
     shield_bonus = if @shield? then @shield.ac_bonus else 0 
     if !@armor? or @armor.armor_type == 'Light'
-      return 10 + armor_bonus + shield_bonus + Math.max(@mod('int'), @mod('dex')) + Math.floor(@level / 2)
+      return 10 + armor_bonus + shield_bonus + Math.max(@mod('int'), @mod('dex')) + Math.floor(@p.level / 2)
     else
-      return 10 + armor_bonus + shield_bonus + Math.floor(@level / 2)
+      return 10 + armor_bonus + shield_bonus + Math.floor(@p.level / 2)
 
   getStamina: ->
     bonus = if @staminaBonus? then @staminaBonus else 0
@@ -47,7 +50,7 @@ class window.CharacterModel extends Creature
     return 10 + bonus + Math.max(@mod('wis'), @mod('cha')) + Math.floor(@level / 2)
 
   mod: (attr) ->
-    Math.floor( @[attr] - 10 )
+    Math.floor( (@p[attr] - 10) / 2 )
 
   getHealsCount: ->
     return '-' unless @character_class?
@@ -90,7 +93,7 @@ class window.CharacterModel extends Creature
 
   getStat: (stat_name) ->
     bonus = if @statBonuses? && @statBonuses[stat_name]? then @statBonuses[stat_name] else 0
-    @[stat_name] + bonus
+    @p[stat_name] + bonus
 
   trainedAbilityIds: (CharacterAbilities) ->
     ret = []
@@ -147,3 +150,7 @@ class window.CharacterModel extends Creature
         parseInt(k)
     else 
       []
+
+CharacterModel.$inject = ["SkillLibrary"]
+
+angular.module("dndApp").factory('CharacterModel', -> new CharacterModel(SkillLibrary))

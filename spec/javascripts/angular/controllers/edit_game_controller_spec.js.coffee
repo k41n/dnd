@@ -14,14 +14,22 @@ describe 'EditGameController', ->
     @http.whenGET('/api/games/1/combats?page=1').respond(200, @combats)
     @http.whenGET('/api/games/1').respond(200, @game)
 
-    @Character = @model('Character')
-    @characters = [new @Character({ id: 1, name: 'Элайя' })]
+    @CharacterAPI = @model('CharacterAPI')
+    @characters = [new @CharacterAPI({ id: 1, name: 'Элайя' })]
 
     @http.whenGET('/api/characters').respond(200, @characters)
 
     @CharacterAbility = @model('CharacterAbility')
     @character_abilities = [new @CharacterAbility({id: '1', name: 'Знание улиц'})]
     @http.whenGET('/api/character_abilities').respond(200, @character_abilities)
+
+    @Perk = @model('Perk')
+    @perks = [new @Perk({ id: 1, name: 'Нечеловеческая человечность' })]
+    @http.whenGET('/api/perks').respond(200, @perks)
+
+    @Skill = @model('Skill')
+    @skills = [new @Skill({ id: 1, title: 'Удар ногой с разворота' })]
+    @http.whenGET('/api/skills').respond(200, @skills)
 
     @http.flush()
 

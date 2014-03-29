@@ -1,28 +1,30 @@
 class window.Chars
-  constructor: (@Character, @$injector, @$http, @CharacterAbilities, @Perks, @SkillLibrary) ->
-    console.log "Chars service constructor"
-    console.log "@SkillLibrary = ", @SkillLibrary    
-    @loading = @Character.query {}, (data) =>
+  constructor: (@CharacterAPI, @CharacterModel, @Faye) ->
+    @loading = @CharacterAPI.query {}, (data) =>
+      console.log "Character api bring us", data
       @characters = {}
       for c in data
-        @characters[c.id] = c
+        @characters[c.id] = @CharacterModel.new(c)
+    @listenFaye()
 
   create: (id) ->
-    console.log "@SkillLibrary = ", @SkillLibrary    
     character = new CharacterModel(@characters[id], @SkillLibrary)
     character.data = @characters[id]
     character.abilityTrainings = {}
-    for a in character.data.character_ability_ids
-      ability = @CharacterAbilities.character_abilities[a]
-      character.abilityTrainings[ability.name] = true
+    if character.data.character_ability_ids?
+      for a in character.data.character_ability_ids
+        ability = @CharacterAbilities.character_abilities[a]
+        character.abilityTrainings[ability.name] = true
     character.perks = {}
-    for perk_id in character.data.perk_ids
-      perk = @Perks.perks[perk_id]
-      character.perks[perk.id] = perk
+    if character.data.perk_ids?
+      for perk_id in character.data.perk_ids
+        perk = @Perks.perks[perk_id]
+        character.perks[perk.id] = perk
     character.skills = {}
-    for skill_id in character.data.skill_ids
-      skill = @SkillLibrary.skills[skill_id]
-      character.skills[skill.id] = skill
+    if character.data.skill_ids?
+      for skill_id in character.data.skill_ids
+        skill = @SkillLibrary.skills[skill_id]
+        character.skills[skill.id] = skill
     character
 
   inviteByName: (name, toGame) ->
@@ -48,6 +50,22 @@ class window.Chars
       ret.push char.name
     ret
 
-Chars.$inject = ["Character", "$injector", '$http', 'CharacterAbilities', 'Perks', 'SkillLibrary']
+  listenFaye: ->
+    if @Faye?
+      @Faye.subscribe "/characters", (msg) =>
+        console.log 'Faye: msg = ', msg
+        if msg.type == 'created' || msg.type == 'updated'
+          @onCharacterUpdated(msg.character)
+        if msg.type == 'deleted'
+          @onCharacterDeleted(msg.character)
+
+  onCharacterUpdated: (data) =>
+    char = @CharacterModel.new(data)
+    @characters[data.id] = char
+
+  createNew: ->
+    new @CharacterAPI().$save()
+
+Chars.$inject = ['CharacterAPI', 'CharacterModel', 'Faye']
 
 angular.module("dndApp").service("Chars", Chars)

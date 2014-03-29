@@ -14,7 +14,7 @@ describe 'EditCombatController', ->
     @monsters = [new @Monster({ id: 1, name: 'Кровавый упырь' })]
     @http.whenGET('/api/monsters').respond(200, @monsters)
 
-    @Character = @model('Character')
+    @Character = @model('CharacterAPI')
     @characters = [new @Character({ id: 1, name: 'Элайя' })]
     @http.whenGET('/api/characters').respond(200, @characters)
 
@@ -25,6 +25,10 @@ describe 'EditCombatController', ->
     @CharacterAbility = @model('CharacterAbility')
     @character_abilities = [new @CharacterAbility({id: '1', name: 'Знание улиц'})]
     @http.whenGET('/api/character_abilities').respond(200, @character_abilities)
+
+    @Perk = @model('Perk')
+    @perks = [new @Perk({ id: 1, name: 'Нечеловеческая человечность' })]
+    @http.whenGET('/api/perks').respond(200, @perks)
 
     @http.flush()
 

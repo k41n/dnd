@@ -1,5 +1,5 @@
 angular.module("dndApp")
-.factory "Character", ["$resource", ($resource) ->
+.factory "CharacterAPI", ["$resource", ($resource) ->
     $resource "/api/characters/:id",
     { id: "@id" },
     { 

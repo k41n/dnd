@@ -1,6 +1,7 @@
 window.CharacterClasses ||= {}
 class window.CharacterClasses.Paladin extends CharacterClasses.BaseCharacterClass
   onSelected: (char) ->
+    console.log 'On selected paladin'
     super(char)
     char.staminaBonus += 1    
     char.reactionBonus += 1

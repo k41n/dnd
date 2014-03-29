@@ -4,7 +4,7 @@ h3 My characters
   .panel-body
     .main
       h4 Main
-      img ng-src="{{ editedCharacter.avatar_url }}"
+      img ng-src="{{ editedCharacter.p.avatar_url }}"
       b
         | {{ editedCharacter.name }}
       .form-group
@@ -15,20 +15,20 @@ h3 My characters
         input.form-control type='text' ng-model='editedCharacter.name'
       .form-group
         label Race
-        select ui-select2='1' ng-model='editedCharacter.race_id' ng-if='editedCharacter'
+        select ui-select2='1' ng-model='editedCharacter.p.race_id' ng-if='editedCharacter'
           option value=''
           option value='{{ race.id }}' ng-repeat='(id, race) in c.Racing.races'
             | {{ race.name }}
       .form-group
         label Class
-        select ui-select2='1' ng-model='editedCharacter.character_class_id' ng-if='editedCharacter'
+        select ui-select2='1' ng-model='editedCharacter.p.character_class_id' ng-if='editedCharacter'
           option value=''
           option value='{{ character_class.id }}' ng-repeat='(id, character_class) in c.CharacterClasses.character_classes'
             | {{ character_class.name }}
 
       .form-group
         label Deity
-        select ui-select2='1' ng-model='editedCharacter.deity_id' ng-if='editedCharacter'
+        select ui-select2='1' ng-model='editedCharacter.p.deity_id' ng-if='editedCharacter'
           option value=''
           option value='{{ deity.id }}' ng-repeat='(id, deity) in c.Deities.deities'
             | {{ deity.name }}
@@ -90,13 +90,13 @@ h3 My characters
         h4 Defence
         .form-group
           label Armor
-          select ui-select2='1' ng-model='editedCharacter.armor_id' ng-if='editedCharacter'
+          select ui-select2='1' ng-model='editedCharacter.p.armor_id' ng-if='editedCharacter'
             option value=''
             option value='{{ armor.id }}' ng-repeat='(id, armor) in c.Armors.armors'
               | {{ armor.name }}
         .form-group
           label Shield
-          select ui-select2='1' ng-model='editedCharacter.shield_id' ng-if='editedCharacter'
+          select ui-select2='1' ng-model='editedCharacter.p.shield_id' ng-if='editedCharacter'
             option
             option value='{{ armor.id }}' ng-repeat='(id, armor) in c.Armors.shields'
               | {{ armor.name }}
@@ -272,9 +272,9 @@ h3 My characters
           button.btn.btn-danger ng-click='c.deleteCharacter()' DELETE
 
 
-.character.col-xs-12.col-sm-6.col-md-4.col-lg3 ng-repeat='(id, char) in characters' ng-click='c.editCharacter(char)'
+.character.col-xs-12.col-sm-6.col-md-4.col-lg3 ng-repeat='(id, char) in c.Chars.characters' ng-click='c.editCharacter(char)'
   .avatar
-    img ng-src="{{ char.avatar_url }}"
+    img ng-src="{{ char.p.avatar_url }}"
   .textual
     .name 
       | {{ char.name }}
