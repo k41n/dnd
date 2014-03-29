@@ -1,7 +1,10 @@
 #= require spec_helper
+#= require fixtures/api
 
 describe 'Zoo', ->
   beforeEach ->
+    stubApiSkills(@http)
+
     @service = @injector.get('Zoo')
     @Monster = @model('Monster')
     @monsters = [new @Monster({ id: 1, name: 'Кровавый упырь' })]

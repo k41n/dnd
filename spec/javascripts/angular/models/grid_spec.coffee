@@ -63,7 +63,8 @@ describe 'Grid', ->
 
   describe 'save and load', ->
     it 'can save and load to json', ->
-      @creature = new Creature
+      @Creature = @factory('Creature')
+      @creature = @Creature.new
         id: 1
       @grid.place @creature, @zeroLocation
       @grid.get({x: 9, y: 8}).moveability = 1
@@ -71,9 +72,9 @@ describe 'Grid', ->
       @grid2 = new Grid()
 
       json = @grid.saveToJSON()
+      console.log "GRID json: ", json
       @Zoo.loading.$promise.then =>
-        @grid2.loadFromJSON(json, @SkillLibrary, @Zoo)
+        @grid2.loadFromJSON(json, @Zoo)
         expect(@grid2.creatures.length).toEqual(1)
-        console.log @grid2.get({x: 9, y: 8})
         expect(@grid2.get({x: 9, y: 8}).moveability).toEqual(1)
 

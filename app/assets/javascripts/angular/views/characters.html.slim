@@ -6,13 +6,18 @@ h3 My characters
       h4 Main
       img ng-src="{{ editedCharacter.p.avatar_url }}"
       b
-        | {{ editedCharacter.name }}
+        | {{ editedCharacter.p.name }}
       .form-group
         label Upload avatar
         input type='file' ng-file-select='1'
       .form-group
         label Name
-        input.form-control type='text' ng-model='editedCharacter.name'
+        input.form-control type='text' ng-model='editedCharacter.p.name'
+      .form-group.level
+        label Level
+        input.form-control type='text' ng-model='editedCharacter.p.level' readonly='true'
+        i.fa.fa-minus ng-click='editedCharacter.levelDown()'
+        i.fa.fa-plus ng-click='editedCharacter.levelUp()'
       .form-group
         label Race
         select ui-select2='1' ng-model='editedCharacter.p.race_id' ng-if='editedCharacter'
@@ -168,7 +173,7 @@ h3 My characters
       h4 Skills
       h5 Picked
       .skill-group
-        h6 Unlimited
+        h6 Unlimited ({{ editedCharacter.skillPoints('unlimited') }})
         .skill-picked ng-repeat='(id, skill) in editedCharacter.getSkills("unlimited")'
           .avatar
             img ng-src='{{ skill.avatar_url }}'
@@ -179,11 +184,11 @@ h3 My characters
             .skill-stats
               | To hit: {{ skill.toHitBonus(editedCharacter) }}
               br
-              | Damage: {{ skill.damage(editedCharacter) }}
+              | Damage: {{ skill.damageText(editedCharacter) }}
             p
               | {{ skill.text }}
       .skill-group
-        h6 Instant
+        h6 Instant ({{ editedCharacter.skillPoints('instant') }})
         .skill-picked ng-repeat='(id, skill) in editedCharacter.getSkills("instant")'
           .avatar
             img ng-src='{{ skill.avatar_url }}'
@@ -191,10 +196,15 @@ h3 My characters
           .textual
             strong 
               | {{ skill.title }}
+            .skill-stats
+              | To hit: {{ skill.toHitBonus(editedCharacter) }}
+              br
+              | Damage: {{ skill.damageText(editedCharacter) }}
+
             p
               | {{ skill.text }}
       .skill-group
-        h6 Per combat
+        h6 Per combat ({{ editedCharacter.skillPoints('combat') }})
         .skill-picked ng-repeat='(id, skill) in editedCharacter.getSkills("combat")'
           .avatar
             img ng-src='{{ skill.avatar_url }}'
@@ -202,10 +212,14 @@ h3 My characters
           .textual
             strong 
               | {{ skill.title }}
+            .skill-stats
+              | To hit: {{ skill.toHitBonus(editedCharacter) }}
+              br
+              | Damage: {{ skill.damageText(editedCharacter) }}
             p
               | {{ skill.text }}
       .skill-group
-        h6 Per day
+        h6 Per day ({{ editedCharacter.skillPoints('day') }})
         .skill-picked ng-repeat='(id, skill) in editedCharacter.getSkills("day")'
           .avatar
             img ng-src='{{ skill.avatar_url }}'
@@ -213,6 +227,10 @@ h3 My characters
           .textual
             strong 
               | {{ skill.title }}
+            .skill-stats
+              | To hit: {{ skill.toHitBonus(editedCharacter) }}
+              br
+              | Damage: {{ skill.damageText(editedCharacter) }}
             p
               | {{ skill.text }}
 
@@ -228,8 +246,13 @@ h3 My characters
           .textual
             strong 
               | {{ skill.title }}
+            .skill-stats
+              | To hit: {{ skill.toHitBonus(editedCharacter) }}
+              br
+              | Damage: {{ skill.damageText(editedCharacter) }}
             p
               | {{ skill.text }}
+
       .skill-group
         h6 Instant
         .skill-available ng-repeat='skill in editedCharacter.availableSkills("instant")'
@@ -239,6 +262,10 @@ h3 My characters
           .textual
             strong 
               | {{ skill.title }}
+            .skill-stats
+              | To hit: {{ skill.toHitBonus(editedCharacter) }}
+              br
+              | Damage: {{ skill.damageText(editedCharacter) }}
             p
               | {{ skill.text }}
       .skill-group
@@ -250,6 +277,10 @@ h3 My characters
           .textual
             strong 
               | {{ skill.title }}
+            .skill-stats
+              | To hit: {{ skill.toHitBonus(editedCharacter) }}
+              br
+              | Damage: {{ skill.damageText(editedCharacter) }}
             p
               | {{ skill.text }}
       .skill-group
@@ -261,6 +292,10 @@ h3 My characters
           .textual
             strong 
               | {{ skill.title }}
+            .skill-stats
+              | To hit: {{ skill.toHitBonus(editedCharacter) }}
+              br
+              | Damage: {{ skill.damageText(editedCharacter) }}
             p
               | {{ skill.text }}
 
@@ -277,9 +312,9 @@ h3 My characters
     img ng-src="{{ char.p.avatar_url }}"
   .textual
     .name 
-      | {{ char.name }}
+      | {{ char.p.name }}
     .desc 
-      | {{ char.description }}
+      | {{ char.p.description }}
 
 .character.col-xs-12.col-sm-6.col-md-4.col-lg3 ng-click='c.showNewCharacterDialog()'
   .avatar

@@ -1,4 +1,5 @@
 #= require spec_helper
+#= require fixtures/api
 
 describe 'EditCombatController', ->
   beforeEach ->
@@ -29,6 +30,8 @@ describe 'EditCombatController', ->
     @Perk = @model('Perk')
     @perks = [new @Perk({ id: 1, name: 'Нечеловеческая человечность' })]
     @http.whenGET('/api/perks').respond(200, @perks)
+
+    stubApiWeapons(@http)
 
     @http.flush()
 

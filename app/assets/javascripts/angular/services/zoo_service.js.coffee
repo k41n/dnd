@@ -1,10 +1,15 @@
 class window.Zoo
-  constructor: (Monster, @$injector) ->
+  constructor: (Monster, @$injector, @Creature) ->
     @loading = Monster.query {}, (monsters) =>
       @monsters = {}
       for m in monsters
-        @monsters[m.id] = new Creature(m)
+        @monsters[m.id] = @Creature.new(m)
+        @monsters[m.id].hostile = true
 
-Zoo.$inject = ["Monster", "$injector"]
+
+  getById: (id) ->
+    @monsters[id]
+
+Zoo.$inject = ["Monster", "$injector", 'Creature']
 
 angular.module("dndApp").service("Zoo", Zoo)

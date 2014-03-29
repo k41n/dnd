@@ -2,7 +2,6 @@ class window.Chars
   constructor: (@CharacterAPI, @CharacterModel, @Faye, @Perks) ->
     @Perks.loading.$promise.then =>
       @loading = @CharacterAPI.query {}, (data) =>
-        console.log "Character api bring us", data
         @characters = {}
         for c in data
           @characters[c.id] = @CharacterModel.new(c)

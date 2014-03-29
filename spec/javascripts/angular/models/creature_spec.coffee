@@ -1,8 +1,14 @@
 #= require spec_helper
+#= require fixtures/api
 
 describe 'Creature', ->
   beforeEach ->
-    @creature = new Creature
+    stubApiSkills(@http)
+    stubApiMonsters(@http)
+
+    @Creature = @factory('Creature')
+    @creature = @Creature.new
+      id: 3
       ac: 100
       name: 'Evil paladin'
       description: 'Evil paladin is so evil'
@@ -16,12 +22,12 @@ describe 'Creature', ->
     it 'can saveload fromto JSON', ->
       json = @creature.saveToJSON()
 
-      @creature2 = new Creature()
+      @creature2 = @Creature.new()
       @creature2.loadFromJSON(json)
 
-      expect(@creature2.data.ac).toEqual(100)
-      expect(@creature2.data.name).toEqual(@creature.data.name)
-      expect(@creature2.data.description).toEqual(@creature.data.description)
-      expect(@creature2.data.avatar_url).toEqual(@creature.data.avatar_url)
+      expect(@creature2.i.ac).toEqual(100)
+      expect(@creature2.i.name).toEqual(@creature.p.name)
+      expect(@creature2.i.description).toEqual(@creature.p.description)
+      expect(@creature2.i.avatar_url).toEqual(@creature.p.avatar_url)
 
 

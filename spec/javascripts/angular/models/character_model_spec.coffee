@@ -1,7 +1,12 @@
 #= require spec_helper
+#= require fixtures/api
 
 describe 'CharacterModel', ->
   beforeEach ->
+    stubApiPerks(@http)
+    stubApiSkills(@http)
+    stubApiWeapons(@http)
+
     @Skill = @model('Skill')
     @skills = [new @Skill({ id: 1, title: 'Удар ногой с разворота' })]
     @http.whenGET('/api/skills').respond(200, @skills)
@@ -15,7 +20,6 @@ describe 'CharacterModel', ->
       name: 'Character 2'
 
     @CharacterModel = @factory('CharacterModel')
-    console.log "@CharacterModel", @CharacterModel
     @char1 = @CharacterModel.new(@character_data1)
     @char2 = @CharacterModel.new(@character_data2)
 

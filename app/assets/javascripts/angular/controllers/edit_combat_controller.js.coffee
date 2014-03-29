@@ -36,7 +36,6 @@ class window.EditCombatController
 
     if @$scope.selectedChar
       unless cell.hasCreature()
-        console.log 'Placing', @$scope.selectedChar
         @$scope.grid.place(@$scope.selectedChar, cell.location)
         @$scope.selectedChar = null
         @saveCombat()
@@ -55,7 +54,6 @@ class window.EditCombatController
 
   selectMonster: (monster) ->
     @$scope.selectedMonster = monster
-    console.log '@$scope.selectedMonster', @$scope.selectedMonster
 
   selectCharacter: (char) ->
     if @$scope.selectedChar == char
@@ -90,7 +88,7 @@ class window.EditCombatController
       @$scope.background_url = data.background_url
       if data.json? && data.json.length > 0
         @$scope.combat.json = JSON.parse(data.json)
-        @$scope.grid.loadFromJSON(@$scope.combat.json, @SkillLibrary, @Zoo, @Chars) if @$scope.combat.json?
+        @$scope.grid.loadFromJSON(@$scope.combat.json, @Zoo, @Chars) if @$scope.combat.json?
 
   saveCombat: ->
     @$scope.combat.json = @$scope.grid.saveToJSON()

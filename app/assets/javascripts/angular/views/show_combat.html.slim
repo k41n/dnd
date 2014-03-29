@@ -36,16 +36,17 @@
       h3 ng-show='selectedCell.hasCreature()'
         | Monster in cell
       .cell-monster ng-show='selectedCell.hasCreature()'
-        .avatar
-          img ng-src='{{ selectedCell.creature.p.avatar_url }}'
-        .textual
-          .name
-            | {{ selectedCell.creature.p.name }}
-          .desc
-            | {{ selectedCell.creature.p.description }}
-          | HP: {{ selectedCell.creature.i.hp }}
-          br
-          | AC: {{ selectedCell.creature.i.ac }}
+        div
+          .avatar
+            img ng-src='{{ selectedCell.creature.p.avatar_url }}'
+          .textual
+            .name
+              | {{ selectedCell.creature.p.name }}
+            .desc
+              | {{ selectedCell.creature.p.description }}
+            | HP: {{ selectedCell.creature.i.hp }}
+            br
+            | AC: {{ selectedCell.creature.i.ac }}
 
         div ng-show="selectedCell.creature == creaturesBand.getActingCreature()"
           .actions
@@ -64,10 +65,14 @@
                 | East
               .btn.btn-large.btn-success ng-click='c.rotateCreature(selectedCell.creature, "west")'
                 | West
-        | {{selectedCell.creature.skills}}
         .skill ng-repeat='skill in selectedCell.creature.skills' ng-click='c.startUsingSkill(skill)' ng-class="{'selected': (selectedSkill == skill)}"
           .avatar
             img ng-src='{{ skill.avatar_url }}'
           .textual
             | {{ skill.title }}
+            .skill-stats
+              | To hit: {{ skill.toHitBonus() }}
+              br
+              | Damage: {{ skill.damageText() }}
+
 

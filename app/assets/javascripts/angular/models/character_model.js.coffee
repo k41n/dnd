@@ -1,34 +1,41 @@
-class window.CharacterModel
-  constructor: (@SkillLibrary, @Perks) ->
-    console.log 'Constructor'
+#= require ./creature
+
+class window.CharacterModel extends Creature
+  constructor: (@SkillLibrary, @Perks, @Weapons, @Racing) ->
+    1
 
   new: (permanent_data, instance_data) ->
-    ret = new CharacterModel(@SkillLibrary, @Perks)
+    ret = new CharacterModel(@SkillLibrary, @Perks, @Weapons)
     angular.extend ret, @
-    ret.p = permanent_data
-    ret.i = instance_data
+    ret.p ||= {}
+    for k,v of permanent_data
+      ret.p[k] = v
+    if instance_data?
+      for k,v of instance_data
+        ret.i[k] = v
+
+    unless ret.i?
+      ret.i = {}
+      angular.extend ret.i, ret.p
     ret.perks = {}
     if ret.p.perk_ids?
       for perk_id in ret.p.perk_ids
-        console.log 'Filling in perk with id', perk_id
         perk = @Perks.getById(perk_id)
         if perk?
           ret.perks[perk.id] = perk
 
-    ret.skills = {}          
-    if ret.p.skill_ids?
-      for skill_id in ret.p.skill_ids
-        console.log 'Filling in perk with id', perk_id
-        skill = @SkillLibrary.getById(skill_id)
-        if skill?
-          ret.skills[skill.id] = skill
-    ret
+    ret.skills = {}       
+    ret.p.skill_ids ||= []
+    for skill_id in ret.p.skill_ids
+      skill = @SkillLibrary.getById(skill_id)
+      if skill?
+        ret.addSkill skill
 
-  setCoords: (location, grid) ->
-    console.log 'setCoords', location, grid
-    @grid = grid
-    @location = location
-    console.log '@', @
+    if ret.p.weapon_id
+      ret.weapon = @Weapons.create(ret.p.weapon_id)
+    ret.hostile = false
+
+    ret
 
   saveToJSON: ->
     res =
@@ -69,7 +76,7 @@ class window.CharacterModel
     return 10 + bonus + Math.max(@mod('wis'), @mod('cha')) + Math.floor(@p.level / 2)
 
   mod: (attr) ->
-    Math.floor( (@p[attr] - 10) / 2 )
+    Math.floor( (@getStat(attr) - 10) / 2 )
 
   getHealsCount: ->
     return '-' unless @character_class?
@@ -147,8 +154,6 @@ class window.CharacterModel
   availableSkills: (cooldown_type) ->
     ret = []
     @skills ||= {}
-    console.log 'availableSkills'
-    console.log '@SkillLibrary.skills', @SkillLibrary.skills
     for k,v of @SkillLibrary.skills
       ret.push v if v.pickable(@) && !@skills[k]? && v.cooldown_type == cooldown_type
     ret
@@ -156,6 +161,7 @@ class window.CharacterModel
   addSkill: (skill) ->
     @skills[skill.id] = skill
     @p.skill_ids = @skillIds()
+    skill.assignTo @
 
   removeSkill: (skill) ->
     delete @skills[skill.id]
@@ -215,6 +221,41 @@ class window.CharacterModel
       @p.stat_increment_points += 1
     @p[attr] -= 1      
 
-CharacterModel.$inject = ['SkillLibrary', 'Perks']
+  addAffect: (affect) ->
+    @affects ||= []
+    @affects.push affect
 
-angular.module("dndApp").factory('CharacterModel', (SkillLibrary, Perks) -> new CharacterModel(SkillLibrary, Perks))
+  halfLevel: ->
+    Math.floor( @i.level / 2.0 )
+
+  addSkillByJsClass: (jsClass) ->
+    skillToAdd = @SkillLibrary.getByJsClass(jsClass)
+    console.log 'skillToAdd', skillToAdd
+    @addSkill skillToAdd if skillToAdd?
+
+  skillPoints: (cooldown_type) ->
+    return 2 - Object.keys(@getSkills(cooldown_type)).length if cooldown_type == 'unlimited'
+    return 1 - Object.keys(@getSkills(cooldown_type)).length if cooldown_type == 'instant'
+    if cooldown_type == 'combat'
+      if @p.level < 3
+        @total = 1
+      else
+        @total = 2
+      return @total - Object.keys(@getSkills(cooldown_type)).length 
+    if cooldown_type == 'day'
+      if @p.level < 5
+        @total = 1
+      else
+        @total = 2
+      return @total - Object.keys(@getSkills(cooldown_type)).length 
+
+  levelUp: ->
+    @p.level += 1 if @p.level < 5
+
+  levelDown: ->
+    @p.level -= 1 if @p.level > 1
+
+
+CharacterModel.$inject = ['SkillLibrary', 'Perks', 'Weapons', 'Racing']
+
+angular.module("dndApp").factory('CharacterModel', (SkillLibrary, Perks, Weapons, Racing) -> new CharacterModel(SkillLibrary, Perks, Weapons, Racing))

@@ -1,15 +1,27 @@
 class window.Creature
-  constructor: (monster_resource) ->
-    @p = monster_resource if monster_resource?
-    @p ||= {}
-    @i = {}
-    @location = undefined
-    @rotateable = false
-    @installEvents()
+  constructor: (@SkillLibrary) ->
+    @
 
-  saveToJSON: =>
-    console.log 'Creature::saveToJSON'
-    console.log @
+  new: (permanent, instance) ->
+    ret = new Creature(@SkillLibrary)
+    angular.extend ret, @
+    ret.p = permanent
+    ret.i = instance
+    unless ret.i?
+      ret.i = {}
+      angular.extend ret.i, ret.p
+
+    ret.location = undefined
+    ret.rotateable = false
+    ret.installEvents()
+    ret
+
+  toHitBonus: ->
+    @i.toHitBonus ||= 0
+    @i.toHitBonus
+
+  saveToJSON: ->
+    console.log 'Saving to json', @
     res =
       instance: @i
       id: @p.id
@@ -18,34 +30,44 @@ class window.Creature
       type: 'monster'
     res
 
-  loadFromJSON: (json, SkillLibrary, Zoo) =>
-    console.log 'json = ', json
-    @p = Zoo.monsters[json.id].p
+  loadFromJSON: (json) ->
+    @i = json.instance
     @skills = []
     @location = json.location
     for skill in json.skills
-      s = SkillLibrary.create(skill)
+      s = @SkillLibrary.create(skill)
       @skills.push s
-    if json.skill_ids?
-      for skill in json.skill_ids
-        s = SkillLibrary.create(skill)
-        @skills.push s
 
   skillsJSON: ->
     @skills ||= {}
     $.map @skills, (skill) ->
       skill.id
 
-  setCoords: (location, grid) =>
+  setCoords: (location, grid) ->
     @grid = grid
     @location = location
 
-  moveTo: (location) =>
+  moveTo: (location) ->
     @setCoords(location)
 
-  addAffect: (affect) =>
+  addAffect: (affect) ->
     @affects ||= []
     @affects.push affect
+
+  deleteAffect: (affect) ->
+    @affects ||= []
+    index = @affects.indexOf(affect)
+    @affects.splice(index,1)
+
+  affectNames: ->
+    @affects ||= []
+    $.map @affects, (a) ->
+      a.name
+
+  affectTypes: ->
+    @affects ||= []
+    $.map @affects, (a) ->
+      a.type
 
   trigger: (name, params) =>
     if @eventHandlers? and @eventHandlers[name]?
@@ -58,19 +80,25 @@ class window.Creature
     @eventHandlers[name] = new Array() unless @eventHandlers[name]?
     @eventHandlers[name].push callback
 
+  neighbors: (range) ->
+    return [] unless @grid?
+    $.grep @grid.creaturesInRadius(@location, (range || 1) ), (c) =>
+      c != @
 
-  neighbors: ->
+  hostileNeighbours: ->
     return [] unless @grid?
     $.grep @grid.creaturesInRadius(@location, 1), (c) =>
-      c != @
+      c != @ && c.hostile
 
   installEvents: ->
     @registerEventHandler 'received_damage', (params) =>
-      console.log "#{@name} received #{params.damage} from #{params.enemy.name}"
-      @hp -= params.damage
-      if @hp <= 0
+      @i.hp -= params.damage
+      if @i.hp <= 0
         @grid.deleteMonster(@)
 
   mod: (attr) ->
     Math.floor( @data[attr] - 10 )
 
+Creature.$inject = ['SkillLibrary']
+
+angular.module("dndApp").factory('Creature', (SkillLibrary) -> new Creature(SkillLibrary))

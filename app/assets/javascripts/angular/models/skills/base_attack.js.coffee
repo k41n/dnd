@@ -7,25 +7,41 @@ class window.Skills.BaseAttack
       for k,v of factory_params
         @[k] = v
 
+  assignTo: (char) ->
+    @char = char
+
+  # Could and might be redefined in inherited objects
+  highlightTargets: (grid, applicator) ->
+    @highlightInRadius(grid,applicator, 2)
+
   highlightInRadius: (grid, applicator, radius) ->
     for creature in grid.creaturesInRadius(applicator.location, radius)
       cell = grid.get(creature.location)
       cell.attackable = true unless creature == applicator
 
+  toHitVersus: ->
+    @target.i[@attack_char_to]
+
   toHit: ->
     # Rolling on hit
-    @to_hit = Roll.do(20, 1)
-    @to_hit_bonus = @applicator.data[@attack_char_from]
-    @to_hit_penalty = @target.data[@attack_char_to]
+    @to_hit = Roll.do(1, 20)
+    @to_hit_bonus = @toHitBonus()
+    @to_hit_penalty = @toHitVersus()
 
   toHitBonus: (char) ->
-    Math.floor(char.level / 2.0) + char.mod(@attack_char_from)
+    char ||= @char
+    char.halfLevel() + char.mod(@attack_char_from) + char.toHitBonus()
 
-  damage: (char) ->
-    char.getWeaponDamage()
+  damageText: (char) ->
+    char ||= @char
+    if char? 
+      "#{@damageRollCount(char)}d#{@damageRollDice(char)}+#{@damageBonus(char)}"
+    else
+      " - "
 
   checkHit: ->
     @toHit()
+    console.log "Rolled #{@to_hit + @to_hit_bonus} versus #{@to_hit_penalty}"
     @to_hit + @to_hit_bonus > @to_hit_penalty
 
   pullHitTriggers: ->
@@ -74,8 +90,29 @@ class window.Skills.BaseAttack
 
     return unless result
 
+  damageRollCount: (char) ->
+    char.damage_count
+
+  damageRollDice: (char)->
+    char.damage_dice
+
+  damageBonus: ->
+    char.damageBonus
+
   countDamageDone: ->
-    damage_done = Roll.do(@damage_count, @damage_dice, @damage_bonus)
+    damage_done = Roll.do(@damageRollCount(), @damageRollDice(), @damageBonus())
 
   pickable: (char) ->
-    @available_for.indexOf(char.p.character_class_id) != -1
+    @available_for.indexOf(char.p.character_class_id) != -1 && 
+      char.p.skill_ids.indexOf(@id) == -1 && 
+      char.p.level >= @min_level &&
+      char.skillPoints(@cooldown_type) > 0
+
+  apply: (applicator, target) ->
+    @applicator = applicator
+    @target = target
+    if @checkHit()
+      @pullHitTriggers()
+    else
+      console.log 'Missed!'
+      @pullMissTriggers()

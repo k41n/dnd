@@ -25,7 +25,6 @@ class window.GamesController
       @createGame(requisites)
 
   showDeleteGameDialog: (game) =>
-    console.log 'showDeleteGameDialog'
     modalInstance = @$modal.open
       templateUrl: '/delete_game_dialog.html'
       controller: 'DeleteGameDialogController'
@@ -37,7 +36,6 @@ class window.GamesController
     game.$save {} # On success faye broadcast will be fired
 
   destroyGame: (game) =>
-    console.log "Destroying game", game
     g = new @Game(game: game)
     g.$delete 
       id: game.id

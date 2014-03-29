@@ -75,7 +75,6 @@ class window.EditGameController
       @$scope.errorMessage = 'Already invited'
 
   uninviteCharacter: (name) ->
-    console.log "Uninviting", name
     @Chars.uninviteByName(name, @$scope.game).then (data) =>
       invitedChar = @Chars.findByName(name)
       if invitedChar

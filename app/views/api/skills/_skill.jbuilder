@@ -10,3 +10,4 @@ json.damage_count       skill.damage_count
 json.damage_bonus       skill.damage_bonus
 json.available_for      skill.available_for_ids
 json.cooldown_type      skill.cooldown_type
+json.min_level          skill.min_level

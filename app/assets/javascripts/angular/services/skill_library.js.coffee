@@ -6,7 +6,6 @@ class window.SkillLibrary
         @skills[skill.id] = @build(skill)
 
   create: (id) ->
-    console.log 'SkillLibrary create', id
     skill = @skills[id]
     @build(skill)
 
@@ -19,7 +18,9 @@ class window.SkillLibrary
   getById: (id) ->
     @skills[id]
 
-
+  getByJsClass: (jsClass) ->
+    for i, skill of @skills
+      return skill if skill.js_class == jsClass
 
 SkillLibrary.$inject = ["Skill", "$injector"]
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140326222400) do
+ActiveRecord::Schema.define(version: 20140329205322) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -300,6 +300,7 @@ ActiveRecord::Schema.define(version: 20140326222400) do
     t.datetime "updated_at"
     t.text     "text"
     t.string   "cooldown_type"
+    t.integer  "min_level",           default: 1
   end
 
   create_table "weapon_assignments", force: true do |t|

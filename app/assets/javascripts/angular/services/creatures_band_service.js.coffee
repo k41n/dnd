@@ -4,7 +4,7 @@ class window.CreaturesBand
   loadCreatures: (grid) ->
     @grid = grid
     @creatures = grid.creatures.slice(0)
-    @creatures.push { data: {name: 'End of Turn'} }
+    @creatures.push { p: {name: 'End of Turn'} }
     @current = 0
 
   getCreatures: ->
@@ -16,7 +16,7 @@ class window.CreaturesBand
   endTurn: (creature) ->
     creature.trigger 'endOfTurn'
     @current += 1
-    @endRound() if @getActingCreature().data.name == 'End of Turn'
+    @endRound() if @getActingCreature().p.name == 'End of Turn'
     @current
 
   endRound: ->

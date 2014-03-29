@@ -27,7 +27,6 @@ class window.Grid
   saveToJSON: =>
     {
       creatures: $.map @creatures, (creature) =>
-        console.log "creature", creature
         creature.saveToJSON()
       cells: @cellsJSON()
     }
@@ -43,22 +42,21 @@ class window.Grid
     ret
 
 
-  loadFromJSON: (data, SkillLibrary, Zoo, Chars) =>
+  loadFromJSON: (data, Zoo, Chars) =>
+    console.log "Loading GRID from", data
     @createCells()
     @creatures = []
-    console.log data
     for creatureJSON in data.creatures
       if creatureJSON.type == 'monster'
-        creature = new Creature()
-        if Zoo.monsters[creatureJSON.id]?
-          creature.loadFromJSON(creatureJSON, SkillLibrary, Zoo)
+        creature = Zoo.getById(creatureJSON.id)
+        console.log 'creature', creature
+        if creature
+          creature.loadFromJSON(creatureJSON)
           if creature.location?
             @place creature, creature.location
       else 
-        console.log 'Creating char', creatureJSON
         creature = Chars.create(creatureJSON.id)
         creature.location = creatureJSON.location
-        console.log 'char is', creature
         if creature.location?
           @place creature, creature.location
 
@@ -107,13 +105,14 @@ class window.Grid
     speed = 5
     position = creature.location
     minX = Math.max(position.x - speed, 0)
-    maxX = Math.max(position.x + speed, 24)
+    maxX = Math.min(position.x + speed, 24)
     minY = Math.max(position.y - speed, 0)
-    maxY = Math.max(position.y + speed, 24)
+    maxY = Math.min(position.y + speed, 24)
     for x in [minX..maxX]
       for y in [minY..maxY]
         if ( (Math.abs(x - position.x) + Math.abs(y - position.y) <= speed) )
           location = { x: x, y: y }
+          console.log location
           @get(location).moveable = true
           @moveableCells.push @get(location)
 

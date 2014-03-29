@@ -15,8 +15,7 @@ class window.CharactersController
 
   editCharacter: (char) ->
     @$scope.editedCharacter = char
-    console.log "char = ", char
-    @$scope.uploader.url = "/api/characters/#{char.id}/avatar"
+    @$scope.uploader.url = "/api/characters/#{char.p.id}/avatar"
     @$scope.$watch 'editedCharacter.p.race_id', (newVal, oldVal) =>
       if newVal? && @$scope.editedCharacter?
         race = @Racing.create(newVal)
@@ -57,8 +56,6 @@ class window.CharactersController
       if newVal?
         weapon = @Weapons.create(newVal)
         if weapon?
-          if editedCharacter?
-            console.log "New weapon", editedCharacter.p.weapon_id
           @$scope.editedCharacter.weapon = weapon
 
   saveCharacter: ->
@@ -70,7 +67,7 @@ class window.CharactersController
     @$scope.editedCharacter = null
 
   deleteCharacter: ->
-    new @Character(@$scope.editedCharacter).$delete()
+    new @CharacterAPI(@$scope.editedCharacter.p).$delete()
     @$scope.editedCharacter = null
 
   initFileUploader: ->
