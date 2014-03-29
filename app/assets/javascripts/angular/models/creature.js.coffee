@@ -11,6 +11,7 @@ class window.Creature
       data: @data
       location: @location
       skills: @skillsJSON()
+      type: 'monster'
     @data.skills = skills
     res
 
@@ -21,6 +22,10 @@ class window.Creature
     for skill in json.skills
       s = SkillLibrary.create(skill)
       @skills.push s
+    if json.skill_ids?
+      for skill in json.skill_ids
+        s = SkillLibrary.create(skill)
+        @skills.push s
 
   skillsJSON: ->
     @skills ||= {}

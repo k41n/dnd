@@ -42,16 +42,25 @@ class window.Grid
     ret
 
 
-  loadFromJSON: (data, SkillLibrary, Zoo) =>
+  loadFromJSON: (data, SkillLibrary, Zoo, Chars) =>
     @createCells()
     @creatures = []
+    console.log data
     for creatureJSON in data.creatures
-      creature = new Creature()
-      console.log "Zoo.monsters = ", Zoo.monsters
-      if Zoo.monsters[creatureJSON.data.id]?
-        creature.loadFromJSON(creatureJSON, SkillLibrary, Zoo)
+      if creatureJSON.type == 'monster'
+        creature = new Creature()
+        if Zoo.monsters[creatureJSON.data.id]?
+          creature.loadFromJSON(creatureJSON, SkillLibrary, Zoo)
+          if creature.location?
+            @place creature, creature.location
+      else 
+        console.log 'Creating char', creatureJSON
+        creature = Chars.create(creatureJSON.id)
+        creature.location = creatureJSON.location
+        console.log 'char is', creature
         if creature.location?
           @place creature, creature.location
+
     for cellJSON in data.cells
       cell = @get(cellJSON.location)
       cell.loadFromJSON(cellJSON)

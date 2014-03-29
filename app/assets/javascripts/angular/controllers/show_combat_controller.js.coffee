@@ -1,5 +1,5 @@
 class window.ShowCombatController
-  constructor: (@$scope, @$routeParams, @Zoo, @Combat, @Faye, @SkillLibrary, @$timeout, @CreaturesBand, @current_user) ->
+  constructor: (@$scope, @$routeParams, @Zoo, @Combat, @Faye, @SkillLibrary, @$timeout, @CreaturesBand, @current_user, @Chars) ->
     @$scope.c = @
     @$scope.grid = new Grid()
     @$scope.currentUser = @current_user
@@ -48,7 +48,7 @@ class window.ShowCombatController
 
   loadFromData: (data) ->
     @$scope.combat.json = JSON.parse(data.json)
-    @$scope.grid.loadFromJSON(@$scope.combat.json, @SkillLibrary, @Zoo) if @$scope.combat.json?
+    @$scope.grid.loadFromJSON(@$scope.combat.json, @SkillLibrary, @Zoo, @Chars) if @$scope.combat.json?
     @$scope.background_url = data.background_url if data.background_url?
     @$scope.creaturesBand = @CreaturesBand
     @$scope.creaturesBand.loadCreatures @$scope.grid
@@ -104,6 +104,6 @@ class window.ShowCombatController
     console.log @$scope.selectedSkill
 
 
-ShowCombatController.$inject = ["$scope", "$routeParams", "Zoo", "Combat", "Faye", "SkillLibrary", "$timeout", "CreaturesBand", "current_user"]
+ShowCombatController.$inject = ["$scope", "$routeParams", "Zoo", "Combat", "Faye", "SkillLibrary", "$timeout", "CreaturesBand", "current_user", 'Chars']
 
 angular.module("dndApp").controller("ShowCombatController", ShowCombatController)

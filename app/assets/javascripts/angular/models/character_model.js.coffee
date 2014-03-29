@@ -1,10 +1,25 @@
-class window.CharacterModel
+#= require './creature'
+
+class window.CharacterModel extends Creature
   constructor: (data, @SkillLibrary) ->
-    for key,val of data
-      @[key] = val
+    super(data)
     @skills = {}
-    if @skill_ids
-      for skill_id in @skill_ids
+    if @data.skill_ids
+      for skill_id in @data.skill_ids
+        @addSkill @SkillLibrary.skills[skill_id]
+
+  saveToJSON: =>
+    res =
+      id: @data.id
+      type: 'character'
+      location: @location
+    res
+
+  loadFromJSON: (json, SkillLibrary, Zoo, Chars) =>
+    @data = Chars.characters(json.id)
+    @skills = {}
+    if @data.skill_ids
+      for skill_id in @data.skill_ids
         @addSkill @SkillLibrary.skills[skill_id]
 
   maxHP: ->

@@ -9,20 +9,7 @@ class window.CharactersController
     @$scope.characters = {}
     characters = @Character.query {}, =>
       for character in characters
-        @$scope.characters[character.id] = character
-        character.abilityTrainings = {}
-        for a in character.character_ability_ids
-          ability = @CharacterAbilities.character_abilities[a]
-          character.abilityTrainings[ability.name] = true
-        character.perks = {}
-        for perk_id in character.perk_ids
-          perk = @Perks.perks[perk_id]
-          character.perks[perk.id] = perk
-        character.skills = {}
-        for skill_id in character.skill_ids
-          skill = @SkillLibrary.skills[skill_id]
-          character.skills[skill.id] = skill
-
+        @$scope.characters[character.id] = @Chars.create(character_id)
 
   createCharacter: (params)->
     new @Character(params).$save()
