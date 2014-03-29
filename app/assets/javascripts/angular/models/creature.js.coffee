@@ -92,7 +92,10 @@ class window.Creature
 
   installEvents: ->
     @registerEventHandler 'received_damage', (params) =>
+      console.log "#{@.p.name} received #{params.damage} of damage"
+      console.log "HP changes from #{i.hp}"
       @i.hp -= params.damage
+      console.log "to #{i.hp}"
       if @i.hp <= 0
         @grid.deleteMonster(@)
 
