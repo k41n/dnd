@@ -30,12 +30,18 @@ class window.Skills.BaseAttack
 
   toHitBonus: (char) ->
     char ||= @char
-    char.halfLevel() + char.mod(@attack_char_from) + char.toHitBonus()
+    if char?
+      char.halfLevel() + char.mod(@attack_char_from) + char.toHitBonus()
+    else
+      '-'
 
   damageText: (char) ->
-    char ||= @char
+    char = @char unless char?
     if char? 
-      "#{@damageRollCount(char)}d#{@damageRollDice(char)}+#{@damageBonus(char)}"
+      rollCount = @damageRollCount(char)
+      rollDice = @damageRollDice(char)
+      bonus = @damageBonus(char)
+      "#{rollCount}d#{rollDice}+#{bonus}"
     else
       " - "
 
@@ -96,7 +102,7 @@ class window.Skills.BaseAttack
   damageRollDice: (char)->
     char.damage_dice
 
-  damageBonus: ->
+  damageBonus: (char) ->
     char.damageBonus
 
   countDamageDone: ->

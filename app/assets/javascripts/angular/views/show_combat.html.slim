@@ -10,13 +10,13 @@
               .monster-in-grid ng-show='cell.creature'
                 img ng-src='{{ cell.creature.p.avatar_url }}'
               .rotation-marker ng-show='cell.creature' ng-class="cell.creature.rotation"
-                span ng-if="cell.creature.data.rotation == 'north'"
+                span ng-if="cell.creature.i.rotation == 'north'"
                   | &#8657;
-                span ng-if="cell.creature.data.rotation == 'south'"
+                span ng-if="cell.creature.i.rotation == 'south'"
                   | &#8659;
-                span ng-if="cell.creature.data.rotation == 'east'"
+                span ng-if="cell.creature.i.rotation == 'east'"
                   | &#8656;
-                span ng-if="cell.creature.data.rotation == 'west'"
+                span ng-if="cell.creature.i.rotation == 'west'"
                   | &#8658;
 
   .col-md-2
@@ -46,7 +46,7 @@
               | {{ selectedCell.creature.p.description }}
             | HP: {{ selectedCell.creature.i.hp }}
             br
-            | AC: {{ selectedCell.creature.i.ac }}
+            | AC: {{ selectedCell.creature.getEffectiveAC() }}
 
         div ng-show="selectedCell.creature == creaturesBand.getActingCreature()"
           .actions

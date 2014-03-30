@@ -62,6 +62,8 @@ class window.CharactersController
     @$scope.editedCharacter.character_ability_ids = @$scope.editedCharacter.trainedAbilityIds(@CharacterAbilities)
     @$scope.editedCharacter.perk_ids = @$scope.editedCharacter.perkIds()
     @$scope.editedCharacter.skill_ids = @$scope.editedCharacter.skillIds()
+    @$scope.editedCharacter.p.hp = @$scope.editedCharacter.maxHP()
+    @$scope.editedCharacter.p.ac = @$scope.editedCharacter.getAC()
     nc = new @CharacterAPI(@$scope.editedCharacter.p)
     nc.$update()
     @$scope.editedCharacter = null

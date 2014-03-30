@@ -17,6 +17,11 @@ class window.Skills.ProtectiveShield extends Skills.BaseAttack
   damageBonus: ->
     0
 
+  highlightTargets: (grid, applicator) ->
+    $.map grid.creaturesInRadius(applicator.location, 100), (c) ->
+      unless c.hostile
+        grid.get(c.location).attackable = true
+
   beforeHit: ->
     new Affects.ProtectiveShieldBuff().applyTo(@target, {by: @applicator})
     @applicator.removeSkill @

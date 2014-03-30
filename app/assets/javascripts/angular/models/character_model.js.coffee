@@ -255,6 +255,11 @@ class window.CharacterModel extends Creature
   levelDown: ->
     @p.level -= 1 if @p.level > 1
 
+  getEffectiveAC: ->
+    @i.acBonus ||= 0
+    @i.ac ||= 0
+    @i.ac + @i.acBonus
+
 
 CharacterModel.$inject = ['SkillLibrary', 'Perks', 'Weapons', 'Racing']
 

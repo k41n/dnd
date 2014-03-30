@@ -22,4 +22,4 @@ class window.Skills.ProtectingStrike extends Skills.BaseAttack
     char.mod('cha')
 
   beforeHit: ->
-    @applicator.addSkillByJsClass('Skills.ProtectingShield')
+    @applicator.addSkillByJsClass('Skills.ProtectiveShield')
