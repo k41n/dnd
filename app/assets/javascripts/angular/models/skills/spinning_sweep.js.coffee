@@ -6,8 +6,21 @@ class window.Skills.SpinningSweep extends Skills.BaseAttack
   constructor: (factory_params) ->
     super(factory_params)
 
-  countDamageDone: ->
-    Roll.do(@applicator.data.weapons[0].damage_dice, @applicator.data.weapons[0].damage_count, @applicator.mod('str'))
+  toHitBonus: (char) ->
+    char ||= @char
+    super(char)
+
+  damageRollCount: (char) ->
+    char ||= @char
+    char.weapon.damage_count
+
+  damageRollDice: (char) ->
+    char ||= @char
+    char.weapon.damage_dice
+
+  damageBonus: (char) ->
+    char ||= @char
+    char.mod('str')
 
   highlightTargets: (grid, applicator) ->
     @highlightInRadius(grid,applicator, 2)
@@ -19,7 +32,11 @@ class window.Skills.SpinningSweep extends Skills.BaseAttack
       @pullHitTriggers()
     else
       @pullMissTriggers()
-      new CombatScroll("Miss", '#ffff00', target.location).act()
 
   afterHit: ->
-    new CombatScroll("KnockBack", '#ffff00', @target.location).act()
+    super
+    target = @target
+    setTimeout ->
+      new CombatScroll("KnockBack", '#ffff00', target.location).act()
+    , 1000
+    new Affects.Knockback().applyTo(@target, {by: @applicator})

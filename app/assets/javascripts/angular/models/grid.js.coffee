@@ -24,11 +24,12 @@ class window.Grid
     @rows = [0...25].map (x) =>
       @cells[x]
 
-  saveToJSON: =>
+  saveToJSON: (creatureBand) =>
     {
       creatures: $.map @creatures, (creature) =>
         creature.saveToJSON()
       cells: @cellsJSON()
+      currentTurn: creatureBand.currentTurnNumber()
     }
 
   cellsJSON: =>
@@ -46,6 +47,7 @@ class window.Grid
     console.log "Loading GRID from", data
     @createCells()
     @creatures = []
+    @currentTurn ||= if data.currentTurn then data.currentTurn else 0
     for creatureJSON in data.creatures
       if creatureJSON.type == 'monster'
         creature = Zoo.getById(creatureJSON.id)

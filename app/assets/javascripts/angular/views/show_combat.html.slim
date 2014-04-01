@@ -47,7 +47,9 @@
             | HP: {{ selectedCell.creature.i.hp }}
             br
             | AC: {{ selectedCell.creature.getEffectiveAC() }}
-
+        .affects
+          .affect ng-repeat='affect in selectedCell.creature.affects'
+            | {{affect.type}}
         div ng-show="selectedCell.creature == creaturesBand.getActingCreature()"
           .actions
             .btn.btn-large.btn-success ng-click='c.markMoveableCellsForCreature(selectedCell.creature)'
@@ -65,7 +67,7 @@
                 | East
               .btn.btn-large.btn-success ng-click='c.rotateCreature(selectedCell.creature, "west")'
                 | West
-        .skill ng-repeat='skill in selectedCell.creature.skills' ng-click='c.startUsingSkill(skill)' ng-class="{'selected': (selectedSkill == skill)}"
+        .skill ng-repeat='skill in selectedCell.creature.skills' ng-click='c.startUsingSkill(skill)' ng-class="{'selected': (selectedSkill == skill)}" ng-show="selectedCell.creature == creaturesBand.getActingCreature()"
           .avatar
             img ng-src='{{ skill.avatar_url }}'
           .textual

@@ -91,7 +91,7 @@ class window.EditCombatController
         @$scope.grid.loadFromJSON(@$scope.combat.json, @Zoo, @Chars) if @$scope.combat.json?
 
   saveCombat: ->
-    @$scope.combat.json = @$scope.grid.saveToJSON()
+    @$scope.combat.json = @$scope.grid.saveToJSON(0)
     params = 
       json: JSON.stringify(@$scope.combat.json)
     @Combat.update { id: @$scope.combat.id }, { combat: params }

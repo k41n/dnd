@@ -50,6 +50,7 @@ class window.ShowCombatController
         @loadFromData(data)
 
   loadFromData: (data) ->
+    console.log 'all data', data
     @$scope.combat.json = JSON.parse(data.json)
     @$scope.grid.loadFromJSON(@$scope.combat.json, @Zoo, @Chars) if @$scope.combat.json?
     @$scope.background_url = data.background_url if data.background_url?
@@ -57,7 +58,7 @@ class window.ShowCombatController
     @$scope.creaturesBand.loadCreatures @$scope.grid
 
   saveCombat: ->
-    @$scope.combat.json = @$scope.grid.saveToJSON()
+    @$scope.combat.json = @$scope.grid.saveToJSON(@CreaturesBand)
     params =
       json: JSON.stringify(@$scope.combat.json)
     @Combat.update { id: @$scope.combat.id }, { combat: params }
@@ -91,6 +92,7 @@ class window.ShowCombatController
 
   endTurn: (creature) ->
     @$scope.creaturesBand.endTurn(creature)
+    @saveCombat()
 
   setCreatureRotatable: (creature) =>
     creature.rotatable = true

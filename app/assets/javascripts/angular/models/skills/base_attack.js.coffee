@@ -86,6 +86,7 @@ class window.Skills.BaseAttack
     1
 
   pullMissTriggers: ->
+    new CombatScroll("Miss", '#ffff00', target.location).act()
     result = @applicator.trigger 'missed',
       target: @target
 

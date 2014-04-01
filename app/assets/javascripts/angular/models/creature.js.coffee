@@ -21,7 +21,6 @@ class window.Creature
     @i.toHitBonus
 
   saveToJSON: ->
-    console.log 'Saving to json', @
     res =
       instance: @i
       id: @p.id
@@ -51,8 +50,10 @@ class window.Creature
     @setCoords(location)
 
   addAffect: (affect) ->
+    console.log 'PUSHING AFFECTS---------------------'
     @affects ||= []
     @affects.push affect
+    console.log 'AFFECTS AFTER PUSH', @affects
 
   deleteAffect: (affect) ->
     @affects ||= []
