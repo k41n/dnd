@@ -87,8 +87,6 @@ h3 My characters
           b
             | Remaining points: {{ editedCharacter.p.stat_points }}
           br
-          b
-            | Stat points: {{ editedCharacter.p.stat_increment_points }}
 
     .defence
       fieldset
@@ -157,10 +155,13 @@ h3 My characters
     .perks
       h4 Perks
       h5 Picked
-      ul
-        li ng-repeat='perk in editedCharacter.getPerks()'
+      ul.picked-perks
+        li.picked-perk ng-repeat='perk in editedCharacter.getPerks()'
           | {{ perk.name }}
+          br
+          | {{ perk.desc() }}
           i.fa.fa-minus ng-click='editedCharacter.removePerk(perk)'
+          i.fa.fa-wrench ng-click='c.configurePerk(perk)' ng-show='perk.configurable()'          
       h5 Available
       .form-group
         input.form-control type='text' ng-model='perkFilter' placeholder='Type perk name'

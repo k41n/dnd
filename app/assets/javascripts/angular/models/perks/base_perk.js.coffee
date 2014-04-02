@@ -6,3 +6,24 @@ class window.Perks.BasePerk
 
   pickable: (character) ->
     false
+
+  autoPickable: ->
+    false
+
+  onPicked: (character) ->
+    @char = character
+
+  onRemoved: (character) ->
+    @char = null
+
+  configurable: ->
+    false
+
+  dialogClass: ->
+    1
+
+  dialogTemplate: ->
+    1
+
+  desc: ->
+    @description || ''

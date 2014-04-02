@@ -24,6 +24,9 @@ class window.CharactersController
             @$scope.editedCharacter.race.deselectedFor(@$scope.editedCharacter) 
           race.selectedFor(@$scope.editedCharacter)
           @$scope.editedCharacter.race = race
+      if @$scope.editedCharacter?
+        @$scope.editedCharacter.autoPickPerks(@Perks)
+          
 
     @$scope.$watch 'editedCharacter.p.character_class_id', (newVal, oldVal) =>
       if newVal?
@@ -110,6 +113,14 @@ class window.CharactersController
 
   onCharacterDeleted: (data) =>
     delete @$scope.characters[data.id]
+
+  configurePerk: (perk) ->
+    modalInstance = @$modal.open
+      templateUrl: perk.dialogTemplate()
+      controller: perk.dialogClass()
+    modalInstance.result.then (requisites) ->
+      console.log 'Modal dismissed', requisites
+      perk.configure(requisites)
 
 CharactersController.$inject = ["$scope", "CharacterAPI", 'CharacterModel', "$injector", "$modal", "$fileUploader", "Faye", "Racing", "CharacterClasses", "Armors", "Weapons", "CharacterAbilities", "Deities", "Perks", "SkillLibrary", "Chars"]
 

@@ -119,6 +119,7 @@ class window.CharacterModel extends Creature
 
   getStat: (stat_name) ->
     bonus = if @statBonuses? && @statBonuses[stat_name]? then @statBonuses[stat_name] else 0
+    bonus += @i["#{stat_name}_bonus"] if @i && @i["#{stat_name}_bonus"]
     @p[stat_name] + bonus
 
   trainedAbilityIds: (CharacterAbilities) ->
@@ -129,10 +130,19 @@ class window.CharacterModel extends Creature
 
   availablePerks: (Perks) ->
     ret = []
-    @perks ||= {}
     for k,v of Perks.perks
       ret.push v if v.pickable(@) && !@perks[k]?
     ret
+
+  autoPickPerks: (Perks) ->
+    @perks ||= {}    
+    for k,v of Perks.perks
+      if v.pickable(@) && !@perks[k]? && v.autoPickable()
+        console.log 'Autopicking', v
+        @addPerk(v)
+      if @perks[k] && !v.pickable(@) && v.autoPickable()
+        console.log 'Autoremoving', v
+        @removePerk(v) 
 
   perkIds: ->
     if @perks? && Object.keys(@perks)?
@@ -144,8 +154,10 @@ class window.CharacterModel extends Creature
   addPerk: (perk) ->
     @perks ||= {}
     @perks[perk.id] = perk
+    perk.onPicked(@)
 
   removePerk: (perk) ->
+    perk.onRemoved(@)
     delete @perks[perk.id]
 
   getPerks: ->
@@ -181,7 +193,7 @@ class window.CharacterModel extends Creature
       []
 
   canIncrease: (attr) ->
-    (@priceOfIncrementFrom(@p[attr]) <= @p.stat_points) || (@p.stat_increment_points > 0)
+    @priceOfIncrementFrom(@p[attr]) <= @p.stat_points
 
   canDecrease: (attr) ->
     @p[attr] > 8
@@ -206,19 +218,13 @@ class window.CharacterModel extends Creature
   increase: (attr) ->
     previousValue = @p[attr]
     price = @priceOfIncrementFrom(previousValue)
-    if @priceOfIncrementFrom(@p[attr]) <= @p.stat_points
-      @p.stat_points -= price
-    else
-      @p.stat_increment_points -= 1
+    @p.stat_points -= price
     @p[attr] += 1      
 
   decrease: (attr, editedCharacter) ->
     previousValue = @p[attr]
     price = @priceOfIncrementFrom(previousValue - 1)
-    if @p.stat_increment_points >= 2
-      @p.stat_points += price
-    else
-      @p.stat_increment_points += 1
+    @p.stat_points += price
     @p[attr] -= 1      
 
   addAffect: (affect) ->
@@ -251,9 +257,11 @@ class window.CharacterModel extends Creature
 
   levelUp: ->
     @p.level += 1 if @p.level < 5
+    @autoPickPerks(@Perks)
 
   levelDown: ->
     @p.level -= 1 if @p.level > 1
+    @autoPickPerks(@Perks)
 
   getEffectiveAC: ->
     @i.acBonus ||= 0
