@@ -54,8 +54,8 @@ class window.Creature
         hash = {}
         $.map affect, (v, k) ->
           hash[k] = v unless k == 'applicator' || k == 'receiver'
-        hash.applicator = affect.applicator.i.id
-        hash.receiver = affect.receiver.i.id
+#        hash.applicator = affect.applicator.i.id
+#        hash.receiver = affect.receiver.i.id
         ret.push hash
     ret
 
