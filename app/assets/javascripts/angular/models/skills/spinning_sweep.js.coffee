@@ -40,3 +40,11 @@ class window.Skills.SpinningSweep extends Skills.BaseAttack
       new CombatScroll("KnockBack", '#ffff00', target.location).act()
     , 1000
     new Affects.Knockback().applyTo(@target, {by: @applicator})
+
+  pullMissTriggers: ->
+    super
+    target = @target
+    setTimeout ->
+      new CombatScroll("KnockBack", '#ffff00', target.location).act()
+    , 1000
+    new Affects.Knockback().applyTo(@target, {by: @applicator})

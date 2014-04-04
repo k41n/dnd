@@ -21,26 +21,43 @@ class window.Creature
     @i.toHitBonus
 
   saveToJSON: ->
+    console.log 'affects json', @affectsJSON()
     res =
       instance: @i
       id: @p.id
       location: @location
       skills: @skillsJSON()
       type: 'monster'
+      affects: @affectsJSON()
     res
 
   loadFromJSON: (json) ->
     @i = json.instance
     @skills = []
+    @affects = []
     @location = json.location
     for skill in json.skills
       s = @SkillLibrary.create(skill)
       @skills.push s
+    for affect in json.affects
+      @affects.push affect
 
   skillsJSON: ->
     @skills ||= {}
     $.map @skills, (skill) ->
       skill.id
+
+  affectsJSON: ->
+    ret = []
+    if @affects
+      $.map @affects, (affect) ->
+        hash = {}
+        $.map affect, (v, k) ->
+          hash[k] = v unless k == 'applicator' || k == 'receiver'
+        hash.applicator = affect.applicator.i.id
+        hash.receiver = affect.receiver.i.id
+        ret.push hash
+    ret
 
   setCoords: (location, grid) ->
     @grid = grid
@@ -50,10 +67,7 @@ class window.Creature
     @setCoords(location)
 
   addAffect: (affect) ->
-    console.log 'PUSHING AFFECTS---------------------'
-    @affects ||= []
     @affects.push affect
-    console.log 'AFFECTS AFTER PUSH', @affects
 
   deleteAffect: (affect) ->
     @affects ||= []

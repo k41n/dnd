@@ -5,6 +5,8 @@ class window.Grid
 
     @moveableCells = []
 
+    @idCounter = 0
+
   createCells: ->
     @cells = [0...25].map (x)->
       [0...25].map (y) ->
@@ -29,7 +31,9 @@ class window.Grid
       creatures: $.map @creatures, (creature) =>
         creature.saveToJSON()
       cells: @cellsJSON()
-      currentTurn: creatureBand.currentTurnNumber()
+      currentTurn: creatureBand.currentTurnNumber() if creatureBand
+      idCounter: @idCounter
+#      affets: @affectsJSON()
     }
 
   cellsJSON: =>
@@ -44,14 +48,13 @@ class window.Grid
 
 
   loadFromJSON: (data, Zoo, Chars) =>
-    console.log "Loading GRID from", data
+    @idCounter = data.idCounter if data.idCounter
     @createCells()
     @creatures = []
     @currentTurn ||= if data.currentTurn then data.currentTurn else 0
     for creatureJSON in data.creatures
       if creatureJSON.type == 'monster'
         creature = Zoo.getById(creatureJSON.id)
-        console.log 'creature', creature
         if creature
           creature.loadFromJSON(creatureJSON)
           if creature.location?
@@ -62,6 +65,7 @@ class window.Grid
         if creature.location?
           @place creature, creature.location
 
+
     for cellJSON in data.cells
       cell = @get(cellJSON.location)
       cell.loadFromJSON(cellJSON)
@@ -69,7 +73,10 @@ class window.Grid
   get: (location) =>
     @cells[location.y][location.x]
 
-  place: (creature, location) ->
+  place: (creature, location, id) ->
+    unless creature.i.id
+      @idCounter += 1
+      creature.i.id = @idCounter
     @get(location).addCreature creature
     creature.setCoords location, @
     @creatures ||= []
