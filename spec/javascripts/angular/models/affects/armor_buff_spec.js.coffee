@@ -8,6 +8,7 @@ describe 'Affects.ArmorBuff', ->
     stubApiSkills(@http)
     stubApiPerks(@http)
     stubApiWeapons(@http)
+    stubApiRaces(@http)
 
     @CharacterModel = @factory('CharacterModel')
 

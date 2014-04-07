@@ -27,6 +27,7 @@ describe 'EditGameController', ->
     stubApiPerks(@http)
     stubApiSkills(@http)
     stubApiWeapons(@http)
+    stubApiRaces(@http)
 
     @http.flush()
 

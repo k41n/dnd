@@ -58,10 +58,12 @@ class window.CharacterModel extends Creature
   getAC: ->
     armor_bonus = if @armor? then @armor.ac_bonus else 0 
     shield_bonus = if @shield? then @shield.ac_bonus else 0 
+    for affect in @affects
+      armor_bonus += affect.getAcBonus()
     if !@armor? or @armor.armor_type == 'Light'
-      return 10 + armor_bonus + shield_bonus + Math.max(@mod('int'), @mod('dex')) + Math.floor(@p.level / 2)
+      return 10 + armor_bonus + shield_bonus + Math.max(@mod('int'), @mod('dex')) + @halfLevel()
     else
-      return 10 + armor_bonus + shield_bonus + Math.floor(@p.level / 2)
+      return 10 + armor_bonus + shield_bonus + @halfLevel()
 
   getStamina: ->
     bonus = if @staminaBonus? then @staminaBonus else 0
@@ -120,7 +122,7 @@ class window.CharacterModel extends Creature
   getStat: (stat_name) ->
     bonus = if @statBonuses? && @statBonuses[stat_name]? then @statBonuses[stat_name] else 0
     bonus += @i["#{stat_name}_bonus"] if @i && @i["#{stat_name}_bonus"]
-    @p[stat_name] + bonus
+    ( @p[stat_name] || 0 ) + bonus
 
   trainedAbilityIds: (CharacterAbilities) ->
     ret = []
@@ -232,7 +234,7 @@ class window.CharacterModel extends Creature
     @affects.push affect
 
   halfLevel: ->
-    Math.floor( @i.level / 2.0 )
+    Math.floor( ( @i.level || 0 ) / 2.0 )
 
   addSkillByJsClass: (jsClass) ->
     skillToAdd = @SkillLibrary.getByJsClass(jsClass)

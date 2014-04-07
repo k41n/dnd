@@ -8,6 +8,7 @@ describe 'Skills.RighteousJudgement', ->
     stubApiSkills(@http)
     stubApiPerks(@http)
     stubApiWeapons(@http)
+    stubApiRaces(@http)    
 
     @Creature = @factory('Creature')
     @CharacterModel = @factory('CharacterModel')

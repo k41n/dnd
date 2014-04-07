@@ -1,7 +1,8 @@
+#= require ./base_affect
+
 window.Affects ||= {}
-class window.Affects.ProtectiveShieldBuff
+class window.Affects.ProtectiveShieldBuff extends Affects.BaseAffect
   applyTo: (creature, params) ->
-    console.log 'Applying protective shield'
     @applicator = params.by
     @receiver = creature
     @name = "Щит (Защищающий удар) [#{@applicator.p.name}]"
@@ -20,8 +21,7 @@ class window.Affects.ProtectiveShieldBuff
     creature.affectTypes().indexOf(@type) != -1
 
   affectOn: (creature) ->
-    creature.i.acBonus ||= 0
-    creature.i.acBonus += @applicator.mod('wis')
+    @acBonus = @applicator.mod('wis')
     creature.addAffect @
     @applicator.registerEventHandler 'endOfTurn', =>
       @eot_counter -= 1

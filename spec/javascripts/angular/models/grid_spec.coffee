@@ -15,6 +15,8 @@ describe 'Grid', ->
     @skills = [new @Skill({ id: 1, title: 'Удар ногой с разворота' })]
     @http.whenGET('/api/skills').respond(200, @skills)
 
+    @Creature = @model('Creature')
+
     @http.flush()
 
 
@@ -28,13 +30,13 @@ describe 'Grid', ->
 
   describe 'creature placement', ->
     it 'can place creature on grid', ->
-      @creature = new Creature()
+      @creature = @Creature.new()
       @grid.place @creature, @zeroLocation
       expect(@creature.location).toEqual @zeroLocation
 
   describe 'creature moving', ->
     it 'can move creature', ->
-      @creature = new Creature()
+      @creature = @Creature.new()
       @grid.place @creature, @zeroLocation
       expect(@creature.location).toEqual @zeroLocation
 
@@ -44,8 +46,8 @@ describe 'Grid', ->
       expect(@grid.cells[1][1].creature).toEqual(@creature)
 
     it 'triggers move event on all creatures', ->
-      @creature1 = new Creature()
-      @creature2 = new Creature()
+      @creature1 = @Creature.new()
+      @creature2 = @Creature.new()
       @grid.place @creature1, @zeroLocation
       @grid.place @creature2, {x: 0, y: 1}
 
@@ -63,7 +65,6 @@ describe 'Grid', ->
 
   describe 'save and load', ->
     it 'can save and load to json', ->
-      @Creature = @factory('Creature')
       @creature = @Creature.new
         id: 1
       @grid.place @creature, @zeroLocation

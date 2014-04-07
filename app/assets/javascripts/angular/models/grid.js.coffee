@@ -73,8 +73,8 @@ class window.Grid
   get: (location) =>
     @cells[location.y][location.x]
 
-  place: (creature, location, id) ->
-    unless creature.i.id
+  place: (creature, location) ->
+    unless creature.i.id?
       @idCounter += 1
       creature.i.id = @idCounter
     @get(location).addCreature creature

@@ -15,3 +15,7 @@ window.stubApiMonsters = (http) ->
 window.stubApiWeapons = (http) ->
   weapons = [{ id: '1', name: 'Меч-кладенец', damage_dice: 8, damage_count: 1}]
   http.whenGET('/api/weapons').respond(200, weapons)  
+
+window.stubApiRaces = (http) ->
+  races = [{ id: 1, name: 'Гоблин' }]
+  http.whenGET('/api/races').respond(200, races)

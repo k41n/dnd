@@ -6,6 +6,7 @@ describe 'CharacterModel', ->
     stubApiPerks(@http)
     stubApiSkills(@http)
     stubApiWeapons(@http)
+    stubApiRaces(@http)
 
     @Skill = @model('Skill')
     @skills = [new @Skill({ id: 1, title: 'Удар ногой с разворота' })]
