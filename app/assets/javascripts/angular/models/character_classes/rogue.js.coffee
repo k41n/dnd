@@ -7,10 +7,12 @@ class window.CharacterClasses.Rogue extends CharacterClasses.BaseCharacterClass
     char.abilityTrainings['Воровство'] = true
     char.abilityTrainings['Скрытность'] = true
     char.forcedTrainings = ['Воровство', 'Скрытность']
-    char.trainings_count ||= 6
 
-    char.calculateHP = ->
-      ( @level - 1 ) * 5 + 12 + @con
+  classTrainingsCount: ->
+    6
+
+  calculateHP: (char) ->
+      ( char.p.level - 1 ) * 5 + 12 + char.getStat('con')
 
   onDeselected: (char) ->
     char.reactionBonus -= 2

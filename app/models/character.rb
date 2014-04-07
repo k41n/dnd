@@ -13,6 +13,9 @@ class Character < ActiveRecord::Base
   has_many :character_perk_assignments
   has_many :perks, through: :character_perk_assignments
 
+  has_many :character_ability_assignments
+  has_many :character_abilities, through: :character_ability_assignments
+
   belongs_to :race
   belongs_to :character_class
   belongs_to :armor

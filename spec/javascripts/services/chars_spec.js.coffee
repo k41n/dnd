@@ -16,6 +16,9 @@ describe 'Chars', ->
     stubApiSkills(@http)
     stubApiWeapons(@http)
     stubApiRaces(@http)
+    stubApiCharacterAbilities(@http)    
+    stubApiCharacterClasses(@http)    
+    
 
     @http.flush()
 

@@ -11,10 +11,6 @@ describe 'EditCombatController', ->
 
     @http.whenGET('/api/combats/1').respond(200, @combat)
 
-    @Monster = @model('Monster')
-    @monsters = [new @Monster({ id: 1, name: 'Кровавый упырь' })]
-    @http.whenGET('/api/monsters').respond(200, @monsters)
-
     @Character = @model('CharacterAPI')
     @characters = [new @Character({ id: 1, name: 'Элайя' })]
     @http.whenGET('/api/characters').respond(200, @characters)
@@ -27,6 +23,8 @@ describe 'EditCombatController', ->
     stubApiWeapons(@http)
     stubApiRaces(@http)
     stubApiSkills(@http)
+    stubApiMonsters(@http)
+    stubApiCharacterClasses(@http)
 
     @http.flush()
 

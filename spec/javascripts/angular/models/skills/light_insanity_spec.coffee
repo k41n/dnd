@@ -9,6 +9,8 @@ describe 'Skills.LightInsanity', ->
     stubApiPerks(@http)
     stubApiWeapons(@http)
     stubApiRaces(@http)
+    stubApiCharacterAbilities(@http)    
+    stubApiCharacterClasses(@http)    
 
     @Creature = @factory('Creature')
     @CharacterModel = @factory('CharacterModel')

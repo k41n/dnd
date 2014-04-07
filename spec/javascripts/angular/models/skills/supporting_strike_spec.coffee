@@ -8,7 +8,10 @@ describe 'Skills.SupportingStrike', ->
     stubApiSkills(@http)
     stubApiPerks(@http)
     stubApiWeapons(@http)
-    stubApiRaces(@http)    
+    stubApiRaces(@http)
+    stubApiCharacterAbilities(@http)    
+    stubApiCharacterClasses(@http)    
+    
 
     @Creature = @factory('Creature')
     @CharacterModel = @factory('CharacterModel')

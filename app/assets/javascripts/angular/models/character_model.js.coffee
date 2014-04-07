@@ -1,11 +1,12 @@
 #= require ./creature
 
 class window.CharacterModel extends Creature
-  constructor: (@SkillLibrary, @Perks, @Weapons, @Racing) ->
+  constructor: (@SkillLibrary, @Perks, @Weapons, @Racing, @CharacterAbilities, @CharacterClasses) ->
     1
 
   new: (permanent_data, instance_data) ->
-    ret = new CharacterModel(@SkillLibrary, @Perks, @Weapons)
+    console.log "permanent_data", permanent_data
+    ret = new CharacterModel(@SkillLibrary, @Perks, @Weapons, @Racing, @CharacterAbilities, @CharacterClasses)
     angular.extend ret, @
     ret.p ||= {}
     for k,v of permanent_data
@@ -35,6 +36,12 @@ class window.CharacterModel extends Creature
       ret.weapon = @Weapons.create(ret.p.weapon_id)
     ret.hostile = false
 
+    ret.character_class = @CharacterClasses.create(ret.p.character_class_id)
+
+    if permanent_data.character_ability_ids?
+      for id in permanent_data.character_ability_ids
+        ret.train @CharacterAbilities.character_abilities[id]
+
     ret
 
   saveToJSON: ->
@@ -53,13 +60,14 @@ class window.CharacterModel extends Creature
 
   maxHP: ->
     return '-' unless @character_class?
-    @calculateHP(@)
+    @character_class.calculateHP(@)
 
   getAC: ->
     armor_bonus = if @armor? then @armor.ac_bonus else 0 
     shield_bonus = if @shield? then @shield.ac_bonus else 0 
-    for affect in @affects
-      armor_bonus += affect.getAcBonus()
+    if @affects?
+      for affect in @affects
+        armor_bonus += affect.getAcBonus()
     if !@armor? or @armor.armor_type == 'Light'
       return 10 + armor_bonus + shield_bonus + Math.max(@mod('int'), @mod('dex')) + @halfLevel()
     else
@@ -93,14 +101,16 @@ class window.CharacterModel extends Creature
 
   getMasteryIn: (ability) ->
     train_bonus = if @abilityTrainings? && @abilityTrainings[ability.name]? && @abilityTrainings[ability.name] then 5 else 0
-    train_bonus += @abilityBonus[ability.name] if @abilityBonus? && @abilityBonus[ability.name]?
-    Math.floor(@p.level / 2) + @mod(ability.dependent_on_stat) + train_bonus
+    if @race
+      train_bonus += @race.abilityBonus(ability.name)
+    @halfLevel() + @mod(ability.dependent_on_stat) + train_bonus
 
   getTrainingsCount: ->
     trained_abilities = 0
+    class_trainings = @character_class.classTrainingsCount()
     for k,v of @abilityTrainings
       trained_abilities += 1 if v
-    @trainings_count - trained_abilities
+    class_trainings - trained_abilities
 
   canTrain: (ability) ->
     return false unless @character_class?
@@ -120,8 +130,12 @@ class window.CharacterModel extends Creature
       delete @abilityTrainings[ability.name]
 
   getStat: (stat_name) ->
-    bonus = if @statBonuses? && @statBonuses[stat_name]? then @statBonuses[stat_name] else 0
-    bonus += @i["#{stat_name}_bonus"] if @i && @i["#{stat_name}_bonus"]
+    bonus = 0
+    if @perks?
+      for id, perk of @perks
+        bonus += perk.getBonus(stat_name)
+    if @race?
+      bonus += @race.statBonus(stat_name)
     ( @p[stat_name] || 0 ) + bonus
 
   trainedAbilityIds: (CharacterAbilities) ->
@@ -270,7 +284,13 @@ class window.CharacterModel extends Creature
     @i.ac ||= 0
     @i.ac + @i.acBonus
 
+  getSpeed: ->
+    if @race
+      @race.getSpeed()
+    else
+      '-'
 
-CharacterModel.$inject = ['SkillLibrary', 'Perks', 'Weapons', 'Racing']
 
-angular.module("dndApp").factory('CharacterModel', (SkillLibrary, Perks, Weapons, Racing) -> new CharacterModel(SkillLibrary, Perks, Weapons, Racing))
+CharacterModel.$inject = ['SkillLibrary', 'Perks', 'Weapons', 'Racing', 'CharacterAbilities', 'CharacterClasses']
+
+angular.module("dndApp").factory('CharacterModel', (SkillLibrary, Perks, Weapons, Racing, CharacterAbilities, CharacterClasses) -> new CharacterModel(SkillLibrary, Perks, Weapons, Racing, CharacterAbilities, CharacterClasses))

@@ -16,6 +16,9 @@ class window.Perks.BasePerk
   onRemoved: (character) ->
     @char = null
 
+  getBonus: (stat) ->
+    @["#{stat}Bonus"] || 0
+
   configurable: ->
     false
 

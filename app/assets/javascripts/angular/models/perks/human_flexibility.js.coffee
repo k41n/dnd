@@ -11,21 +11,6 @@ class window.Perks.HumanFlexibility extends Perks.BasePerk
   autoPickable: ->
     true
 
-
-  onPicked: (character) ->
-    console.log "Applying perk", @
-    super(character)
-    if @stat?
-      console.log 'Stat found, applying perk', character
-      character.i["#{@stat}_bonus"] ||= 0
-      character.i["#{@stat}_bonus"] += 2
-      console.log 'Stat found, applied perk', character
-
-  onRemoved: (character) ->
-    if @stat?
-      character.i["#{@stat}_bonus"] ||= 0
-      character.i["#{@stat}_bonus"] -= 2
-
   configurable: ->
     true
 
@@ -34,6 +19,12 @@ class window.Perks.HumanFlexibility extends Perks.BasePerk
 
   dialogTemplate: ->
     '/human_flexibility_dialog.html'
+
+  getBonus: (stat) ->
+    if @stat? && stat == @stat
+      2
+    else 
+      0
 
   desc: ->
     if @stat?

@@ -8,7 +8,10 @@ describe 'Skills.ProtectingStrike', ->
     stubApiSkills(@http)
     stubApiPerks(@http)
     stubApiWeapons(@http)
-    stubApiRaces(@http)    
+    stubApiRaces(@http) 
+    stubApiCharacterAbilities(@http)    
+    stubApiCharacterClasses(@http)    
+
 
     @Creature = @factory('Creature')
     @CharacterModel = @factory('CharacterModel')
@@ -82,6 +85,7 @@ describe 'Skills.ProtectingStrike', ->
       expect(@character.skillIds()).toContain(@buffSkill.id)
 
       @buffSkill.apply(@character, @friend)
+      @friend.p.int = 10
       expect(@friend.getAC()).toEqual(13)
 
       expect(@character.skillIds()).not.toContain(@buffSkill.id)

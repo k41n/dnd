@@ -19,14 +19,9 @@ class window.CharactersController
     @$scope.$watch 'editedCharacter.p.race_id', (newVal, oldVal) =>
       if newVal? && @$scope.editedCharacter?
         race = @Racing.create(newVal)
-        if race?
-          if @$scope.editedCharacter.race? && @$scope.editedCharacter.race.id != newVal
-            @$scope.editedCharacter.race.deselectedFor(@$scope.editedCharacter) 
-          race.selectedFor(@$scope.editedCharacter)
-          @$scope.editedCharacter.race = race
+        @$scope.editedCharacter.race = race
       if @$scope.editedCharacter?
         @$scope.editedCharacter.autoPickPerks(@Perks)
-          
 
     @$scope.$watch 'editedCharacter.p.character_class_id', (newVal, oldVal) =>
       if newVal?
@@ -62,9 +57,9 @@ class window.CharactersController
           @$scope.editedCharacter.weapon = weapon
 
   saveCharacter: ->
-    @$scope.editedCharacter.character_ability_ids = @$scope.editedCharacter.trainedAbilityIds(@CharacterAbilities)
-    @$scope.editedCharacter.perk_ids = @$scope.editedCharacter.perkIds()
-    @$scope.editedCharacter.skill_ids = @$scope.editedCharacter.skillIds()
+    @$scope.editedCharacter.p.character_ability_ids = @$scope.editedCharacter.trainedAbilityIds(@CharacterAbilities)
+    @$scope.editedCharacter.p.perk_ids = @$scope.editedCharacter.perkIds()
+    @$scope.editedCharacter.p.skill_ids = @$scope.editedCharacter.skillIds()
     @$scope.editedCharacter.p.hp = @$scope.editedCharacter.maxHP()
     @$scope.editedCharacter.p.ac = @$scope.editedCharacter.getAC()
     nc = new @CharacterAPI(@$scope.editedCharacter.p)

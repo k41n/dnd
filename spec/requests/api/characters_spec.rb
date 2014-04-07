@@ -5,6 +5,7 @@ describe "Api::CharactersController" do
   let(:player) { create(:player) }  
   let(:another_player) { create(:player) }
   let(:character) { create(:character) }
+  let(:perk) { create(:perk) }
 
   context 'GET /api/characters' do
     before do
@@ -27,7 +28,7 @@ describe "Api::CharactersController" do
       Character.destroy_all
       create_list :skill, 5, characters: [ character ]
       do_get "/api/characters"
-      expect(json_body[0]['skills'].size).to eq(5)
+      expect(json_body[0]['skill_ids'].size).to eq(5)
     end
   end
 
@@ -37,6 +38,18 @@ describe "Api::CharactersController" do
       {
         name: Faker::Name.name
       }
+    end
+
+    def character_hash_with_perks
+      character_hash.merge({
+        perk_ids: [ perk.to_param ],
+        perk_settings: { 
+          perk.to_param => {
+            stat: 'str',
+            stat1: 'cha'
+          }
+        }.to_json
+      })
     end
 
     it 'does not create character without login' do
@@ -50,6 +63,15 @@ describe "Api::CharactersController" do
         do_post '/api/characters', character_hash
       }.to change{Character.count}.from(0).to(1)
       expect(Character.last.player.id).to eq(player.id)
+    end
+
+    it 'saves perks settings' do
+      login_player player
+      expect {
+        do_post '/api/characters', character_hash_with_perks
+      }.to change{Character.count}.from(0).to(1)
+      expect(Character.last.perks.size).to eq(1)
+      expect(Character.last.perk_settings).to eq({perk.to_param => {"stat" => "str", "stat1" => "cha"}}.to_json)
     end
   end
 

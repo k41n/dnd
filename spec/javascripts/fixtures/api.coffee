@@ -19,3 +19,11 @@ window.stubApiWeapons = (http) ->
 window.stubApiRaces = (http) ->
   races = [{ id: 1, name: 'Гоблин' }]
   http.whenGET('/api/races').respond(200, races)
+
+window.stubApiCharacterClasses = (http) ->
+  character_classes = [{ id: '1', name: 'Паладин'}]
+  http.whenGET('/api/character_classes').respond(200, character_classes)
+
+window.stubApiCharacterAbilities = (http) ->
+  character_abilities = [{id: '1', name: 'Знание улиц'}]
+  http.whenGET('/api/character_abilities').respond(200, character_abilities)

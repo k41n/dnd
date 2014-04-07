@@ -7,10 +7,11 @@ class window.CharacterClasses.Mage extends CharacterClasses.BaseCharacterClass
     char.abilityTrainings['Магия'] = true
     char.forcedTrainings = ['Магия']
 
-    char.trainings_count ||= 4
+  classTrainingsCount: ->
+    4
 
-    char.calculateHP = ->
-      ( @level - 1 ) * 4 + 10 + @con
+  calculateHP: (char) ->
+      ( char.p.level - 1 ) * 4 + 10 + char.getStat('con')
 
   onDeselected: (char) ->
     super(char)

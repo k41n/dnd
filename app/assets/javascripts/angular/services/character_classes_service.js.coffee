@@ -10,7 +10,7 @@ class window.CharacterClasses
     if character_class? && character_class.js_class? && eval(character_class.js_class)?
       return new (eval(character_class.js_class))(character_class)
     else
-      return new CharacterClasses.BaseCharacterClass.new(character_class)
+      return new CharacterClasses.BaseCharacterClass(character_class)
 
 CharacterClasses.$inject = ["CharacterClass"]
 

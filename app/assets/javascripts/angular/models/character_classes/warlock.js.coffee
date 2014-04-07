@@ -5,10 +5,11 @@ class window.CharacterClasses.Warlock extends CharacterClasses.BaseCharacterClas
     char.willBonus += 1
     char.reactionBonus += 1
 
-    char.trainings_count ||= 4
+  classTrainingsCount: ->
+    4
 
-    char.calculateHP = ->
-      ( @level - 1 ) * 5 + 12 + @con
+  calculateHP: (char) ->
+      ( char.p.level - 1 ) * 5 + 12 + char.getStat('con')
 
   onDeselected: (char) ->
     super(char)
