@@ -33,7 +33,7 @@ class window.Perks.HumanFlexibility extends Perks.BasePerk
       ''
 
   configure: (params) ->
-    @onRemoved(@char)
     @stat = params.stat
-    @onPicked(@char)    
 
+  configuration: ->
+    stat: @stat

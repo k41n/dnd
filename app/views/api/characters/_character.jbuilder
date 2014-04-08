@@ -27,6 +27,7 @@ json.stat_increment_points resource.stat_increment_points
 json.perk_ids     resource.perk_ids
 json.skill_ids    resource.skill_ids
 json.deity_id     resource.deity_id
+json.perk_settings	resource.perk_settings
 
 json.weapons resource.weapons do |weapon|
     json.partial! 'api/weapons/weapon', weapon: weapon

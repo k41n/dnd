@@ -27,10 +27,7 @@ class window.CharactersController
       if newVal?
         character_class = @CharacterClasses.create(newVal)
         if character_class?
-          if @$scope.editedCharacter.character_class? && @$scope.editedCharacter.character_class.id != character_class.id
-            @$scope.editedCharacter.character_class.onDeselected(@$scope.editedCharacter)
           @$scope.editedCharacter.character_class = character_class
-          character_class.onSelected(@$scope.editedCharacter)
 
     @$scope.$watch 'editedCharacter.p.deity_id', (newVal) =>
       if newVal?
@@ -59,6 +56,7 @@ class window.CharactersController
   saveCharacter: ->
     @$scope.editedCharacter.p.character_ability_ids = @$scope.editedCharacter.trainedAbilityIds(@CharacterAbilities)
     @$scope.editedCharacter.p.perk_ids = @$scope.editedCharacter.perkIds()
+    @$scope.editedCharacter.p.perk_settings = @$scope.editedCharacter.perkSettings()
     @$scope.editedCharacter.p.skill_ids = @$scope.editedCharacter.skillIds()
     @$scope.editedCharacter.p.hp = @$scope.editedCharacter.maxHP()
     @$scope.editedCharacter.p.ac = @$scope.editedCharacter.getAC()

@@ -41,6 +41,7 @@ class window.CharacterModel extends Creature
     if permanent_data.character_ability_ids?
       for id in permanent_data.character_ability_ids
         ret.train @CharacterAbilities.character_abilities[id]
+    ret.configurePerks()
 
     ret
 
@@ -289,6 +290,20 @@ class window.CharacterModel extends Creature
       @race.getSpeed()
     else
       '-'
+
+  configurePerks: ->
+    if @perks? && @p.perk_settings?
+      @p.perk_settings = JSON.parse(@p.perk_settings)
+      for id, perk of @perks
+        if @p.perk_settings[id]?
+          @perks[id].configure(@p.perk_settings[id])
+
+  perkSettings: ->
+    ret = {}
+    if @perks?
+      for id, perk of @perks
+        ret[id] = perk.configuration()
+    JSON.stringify(ret)
 
 
 CharacterModel.$inject = ['SkillLibrary', 'Perks', 'Weapons', 'Racing', 'CharacterAbilities', 'CharacterClasses']

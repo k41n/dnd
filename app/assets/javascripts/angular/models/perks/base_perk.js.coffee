@@ -30,3 +30,9 @@ class window.Perks.BasePerk
 
   desc: ->
     @description || ''
+
+  configure: (settings) ->
+    true
+
+  configuration: ->
+    {}
