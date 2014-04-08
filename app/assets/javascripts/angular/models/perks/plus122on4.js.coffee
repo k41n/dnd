@@ -34,8 +34,10 @@ class window.Perks.Plus122on4 extends Perks.BasePerk
       ''
 
   configure: (params) ->
-    @onRemoved(@char)
     @stat1 = params.stat1
     @stat2 = params.stat2
-    @onPicked(@char)    
 
+
+  configuration: ->
+    stat1: @stat1
+    stat2: @stat2

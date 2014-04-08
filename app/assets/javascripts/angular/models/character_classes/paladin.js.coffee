@@ -10,7 +10,10 @@ class window.CharacterClasses.Paladin extends CharacterClasses.BaseCharacterClas
     char.forcedTrainings = ['Религия']
 
   classTrainingsCount: ->
-    4
+    3
+
+  forcedTrainings: ->
+    ['Религия']
 
   calculateHP: (char) ->
     ( char.p.level - 1 ) * 6 + 15 + char.getStat('con')

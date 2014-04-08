@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140407195431) do
+ActiveRecord::Schema.define(version: 20140408224825) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -309,6 +309,13 @@ ActiveRecord::Schema.define(version: 20140407195431) do
 
   add_index "weapon_assignments", ["owner_id"], name: "index_weapon_assignments_on_owner_id", using: :btree
 
+  create_table "weapon_groups", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "weapons", force: true do |t|
     t.string   "title"
     t.integer  "damage_dice",         default: 0
@@ -323,6 +330,9 @@ ActiveRecord::Schema.define(version: 20140407195431) do
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
     t.string   "js_class"
+    t.integer  "weapon_group_id"
+    t.boolean  "aux",                 default: false
+    t.boolean  "high_crit",           default: false
   end
 
 end

@@ -5,7 +5,6 @@ class window.CharacterModel extends Creature
     1
 
   new: (permanent_data, instance_data) ->
-    console.log "permanent_data", permanent_data
     ret = new CharacterModel(@SkillLibrary, @Perks, @Weapons, @Racing, @CharacterAbilities, @CharacterClasses)
     angular.extend ret, @
     ret.p ||= {}
@@ -79,8 +78,10 @@ class window.CharacterModel extends Creature
     return 10 + bonus + Math.max(@mod('str'), @mod('con')) + Math.floor(@p.level / 2)
 
   getReaction: ->
-    bonus = if @reactionBonus? then @reactionBonus else 0
-    return 10 + bonus + Math.max(@mod('dex'), @mod('int')) + Math.floor(@p.level / 2)
+    bonus = 0
+    if @character_class?
+      bonus += @character_class.reactionBonus()
+    return 10 + bonus + Math.max(@mod('dex'), @mod('int')) + @halfLevel()
 
   getWill: ->
     bonus = if @willBonus then @willBonus else 0
@@ -104,10 +105,19 @@ class window.CharacterModel extends Creature
     train_bonus = if @abilityTrainings? && @abilityTrainings[ability.name]? && @abilityTrainings[ability.name] then 5 else 0
     if @race
       train_bonus += @race.abilityBonus(ability.name)
+    if @character_class?
+      train_bonus += 5 if @character_class.forcedTrainings().indexOf(ability.name) != -1
     @halfLevel() + @mod(ability.dependent_on_stat) + train_bonus
+
+  isTrained: (ability) ->
+    return true if @abilityTrainings? && @abilityTrainings[ability.name]? && @abilityTrainings[ability.name]
+    return true if @character_class? && @character_class.forcedTrainings().indexOf(ability.name) != -1
+    false
+
 
   getTrainingsCount: ->
     trained_abilities = 0
+
     class_trainings = @character_class.classTrainingsCount()
     for k,v of @abilityTrainings
       trained_abilities += 1 if v
@@ -116,11 +126,12 @@ class window.CharacterModel extends Creature
   canTrain: (ability) ->
     return false unless @character_class?
     @abilityTrainings ||= {}
-    @getTrainingsCount() > 0 && @abilityTrainings[ability.name] != true && @character_class.trainable_abilities.indexOf(ability.id) != -1
+    @getTrainingsCount() > 0 && @abilityTrainings[ability.name] != true && @character_class.trainable_abilities.indexOf(ability.id) != -1 && @character_class.forcedTrainings().indexOf(ability.name) == -1
+
 
   canUntrain: (ability) ->
     return false unless @character_class?
-    @abilityTrainings[ability.name] && @forcedTrainings.indexOf(ability.name) == -1
+    @abilityTrainings[ability.name] && @character_class.forcedTrainings().indexOf(ability.name) == -1
 
   train: (ability) ->
     if @canTrain(ability)
@@ -302,8 +313,41 @@ class window.CharacterModel extends Creature
     ret = {}
     if @perks?
       for id, perk of @perks
+        console.log "Configuration of perk #{perk.name} is ", perk.configuration()
         ret[id] = perk.configuration()
     JSON.stringify(ret)
+
+  getAvailablePerks: ->
+    @getTotalPerks() - @getPickedPerks()
+
+  getTotalPerks: ->
+    Math.floor((@p.level + 2) / 2)
+
+  getPickedPerks: ->
+    if @perks?
+      ret = 0
+      for id, perk in @perks
+        ret += 1 unless perk.autoPickable()
+      return ret
+    else
+      0
+
+  hasPerk: (perk) ->
+    @perks[perk.id]?
+
+  damageBonus: ->
+    ret = 0
+    if @perks?
+      for id, perk of @perks
+        ret += perk.damageBonus(@)
+    ret
+
+  toHitBonus: ->
+    ret = 0
+    if @perks?
+      for id, perk of @perks
+        ret += perk.toHitBonus(@)
+    ret
 
 
 CharacterModel.$inject = ['SkillLibrary', 'Perks', 'Weapons', 'Racing', 'CharacterAbilities', 'CharacterClasses']

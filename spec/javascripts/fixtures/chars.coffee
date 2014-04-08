@@ -14,9 +14,10 @@ window.fixtures.paladin = {
 window.fixtures.rogue = {
   name: 'Жмык в щелку шмыг'
   ac: 10
-  str: 18
-  cha: 16
-  wis: 16
+  str: 12
+  cha: 12
+  wis: 10
+  dex: 20
   level: 1
   character_class_id: 2
   weapon_id: 1

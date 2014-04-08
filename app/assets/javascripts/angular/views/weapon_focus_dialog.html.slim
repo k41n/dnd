@@ -1,0 +1,19 @@
+.modal-header
+  button.close type="button" ng-click='cancel()' &times;
+  h4.modal-title
+    | Select weapon group
+.modal-body
+  form.form-horizontal role='form' ui-keypress="{13: 'ok()'}"
+    .form-group
+      label.control-label.col-sm-2
+        | Weapon group:
+      .col-sm-10
+        select ui-select2='1' ng-model='form.weapon_group'
+          option value=''
+          option value='{{ weapon_group }}' ng-repeat='weapon_group in weapon_groups'
+            | {{ weapon_group }}
+.modal-footer
+  button.btn.btn-primary ng-click="ok()" 
+    | OK
+  button.btn.btn-warning ng-click="cancel()" 
+    | Cancel

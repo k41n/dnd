@@ -5,7 +5,7 @@ class window.Perks.BasePerk
       @[key] = val
 
   pickable: (character) ->
-    false
+    !character.hasPerk(@)
 
   autoPickable: ->
     false
@@ -36,3 +36,9 @@ class window.Perks.BasePerk
 
   configuration: ->
     {}
+
+  damageBonus: ->
+    0
+
+  toHitBonus: ->
+    0

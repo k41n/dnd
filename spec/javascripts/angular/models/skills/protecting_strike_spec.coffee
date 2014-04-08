@@ -85,8 +85,8 @@ describe 'Skills.ProtectingStrike', ->
       expect(@character.skillIds()).toContain(@buffSkill.id)
 
       @buffSkill.apply(@character, @friend)
-      @friend.p.int = 10
-      expect(@friend.getAC()).toEqual(13)
+      # friend is rogue with mod(dex) == 5, so 10 + 5 + 3 = 18
+      expect(@friend.getAC()).toEqual(18)
 
       expect(@character.skillIds()).not.toContain(@buffSkill.id)
 

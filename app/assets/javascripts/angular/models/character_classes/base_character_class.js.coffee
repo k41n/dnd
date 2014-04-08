@@ -13,3 +13,9 @@ class window.CharacterClasses.BaseCharacterClass
 
   calculateHP: ->
     '-'
+
+  forcedTrainings: ->
+    []
+
+  reactionBonus: ->
+    0

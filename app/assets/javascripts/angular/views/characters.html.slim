@@ -145,7 +145,7 @@ h3 My characters
     .abilities
       fieldset
         h4 Abilities
-        .stat ng-repeat-start='ability in c.CharacterAbilities.character_abilities'
+        .stat ng-repeat-start='ability in c.CharacterAbilities.character_abilities' ng-class="{'bold' : editedCharacter.isTrained(ability)}"
           | {{ ability.name}}
         .val
           | {{ editedCharacter.getMasteryIn(ability) }}
@@ -160,12 +160,13 @@ h3 My characters
       h5 Picked
       ul.picked-perks
         li.picked-perk ng-repeat='perk in editedCharacter.getPerks()'
-          | {{ perk.name }}
-          br
-          | {{ perk.desc() }}
           i.fa.fa-minus ng-click='editedCharacter.removePerk(perk)'
           i.fa.fa-wrench ng-click='c.configurePerk(perk)' ng-show='perk.configurable()'          
-      h5 Available
+          .perk-name
+            | {{ perk.name }}
+          .perk-desc
+            | {{ perk.desc() }}
+      h5 Available {{ editedCharacter.getAvailablePerks() }}
       .form-group
         input.form-control type='text' ng-model='perkFilter' placeholder='Type perk name'
         ul.available-perks

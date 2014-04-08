@@ -76,3 +76,14 @@ window.fixtures.sacred_circle = {
   attack_char_to: 'reaction'
   min_level: 5
 }
+
+window.fixtures.penetration_strike = {
+  name: 'Пронзающий удар'
+  available_for: [2]
+  js_class: 'Skills.PenetrationStrike'
+  cooldown_type: 'unlimited'
+  id: 8
+  attack_char_from: 'dex'
+  attack_char_to: 'reaction'
+  min_level: 1
+}

@@ -1,16 +1,15 @@
 window.Skills ||= {}
-class window.Skills.ValiantBlow extends Skills.BaseAttack
+class window.Skills.PenetrationStrike extends Skills.BaseAttack
   constructor: (factory_params) ->
     super(factory_params)
 
   damage: (char) ->
     char ||= @char
-    char.getWeaponDamage() + '+' + char.mod('str')
+    char.getWeaponDamage() + '+' + @damageBonus()
 
   toHitBonus: (char) ->
     char ||= @char
-    base = super(char)
-    base + char.hostileNeighbours().length
+    super(char)
 
   damageRollCount: (char) ->
     char ||= @char
@@ -22,4 +21,4 @@ class window.Skills.ValiantBlow extends Skills.BaseAttack
 
   damageBonus: (char) ->
     char ||= @char
-    char.mod('str') + char.damageBonus()
+    char.mod('dex') + char.damageBonus()

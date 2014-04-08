@@ -13,7 +13,7 @@ window.stubApiMonsters = (http) ->
   http.whenGET('/api/monsters').respond(200, monsters)
 
 window.stubApiWeapons = (http) ->
-  weapons = [{ id: '1', name: 'Меч-кладенец', damage_dice: 8, damage_count: 1}]
+  weapons = [{ id: '1', name: 'Меч-кладенец', damage_dice: 8, damage_count: 1, weapon_group_name: 'Тяжелые клинки'}]
   http.whenGET('/api/weapons').respond(200, weapons)  
 
 window.stubApiRaces = (http) ->
@@ -21,7 +21,7 @@ window.stubApiRaces = (http) ->
   http.whenGET('/api/races').respond(200, races)
 
 window.stubApiCharacterClasses = (http) ->
-  character_classes = [{ id: '1', name: 'Паладин'}]
+  character_classes = [{ id: '1', name: 'Паладин'}, { id: '2', name: 'Плут'}]
   http.whenGET('/api/character_classes').respond(200, character_classes)
 
 window.stubApiCharacterAbilities = (http) ->
