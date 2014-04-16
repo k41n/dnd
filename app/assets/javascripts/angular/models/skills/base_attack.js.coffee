@@ -36,7 +36,7 @@ class window.Skills.BaseAttack
       '-'
 
   damageText: (char) ->
-    char = @char unless char?
+    char = @char if char
     if char? 
       rollCount = @damageRollCount(char)
       rollDice = @damageRollDice(char)
