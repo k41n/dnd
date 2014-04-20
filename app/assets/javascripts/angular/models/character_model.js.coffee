@@ -1,8 +1,8 @@
-#= require ./creature
+#= require ./combatant
 
-class window.CharacterModel extends Creature
-  constructor: (@SkillLibrary, @Perks, @Weapons, @Racing, @CharacterAbilities, @CharacterClasses) ->
-    1
+class window.CharacterModel extends Combatant
+  constructor: (@SkillLibrary, @Perks, @Weapons, @Racing, @CharacterAbilities, @CharacterClasses, @Logger) ->
+    super(@SkillLibrary, @Logger)
 
   new: (permanent_data, instance_data) ->
     ret = new CharacterModel(@SkillLibrary, @Perks, @Weapons, @Racing, @CharacterAbilities, @CharacterClasses)
@@ -36,11 +36,13 @@ class window.CharacterModel extends Creature
     ret.hostile = false
 
     ret.character_class = @CharacterClasses.create(ret.p.character_class_id)
+    ret.race = @Racing.create(ret.p.race_id)
 
     if permanent_data.character_ability_ids?
       for id in permanent_data.character_ability_ids
         ret.train @CharacterAbilities.character_abilities[id]
     ret.configurePerks()
+    ret.installEventHandlers()
 
     ret
 
@@ -49,14 +51,13 @@ class window.CharacterModel extends Creature
       id: @p.id
       type: 'character'
       location: @location
+      hasTurn: @hasTurn
+      availableActions: @availableActions
     res
 
-  loadFromJSON: (json, SkillLibrary, Zoo, Chars) =>
-    @data = Chars.characters(json.id)
-    @skills = {}
-    if @data.skill_ids
-      for skill_id in @data.skill_ids
-        @addSkill @SkillLibrary.skills[skill_id]
+  loadFromJSON: (json, SkillLibrary, Zoo, Chars) ->
+    @hasTurn = json.hasTurn
+    @availableActions = json.availableActions
 
   maxHP: ->
     return '-' unless @character_class?
@@ -291,11 +292,6 @@ class window.CharacterModel extends Creature
     @p.level -= 1 if @p.level > 1
     @autoPickPerks(@Perks)
 
-  getEffectiveAC: ->
-    @i.acBonus ||= 0
-    @i.ac ||= 0
-    @i.ac + @i.acBonus
-
   getSpeed: ->
     if @race
       @race.getSpeed()
@@ -350,6 +346,6 @@ class window.CharacterModel extends Creature
     ret
 
 
-CharacterModel.$inject = ['SkillLibrary', 'Perks', 'Weapons', 'Racing', 'CharacterAbilities', 'CharacterClasses']
+CharacterModel.$inject = ['SkillLibrary', 'Perks', 'Weapons', 'Racing', 'CharacterAbilities', 'CharacterClasses', 'Logger']
 
-angular.module("dndApp").factory('CharacterModel', (SkillLibrary, Perks, Weapons, Racing, CharacterAbilities, CharacterClasses) -> new CharacterModel(SkillLibrary, Perks, Weapons, Racing, CharacterAbilities, CharacterClasses))
+angular.module("dndApp").factory('CharacterModel', (SkillLibrary, Perks, Weapons, Racing, CharacterAbilities, CharacterClasses, Logger) -> new CharacterModel(SkillLibrary, Perks, Weapons, Racing, CharacterAbilities, CharacterClasses, Logger))

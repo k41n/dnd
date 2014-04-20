@@ -2,10 +2,13 @@ class window.CreaturesBand
   constructor: (@$injector) ->
 
   loadCreatures: (grid) ->
-    console.log grid
     @grid = grid
     @creatures = grid.creatures.slice(0)
     @creatures.push { p: {name: 'End of Turn'} }
+    c = @getActingCreature()    
+    console.log "c.hasTurn = #{c.hasTurn}"
+    unless c.hasTurn
+      c.trigger('start_of_turn') 
 
   getCreatures: ->
     @creatures
@@ -17,6 +20,9 @@ class window.CreaturesBand
     creature.trigger 'endOfTurn'
     @grid.currentTurn += 1
     @endRound() if @getActingCreature().p.name == 'End of Turn'
+    c = @getActingCreature()    
+    unless c.hasTurn
+      c.trigger('start_of_turn') 
     @grid.currentTurn
 
   endRound: ->

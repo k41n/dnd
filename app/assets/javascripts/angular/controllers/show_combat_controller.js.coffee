@@ -18,7 +18,6 @@ class window.ShowCombatController
       if @$scope.selectedSkill.name == 'God Hand'
         @$scope.selectedSkill.apply cell.creature
       else
-        console.log "cell.creature = ", cell.creature
         @$scope.selectedSkill.apply @$scope.selectedCell.creature, cell.creature
       @$scope.selectedSkill = undefined
       @$scope.grid.resetAttackHighlight()
@@ -56,7 +55,6 @@ class window.ShowCombatController
         @loadFromData(data)
 
   loadFromData: (data) ->
-    console.log 'all data', data
     @$scope.combat.json = JSON.parse(data.json)
     @$scope.grid.loadFromJSON(@$scope.combat.json, @Zoo, @Chars) if @$scope.combat.json?
     @$scope.background_url = data.background_url if data.background_url?

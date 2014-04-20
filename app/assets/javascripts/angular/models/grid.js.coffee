@@ -62,9 +62,10 @@ class window.Grid
       else 
         creature = Chars.create(creatureJSON.id)
         creature.location = creatureJSON.location
+        if creature?
+          creature.loadFromJSON(creatureJSON)
         if creature.location?
           @place creature, creature.location
-
 
     for cellJSON in data.cells
       cell = @get(cellJSON.location)

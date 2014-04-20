@@ -6,13 +6,13 @@ class window.Perks.RogueWeaponProficiency extends Perks.BasePerk
     super(data)
 
   pickable: (character) ->
-    character.character_class && character.character_class.name == 'Плут'
+    character.character_class? && character.character_class.name == 'Плут'
 
   autoPickable: ->
     true
 
   toHitBonus: (character) ->
-    if character && character.weapon? && character.weapon.title == 'Кинжал'
+    if character? && character.weapon? && character.weapon.title == 'Кинжал'
       1
     else 
       0

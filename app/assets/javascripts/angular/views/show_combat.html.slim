@@ -33,13 +33,6 @@
     .active-cell ng-show='c.isCellSelected()'
       h3
         | Location: ({{ selectedCell.location.x }}, {{ selectedCell.location.y }})
-      h3 Moveability
-      .moveability-option ng-class="{'active': (selectedCell.moveability == 1)}"
-        | Full
-      .moveability-option ng-class="{'active': (selectedCell.moveability == 2)}"
-        | Half
-      .moveability-option ng-class="{'active': (selectedCell.moveability == 3)}"
-        | None
       h3 ng-show='selectedCell.hasCreature()'
         | Monster in cell
       .cell-monster ng-show='selectedCell.hasCreature()'
@@ -53,7 +46,7 @@
               | {{ selectedCell.creature.p.description }}
             | HP: {{ selectedCell.creature.i.hp }}
             br
-            | AC: {{ selectedCell.creature.getEffectiveAC() }}
+            | AC: {{ selectedCell.creature.getAC() }}
         .affects
           .affect ng-repeat='affect in selectedCell.creature.affects'
             | {{affect.type}}
@@ -74,7 +67,14 @@
                 | East
               .btn.btn-large.btn-success ng-click='c.rotateCreature(selectedCell.creature, "west")'
                 | West
-        .skill ng-repeat='skill in selectedCell.creature.skills' ng-click='c.startUsingSkill(skill)' ng-class="{'selected': (selectedSkill == skill)}" ng-show="selectedCell.creature == creaturesBand.getActingCreature()"
+          .action.main ng-class='{ "unused": selectedCell.creature.hasAction("main") }'
+            | MAIN
+          .action.aux ng-class='{ "unused": selectedCell.creature.hasAction("aux") }'
+            | AUX
+          .action.move ng-class='{ "unused": selectedCell.creature.hasAction("move") }'
+            | MOVE
+
+        .skill ng-repeat='skill in selectedCell.creature.skills' ng-click='c.startUsingSkill(skill)' ng-class="{'selected': (selectedSkill == skill)}" ng-show="(selectedCell.creature == creaturesBand.getActingCreature()) && (selectedCell.creature.hasAction('main'))"
           .avatar
             img ng-src='{{ skill.avatar_url }}'
           .textual
@@ -82,4 +82,4 @@
             .skill-stats
               | To hit: {{ skill.toHitBonus() }}
               br
-              | Damage: {{ skill.damageText() }}
+              | Damage: {{ skill.damageText(selectedCell.creature) }}
