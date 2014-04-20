@@ -27,6 +27,9 @@ class window.ShowCombatController
     @$scope.selectedCell = cell
     @$scope.selectedCreature = cell.creature if cell.hasCreature()
 
+  resetJson: ->
+    @Combat.reset { id: @$scope.combat.id }
+
   isCellSelected: ->
     @$scope.selectedCell?
 

@@ -23,6 +23,8 @@
     .hands-of-god ng-show='currentUser.currentUser.email == combat.gm'
       .skill.btn.btn-large.btn-danger ng-click='c.turnOnGodDamageMode()' ng-class="{'selected': (selectedSkill == skill)}"
         | Inflict Damage
+    .btn.btn-info.btn-large.skill ng-show='currentUser.currentUser.email == combat.gm' ng-click='c.resetJson()'
+      | Reset combat
     .active-cell ng-show='c.isCellSelected()'
       h3
         | Location: ({{ selectedCell.location.x }}, {{ selectedCell.location.y }})
@@ -76,5 +78,3 @@
               | To hit: {{ skill.toHitBonus() }}
               br
               | Damage: {{ skill.damageText() }}
-
-

@@ -32,7 +32,10 @@ Dnd::Application.routes.draw do
     resources :monsters
     resources :games do
       resources :combats, shallow: true do
-        post :background, on: :member
+        member do
+          post :background
+          post :reset
+        end
       end
     end
   end

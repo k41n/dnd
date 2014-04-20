@@ -27,9 +27,6 @@ dndApp.factory "current_user", [ 'local_storage', '$http', '$window', (local_sto
         service.currentUser = local_storage.retrieve('currentUser')
         service.findShortUserName()
 
-    isAssistant: ->
-      service.currentUser && service.currentUser.role == 'assistant'
-
     logout: ->
       $http.delete '/players/sign_out.json'
 

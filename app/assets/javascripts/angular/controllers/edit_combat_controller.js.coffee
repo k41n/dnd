@@ -24,7 +24,6 @@ class window.EditCombatController
     catch e
       console.log e
 
-
   selectCell: (cell) ->
     if @$scope.selectedMonster
       unless cell.hasCreature()
@@ -93,8 +92,8 @@ class window.EditCombatController
   saveCombat: ->
     @$scope.combat.json = @$scope.grid.saveToJSON(0)
     params = 
-      json: JSON.stringify(@$scope.combat.json)
-    @Combat.update { id: @$scope.combat.id }, { combat: params }
+      json:  JSON.stringify(@$scope.combat.json)
+    @Combat.update { id: @$scope.combat.id }, { combat: params, reset: true }
 
 
 EditCombatController.$inject = ["$scope", "$routeParams", "Combat", "Zoo", "Chars", "SkillLibrary", "$fileUploader", 'Perks']

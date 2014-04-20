@@ -5,5 +5,8 @@ angular.module("dndApp")
 .factory "Combat", ($resource) ->
     $resource "/api/combats/:id",
     { id: "@id"},
-    { update: { method: "PUT" }},
-    { delete: { method: "DELETE" }}
+    { 
+      update: { method: "PUT" },
+      reset: { method: "POST", isArray: false, url: '/api/combats/:id/reset' },
+      delete: { method: "DELETE" }
+    }

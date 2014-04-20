@@ -7,7 +7,7 @@ describe 'EditCombatController', ->
     @Combat = @model('Combat')
     @combat = new @Combat({ id: 1, name: 'Махачка за мешок конопли в селе Соплюево' })
 
-    @controller('EditCombatController', { $scope: @scope, $routeParams: @routeParams })
+    @subject = @controller('EditCombatController', { $scope: @scope, $routeParams: @routeParams })
 
     @http.whenGET('/api/combats/1').respond(200, @combat)
 

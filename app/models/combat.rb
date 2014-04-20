@@ -6,6 +6,10 @@ class Combat < ActiveRecord::Base
 
   paginates_per 10
 
+  def reset_json
+    self.update_attribute(:json, json_orig)
+  end
+
   def as_json(options={})
     {
         id: id,

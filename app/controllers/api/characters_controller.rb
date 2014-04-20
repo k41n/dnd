@@ -2,6 +2,7 @@ class Api::CharactersController < ApplicationController
   respond_to :json
   inherit_resources
   before_filter :authenticate_player!, only: [:update, :create, :destroy, :my]
+  skip_before_filter :verify_authenticity_token
 
   def avatar
     @character = Character.find(params[:id])

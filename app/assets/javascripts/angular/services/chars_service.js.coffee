@@ -9,7 +9,7 @@ class window.Chars
 
   create: (id) ->
     character = @characters[id]
-    character.abilityTrainings = {}
+    character.abilityTrainings = {} if character?
     character
 
   inviteByName: (name, toGame) ->
