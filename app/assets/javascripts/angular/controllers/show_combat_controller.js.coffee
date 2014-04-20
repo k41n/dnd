@@ -1,5 +1,5 @@
 class window.ShowCombatController
-  constructor: (@$scope, @$routeParams, @Zoo, @Combat, @Faye, @SkillLibrary, @$timeout, @CreaturesBand, @current_user, @Chars, @Perks) ->
+  constructor: (@$scope, @$routeParams, @Zoo, @Combat, @Faye, @SkillLibrary, @$timeout, @CreaturesBand, @current_user, @Chars, @Perks, @Logger) ->
     @$scope.c = @
     @$scope.grid = new Grid()
     @$scope.currentUser = @current_user
@@ -7,10 +7,12 @@ class window.ShowCombatController
       @Perks.loading.$promise.then =>
         @fetchCombat()
     @subscribeToFaye()
+    @logExpanded = false
 
   selectCell: (cell) ->
     if @canMoveToCell(cell)
       @moveToCell(@$scope.selectedCreature, cell)
+      @Logger.info "#{@$scope.selectedCreature.p.name} moved to [#{cell.location.x}, #{cell.location.y}]"
       @saveCombat()
     if cell.attackable
       if @$scope.selectedSkill.name == 'God Hand'
@@ -28,6 +30,7 @@ class window.ShowCombatController
     @$scope.selectedCreature = cell.creature if cell.hasCreature()
 
   resetJson: ->
+    @Logger.info "Combat was reset"
     @Combat.reset { id: @$scope.combat.id }
 
   isCellSelected: ->
@@ -109,6 +112,9 @@ class window.ShowCombatController
     @$scope.selectedSkill = new Skills.GodDamage()
     @$scope.selectedSkill.highlightTargets(@$scope.grid, @$scope.selectedCreature)
 
-ShowCombatController.$inject = ["$scope", "$routeParams", "Zoo", "Combat", "Faye", "SkillLibrary", "$timeout", "CreaturesBand", "current_user", 'Chars', 'Perks']
+  toggleLog: ->
+    @logExpanded = !@logExpanded
+
+ShowCombatController.$inject = ["$scope", "$routeParams", "Zoo", "Combat", "Faye", "SkillLibrary", "$timeout", "CreaturesBand", "current_user", 'Chars', 'Perks', 'Logger']
 
 angular.module("dndApp").controller("ShowCombatController", ShowCombatController)

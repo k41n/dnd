@@ -12,7 +12,6 @@ class window.Perks.RogueWeaponProficiency extends Perks.BasePerk
     true
 
   toHitBonus: (character) ->
-    console.log "RogueWeaponProficiency::toHitBonus", character
     if character && character.weapon? && character.weapon.title == 'Кинжал'
       1
     else 

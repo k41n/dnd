@@ -1,3 +1,8 @@
+#logger
+  #log-header ng-click='c.toggleLog()' Log
+  #log-entries scroll-down='1'
+    .log-entry ng-repeat='entry in c.Logger.logEntries' ng-show='c.logExpanded'
+      | {{ entry[1] }}
 .row
   .col-md-10.static
     creature-band

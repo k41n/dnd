@@ -13,15 +13,15 @@ class window.Chars
     character
 
   inviteByName: (name, toGame) ->
-    c = new @Character()
+    c = new @CharacterAPI()
     c.$invite {gameId: toGame.id, name: name}
 
   uninviteByName: (name, toGame) ->
-    c = new @Character()
+    c = new @CharacterAPI()
     c.$uninvite {gameId: toGame.id, name: name}
 
   kickByName: (name, fromGame) ->
-    c = new @Character()
+    c = new @CharacterAPI()
     c.$kick {gameId: fromGame.id, name: name}
 
   findByName: (name) ->
