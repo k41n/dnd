@@ -73,7 +73,6 @@ describe 'Grid', ->
       @grid2 = new Grid()
 
       json = @grid.saveToJSON()
-      console.log "GRID json: ", json
       @Zoo.loading.$promise.then =>
         @grid2.loadFromJSON(json, @Zoo)
         expect(@grid2.creatures.length).toEqual(1)

@@ -167,10 +167,8 @@ class window.CharacterModel extends Combatant
     @perks ||= {}    
     for k,v of Perks.perks
       if v.pickable(@) && !@perks[k]? && v.autoPickable()
-        console.log 'Autopicking', v
         @addPerk(v)
       if @perks[k] && !v.pickable(@) && v.autoPickable()
-        console.log 'Autoremoving', v
         @removePerk(v) 
 
   perkIds: ->
@@ -199,11 +197,6 @@ class window.CharacterModel extends Combatant
       ret.push v if v.pickable(@) && !@skills[k]? && v.cooldown_type == cooldown_type
     ret
 
-  addSkill: (skill) ->
-    @skills[skill.id] = skill
-    @p.skill_ids = @skillIds()
-    skill.assignTo @
-
   removeSkill: (skill) ->
     delete @skills[skill.id]
     @p.skill_ids = @skillIds()
@@ -213,13 +206,6 @@ class window.CharacterModel extends Combatant
     for k,v of @skills
       ret[k] = v if v.cooldown_type == cooldown_type
     ret
-
-  skillIds: ->
-    if @skills? && Object.keys(@skills)?
-      Object.keys(@skills).map (k) ->
-        parseInt(k)
-    else 
-      []
 
   canIncrease: (attr) ->
     @priceOfIncrementFrom(@p[attr]) <= @p.stat_points
@@ -263,11 +249,6 @@ class window.CharacterModel extends Combatant
   halfLevel: ->
     Math.floor( ( @i.level || 0 ) / 2.0 )
 
-  addSkillByJsClass: (jsClass) ->
-    skillToAdd = @SkillLibrary.getByJsClass(jsClass)
-    console.log 'skillToAdd', skillToAdd
-    @addSkill skillToAdd if skillToAdd?
-
   skillPoints: (cooldown_type) ->
     return 2 - Object.keys(@getSkills(cooldown_type)).length if cooldown_type == 'unlimited'
     return 1 - Object.keys(@getSkills(cooldown_type)).length if cooldown_type == 'instant'
@@ -309,7 +290,6 @@ class window.CharacterModel extends Combatant
     ret = {}
     if @perks?
       for id, perk of @perks
-        console.log "Configuration of perk #{perk.name} is ", perk.configuration()
         ret[id] = perk.configuration()
     JSON.stringify(ret)
 

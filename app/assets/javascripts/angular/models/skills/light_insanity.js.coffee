@@ -23,7 +23,6 @@ class window.Skills.LightInsanity extends Skills.BaseAttack
     new Affects.LightInsanityDebuff().applyTo(@target, {by: @applicator})
 
   pullMissTriggers: ->
-    console.log 'pullMissTriggers'
     result = @applicator.trigger 'missed',
       target: @target
 

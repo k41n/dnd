@@ -1,5 +1,5 @@
 .creature-band
-  .creature-band-item ng-repeat='creature in creaturesBand.getCreatures()' ng-class="{'acting': (creature == creaturesBand.getActingCreature())}" style='background-image: url("{{ creature.p.avatar_url }}")' ng-show='creature.p.name != "End of Turn"'
+  .creature-band-item ng-repeat='(id, creature) in creaturesBand.getCreatures() track by id' ng-class="{'acting': (creature == creaturesBand.getActingCreature())}" style='background-image: url("{{ creature.p.avatar_url }}")' ng-show='creature.p.name != "End of Turn"'
     .textual
       | {{ creature.p.name }}
 

@@ -5,13 +5,7 @@
 
 describe 'Skills.PenetrationStrike', ->
   beforeEach ->
-    stubApiSkills(@http)
-    stubApiPerks(@http)
-    stubApiWeapons(@http)
-    stubApiRaces(@http)
-    stubApiCharacterAbilities(@http)    
-    stubApiCharacterClasses(@http)    
-    
+    @prepareSkillApis()
 
     @Creature = @factory('Creature')
     @CharacterModel = @factory('CharacterModel')
@@ -38,9 +32,9 @@ describe 'Skills.PenetrationStrike', ->
   describe 'toDamage roll', ->
     it 'equals to character weapon damage (WD) + mod(dex)', ->
       @character.addSkill(@skill)      
-      # { id: '1', name: 'Меч-кладенец', damage_dice: 8, damage_count: 1}
+      # { id: '2', name: 'Игла', damage_dice: 4, damage_count: 1, weapon_group_name: 'Легкие клинки'}
       expect(@character.weapon).toBeDefined()
-      expect(@skill.damageRollDice(@character)).toEqual(8)
+      expect(@skill.damageRollDice(@character)).toEqual(4)
       expect(@skill.damageRollCount(@character)).toEqual(1)
       # Rogue has dex of 20 and level 1 = 5
       expect(@skill.damageBonus(@character)).toEqual(5)

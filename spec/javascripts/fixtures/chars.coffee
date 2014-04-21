@@ -20,5 +20,5 @@ window.fixtures.rogue = {
   dex: 20
   level: 1
   character_class_id: 2
-  weapon_id: 1
+  weapon_id: 2
 }

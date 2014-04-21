@@ -22,5 +22,4 @@ class window.Skills.RighteousJudgement extends Skills.BaseAttack
     char.mod('cha')
 
   beforeHit: ->
-    console.log 'beforeHit'
     new Affects.RighteousJudgementBuff().applyTo(@applicator, {by: @applicator})

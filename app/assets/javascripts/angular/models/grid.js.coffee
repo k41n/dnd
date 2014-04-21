@@ -33,7 +33,6 @@ class window.Grid
       cells: @cellsJSON()
       currentTurn: creatureBand.currentTurnNumber() if creatureBand
       idCounter: @idCounter
-#      affets: @affectsJSON()
     }
 
   cellsJSON: =>
@@ -50,11 +49,11 @@ class window.Grid
   loadFromJSON: (data, Zoo, Chars) =>
     @idCounter = data.idCounter if data.idCounter
     @createCells()
-    @creatures = []
+    @creatures = {}
     @currentTurn ||= if data.currentTurn then data.currentTurn else 0
     for creatureJSON in data.creatures
       if creatureJSON.type == 'monster'
-        creature = Zoo.getById(creatureJSON.id)
+        creature = Zoo.instanceById(creatureJSON.id)
         if creature
           creature.loadFromJSON(creatureJSON)
           if creature.location?
@@ -75,19 +74,17 @@ class window.Grid
     @cells[location.y][location.x]
 
   place: (creature, location) ->
-    unless creature.i.id?
-      @idCounter += 1
-      creature.i.id = @idCounter
+    @idCounter += 1
+    creature.i.id = @idCounter
     @get(location).addCreature creature
     creature.setCoords location, @
-    @creatures ||= []
-    @creatures.push creature
+    @creatures ||= {}
+    @creatures[@idCounter] = creature
 
   deleteMonster: (creature) ->
-    index = @creatures.indexOf(creature)
     cell = @get(creature.location)
     cell.creature = null
-    @creatures.splice(index, 1)
+    delete @creatures[creature.i.id]
 
   move: (creature, location) =>
     @get(creature.location).creature = undefined

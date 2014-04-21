@@ -59,44 +59,6 @@ class window.Creature extends Combatant
     $.map @skills, (skill) ->
       skill.id
 
-  affectsJSON: ->
-    ret = []
-    if @affects
-      $.map @affects, (affect) ->
-        hash = {}
-        $.map affect, (v, k) ->
-          hash[k] = v unless k == 'applicator' || k == 'receiver'
-        ret.push hash
-    ret
-
-  addAffect: (affect) ->
-    @affects.push affect
-
-  deleteAffect: (affect) ->
-    @affects ||= []
-    index = @affects.indexOf(affect)
-    @affects.splice(index,1)
-
-  affectNames: ->
-    @affects ||= []
-    $.map @affects, (a) ->
-      a.name
-
-  affectTypes: ->
-    @affects ||= []
-    $.map @affects, (a) ->
-      a.type
-
-  neighbors: (range) ->
-    return [] unless @grid?
-    $.grep @grid.creaturesInRadius(@location, (range || 1) ), (c) =>
-      c != @
-
-  hostileNeighbours: ->
-    return [] unless @grid?
-    $.grep @grid.creaturesInRadius(@location, 1), (c) =>
-      c != @ && c.hostile
-
   mod: (attr) ->
     Math.floor( @data[attr] - 10 )
 

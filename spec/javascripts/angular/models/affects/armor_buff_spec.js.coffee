@@ -71,7 +71,6 @@ describe 'Affects.ArmorBuff', ->
 
     it 'does not reapplies buff on moving in area of action', ->
       expect(@creature1).not.toBe(@creature2)
-      console.log '@creature2', @creature2
       @grid.place(@creature1, {x: 0, y: 0})
       @grid.place(@creature2, {x: 1, y: 1}) # Close enough for buff to start acting
 

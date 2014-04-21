@@ -5,12 +5,7 @@
 
 describe 'Skills.LightInsanity', ->
   beforeEach ->
-    stubApiSkills(@http)
-    stubApiPerks(@http)
-    stubApiWeapons(@http)
-    stubApiRaces(@http)
-    stubApiCharacterAbilities(@http)    
-    stubApiCharacterClasses(@http)    
+    @prepareSkillApis()
 
     @Creature = @factory('Creature')
     @CharacterModel = @factory('CharacterModel')
@@ -29,7 +24,6 @@ describe 'Skills.LightInsanity', ->
 
     it 'cannot be picked twice', ->
       @character.addSkill(@skill)
-      console.log "@character = ", @character
       expect(@skill.pickable(@character)).toBe(false)
 
   describe 'toHit roll', ->

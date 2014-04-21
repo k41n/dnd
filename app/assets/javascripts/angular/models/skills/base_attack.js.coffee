@@ -85,6 +85,12 @@ class window.Skills.BaseAttack
   beforeHit: ->
     1
 
+  pullAttackTriggers: ->
+    @target.trigger 'attackedBy',
+      by: @applicator
+    @applicator.trigger 'attacked',
+      whom: @target
+
   pullMissTriggers: ->
     new CombatScroll("Miss", '#ffff00', @target.location).act()
     result = @applicator.trigger 'missed',
@@ -118,6 +124,7 @@ class window.Skills.BaseAttack
   apply: (applicator, target) ->
     @applicator = applicator
     @target = target
+    @pullAttackTriggers()
     if @checkHit()
       @pullHitTriggers()
     else

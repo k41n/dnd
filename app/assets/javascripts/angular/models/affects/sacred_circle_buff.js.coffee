@@ -9,7 +9,6 @@ class window.Affects.SacredCircleBuff
       @center = @applicator.location
       @applicator.addAffect(@)
 
-      console.log '@applicator.neighbors(4)', @applicator.neighbors(4)
       for c in @applicator.neighbors(4)
         @affectOn c if @shouldAffectOn c
 
@@ -33,7 +32,6 @@ class window.Affects.SacredCircleBuff
     @assigned? and @assigned.indexOf(creature) != -1
 
   affectOn: (creature) ->
-    console.log 'Affecting on ', creature
     creature.i.acBonus ||= 0
     creature.i.acBonus += 1
     creature.i.reactionBonus ||= 0

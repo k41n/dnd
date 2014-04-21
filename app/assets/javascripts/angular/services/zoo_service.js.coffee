@@ -6,9 +6,14 @@ class window.Zoo
         @monsters[m.id] = @Creature.new(m)
         @monsters[m.id].hostile = true
 
-
   getById: (id) ->
     @monsters[id]
+
+  instance: (m) ->
+    @Creature.new(m.p, m.i)
+
+  instanceById: (id) ->
+    @Creature.new(@monsters[id].p) 
 
 Zoo.$inject = ["Monster", "$injector", 'Creature']
 

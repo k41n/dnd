@@ -87,3 +87,25 @@ window.fixtures.penetration_strike = {
   attack_char_to: 'reaction'
   min_level: 1
 }
+
+window.fixtures.counterstrike = {
+  name: 'Ответный удар'
+  available_for: [2]
+  js_class: 'Skills.Counterstrike'
+  cooldown_type: 'unlimited'
+  id: 9
+  attack_char_from: 'dex'
+  attack_char_to: 'ac'
+  min_level: 1
+}
+
+window.fixtures.counterstrike_on_attack = {
+  name: 'Ответный удар (реакция)'
+  available_for: [2]
+  js_class: 'Skills.CounterstrikeOnAttack'
+  cooldown_type: 'unlimited'
+  id: 10
+  attack_char_from: 'str'
+  attack_char_to: 'ac'
+  min_level: 1
+}

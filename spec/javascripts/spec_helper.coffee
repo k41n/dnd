@@ -25,6 +25,17 @@ beforeEach inject (_$httpBackend_, _$compile_, $rootScope, $controller, $locatio
       @scope.$digest()
   @sandbox = sinon.sandbox.create()
 
+  @prepareSkillApis = ->
+    stubApiSkills(@http)
+    stubApiPerks(@http)
+    stubApiWeapons(@http)
+    stubApiRaces(@http)
+    stubApiCharacterAbilities(@http)    
+    stubApiCharacterClasses(@http)
+    stubApiLogs(@http)
+
 afterEach ->
   @http.resetExpectations()
   @http.verifyNoOutstandingExpectation()
+
+

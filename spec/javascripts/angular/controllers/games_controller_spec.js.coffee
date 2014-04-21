@@ -11,7 +11,6 @@ describe 'GamesController', ->
 
   describe 'load', ->
     it 'sets up the list of games', ->
-      console.log @scope.games
       expect(Object.keys(@scope.games).length).toEqual(1)
 
   describe 'gelete game', ->

@@ -42,6 +42,7 @@ class window.Combatant
 
     @registerEventHandler 'endOfTurn', =>
       @hasTurn = false
+      true #We should return true to avoid interrupting callback queue
 
   moveTo: (location) ->
     @setCoords(location)
@@ -57,4 +58,60 @@ class window.Combatant
     @eventHandlers ||= {}
     @eventHandlers[name] = new Array() unless @eventHandlers[name]?
     @eventHandlers[name].push callback
+
+  neighbors: (range) ->
+    return [] unless @grid?
+    $.grep @grid.creaturesInRadius(@location, (range || 1) ), (c) =>
+      c != @
+
+  hostileNeighbours: ->
+    return [] unless @grid?
+    $.grep @grid.creaturesInRadius(@location, 1), (c) =>
+      c != @ && c.hostile
+
+  addAffect: (affect) ->
+    @affects.push affect
+
+  deleteAffect: (affect) ->
+    @affects ||= []
+    index = @affects.indexOf(affect)
+    @affects.splice(index,1)
+
+  affectNames: ->
+    @affects ||= []
+    $.map @affects, (a) ->
+      a.name
+
+  affectTypes: ->
+    @affects ||= []
+    $.map @affects, (a) ->
+      a.type
+
+  affectsJSON: ->
+    ret = []
+    if @affects
+      $.map @affects, (affect) ->
+        hash = {}
+        $.map affect, (v, k) ->
+          hash[k] = v unless k == 'applicator' || k == 'receiver'
+        ret.push hash
+    ret
+
+  addSkill: (skill) ->
+    @skills ||= {}
+    @skills[skill.id] = skill
+    @p.skill_ids = @skillIds()
+    skill.assignTo @
+    skill
+
+  skillIds: ->
+    if @skills? && Object.keys(@skills)?
+      Object.keys(@skills).map (k) ->
+        parseInt(k)
+    else 
+      []
+
+  addSkillByJsClass: (jsClass) ->
+    skillToAdd = @SkillLibrary.getByJsClass(jsClass)
+    @addSkill skillToAdd if skillToAdd?
 

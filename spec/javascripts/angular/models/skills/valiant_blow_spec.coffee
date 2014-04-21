@@ -30,7 +30,6 @@ describe 'Skills.ValiantBlow', ->
 
     it 'cannot be picked twice', ->
       @character.addSkill(@skill)
-      console.log "@character = ", @character
       expect(@skill.pickable(@character)).toBe(false)
 
   describe 'toHit roll', ->

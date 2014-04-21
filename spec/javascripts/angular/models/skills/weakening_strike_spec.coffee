@@ -5,13 +5,7 @@
 
 describe 'Skills.WeakeningStrike', ->
   beforeEach ->
-    stubApiSkills(@http)
-    stubApiPerks(@http)
-    stubApiWeapons(@http)
-    stubApiRaces(@http)
-    stubApiCharacterAbilities(@http)    
-    stubApiCharacterClasses(@http)    
-    
+    @prepareSkillApis()
 
     @Creature = @factory('Creature')
     @CharacterModel = @factory('CharacterModel')

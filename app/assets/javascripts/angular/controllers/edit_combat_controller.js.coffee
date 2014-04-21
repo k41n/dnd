@@ -3,7 +3,7 @@ class window.EditCombatController
     @$scope.c = @
     @$scope.grid = new Grid()
     @initFileUploader()
-    Zoo.loading.$promise.then =>
+    @Zoo.loading.$promise.then =>
       Perks.loading.$promise.then =>
         @fetchCombat()
     @$scope.zooActive = true
@@ -27,7 +27,7 @@ class window.EditCombatController
   selectCell: (cell) ->
     if @$scope.selectedMonster
       unless cell.hasCreature()
-        monster = @$scope.selectedMonster
+        monster = @Zoo.instance(@$scope.selectedMonster)
         @$scope.grid.place(monster, cell.location)
         @$scope.selectedMonster = null
         @saveCombat()

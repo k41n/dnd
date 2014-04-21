@@ -18,7 +18,6 @@ class window.Affects.SupportingStrikeBuff
     creature.affectTypes().indexOf(@type) != -1
 
   affectOn: (creature) ->
-    console.log 'Affecting ', creature
     creature.i.tempHp ||= 0
     creature.i.tempHp += creature.mod('wis')
     creature.addAffect @

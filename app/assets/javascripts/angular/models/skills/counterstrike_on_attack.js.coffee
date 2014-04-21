@@ -1,12 +1,11 @@
-#= require ../affects/supporting_strike_buff
-
 window.Skills ||= {}
-class window.Skills.SupportingStrike extends Skills.BaseAttack
+class window.Skills.CounterstrikeOnAttack extends Skills.BaseAttack
   constructor: (factory_params) ->
     super(factory_params)
 
   damage: (char) ->
-    char.getWeaponDamage() + '+' + char.mod('cha')
+    char ||= @char
+    char.getWeaponDamage() + '+' + @damageBonus()
 
   toHitBonus: (char) ->
     char ||= @char
@@ -22,7 +21,4 @@ class window.Skills.SupportingStrike extends Skills.BaseAttack
 
   damageBonus: (char) ->
     char ||= @char
-    char.mod('cha')
-
-  beforeHit: ->
-    new Affects.SupportingStrikeBuff().applyTo(@applicator, {by: @applicator})
+    char.mod('str') + char.damageBonus()

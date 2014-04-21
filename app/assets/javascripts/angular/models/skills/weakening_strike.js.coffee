@@ -25,5 +25,4 @@ class window.Skills.WeakeningStrike extends Skills.BaseAttack
     char.mod('cha')
 
   beforeHit: ->
-    console.log '@target = ', @target
     new Affects.WeakeningStrikeDebuff().applyTo(@target, {by: @applicator})
