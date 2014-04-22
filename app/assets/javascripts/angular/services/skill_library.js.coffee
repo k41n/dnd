@@ -1,8 +1,8 @@
 class window.SkillLibrary
   constructor: (Skill, @$injector) ->
     @skills = {}
-    skills = Skill.query {},  =>
-      for skill in skills
+    @loading = Skill.query {},  =>
+      for skill in @loading
         @skills[skill.id] = @build(skill)
 
   create: (id) ->

@@ -33,6 +33,18 @@ beforeEach inject (_$httpBackend_, _$compile_, $rootScope, $controller, $locatio
     stubApiCharacterAbilities(@http)    
     stubApiCharacterClasses(@http)
     stubApiLogs(@http)
+    stubApiMonsters(@http)
+    stubApiCharacters(@http)
+    @Creature = @factory('Creature')
+    @CharacterModel = @factory('CharacterModel')
+
+    @Weapons = @factory('Weapons')
+    @Chars = @factory('Chars')
+    @Perks = @factory('Perks')
+    @Zoo = @factory('Zoo')
+
+    @http.flush()    
+    
 
 afterEach ->
   @http.resetExpectations()

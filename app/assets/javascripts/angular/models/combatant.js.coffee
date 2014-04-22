@@ -51,6 +51,7 @@ class window.Combatant
   trigger: (name, params) ->
     if @eventHandlers? and @eventHandlers[name]?
       for callback in @eventHandlers[name]
+        console.log "Processing callback on #{name}"
         return false unless callback(params)
     return true
 
@@ -58,6 +59,12 @@ class window.Combatant
     @eventHandlers ||= {}
     @eventHandlers[name] = new Array() unless @eventHandlers[name]?
     @eventHandlers[name].push callback
+    callback
+
+  unregisterEventHandler: (name, callback) ->
+    return unless @eventHandlers[name]?
+    index = @eventHandlers[name].indexOf(callback)
+    @eventHandlers[name].splice(index,1)
 
   neighbors: (range) ->
     return [] unless @grid?
@@ -98,6 +105,8 @@ class window.Combatant
     ret
 
   addSkill: (skill) ->
+    console.log "Adding skill ", skill
+    console.log "To ", @
     @skills ||= {}
     @skills[skill.id] = skill
     @p.skill_ids = @skillIds()

@@ -109,3 +109,14 @@ window.fixtures.counterstrike_on_attack = {
   attack_char_to: 'ac'
   min_level: 1
 }
+
+window.fixtures.proficient_strike = {
+  name: 'Искусный удар'
+  available_for: [2]
+  js_class: 'Skills.ProficientStrike'
+  cooldown_type: 'unlimited'
+  id: 11
+  attack_char_from: 'dex'
+  attack_char_to: 'ac'
+  min_level: 1
+}

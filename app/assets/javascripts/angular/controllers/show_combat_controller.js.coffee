@@ -10,6 +10,7 @@ class window.ShowCombatController
     @logExpanded = false
 
   selectCell: (cell) ->
+    console.log "@$scope.selectedCell = ", @$scope.selectedCell
     if @canMoveToCell(cell)
       @moveToCell(@$scope.selectedCreature, cell)
       @Logger.info "#{@$scope.selectedCreature.p.name} moved to [#{cell.location.x}, #{cell.location.y}]"
@@ -18,6 +19,8 @@ class window.ShowCombatController
       if @$scope.selectedSkill.name == 'God Hand'
         @$scope.selectedSkill.apply cell.creature
       else
+        console.log "@$scope.selectedCell = ", @$scope.selectedCell
+        console.log "cell.creature = ", cell.creature
         @$scope.selectedSkill.apply @$scope.selectedCell.creature, cell.creature
       @$scope.selectedSkill = undefined
       @$scope.grid.resetAttackHighlight()
@@ -27,6 +30,7 @@ class window.ShowCombatController
       @$scope.grid.resetAttackHighlight()
     @$scope.selectedCell = cell
     @$scope.selectedCreature = cell.creature if cell.hasCreature()
+    console.log "@$scope.selectedCell = ", @$scope.selectedCell
 
   resetJson: ->
     @Logger.info "Combat was reset"
@@ -70,17 +74,18 @@ class window.ShowCombatController
   startUsingSkill: (skill) ->
     @$scope.selectedSkill = skill
     @$scope.selectedSkill.highlightTargets(@$scope.grid, @$scope.selectedCreature)
+    @$scope.selectedSkill.onUsageStart()
 
   moveToCell: (creature, cell) ->
     @$scope.grid.move(creature, cell.location)
-
 
   markMoveableCellsForCreature: (creature) =>
     @$scope.grid.markMoveableCellsForCreature(creature)
 
   canMoveToCell: (cell) ->
-    if cell.moveable and @$scope.selectedCreature
+    if cell.moveable and @$scope.selectedCreature and not cell.attackable
       if cell.moveability == 3 or (cell.hasCreature())
+        console.log 'Clearing selection'
         @$scope.selectedCreature = null
         @$scope.selectedCell = null
         @$scope.grid.unmarkMoveableCellsForCreature()

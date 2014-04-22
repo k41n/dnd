@@ -7,34 +7,22 @@ describe 'Skills.PenetrationStrike', ->
   beforeEach ->
     @prepareSkillApis()
 
-    @Creature = @factory('Creature')
-    @CharacterModel = @factory('CharacterModel')
-    @http.flush()
-
-    @character = @CharacterModel.new fixtures.rogue
-
-    @skill = new Skills.PenetrationStrike(fixtures.penetration_strike)
-
-  describe 'Character constructor', ->
-    it 'can be picked by rogue', ->
-      expect(@skill.pickable(@character)).toBe(true)
-
-    it 'cannot be picked twice', ->
-      @character.addSkill(@skill)
-      expect(@skill.pickable(@character)).toBe(false)
+    @character = @Chars.create(2)
+    @character.skillInstantiation.promise.then =>
+      @skill = @character.skills[8]
 
   describe 'toHit roll', ->
     it 'calculates to hit bonus', ->
-      @character.addSkill(@skill)
-      # Rogue has dex of 20 and level 1 = 5
-      expect(@skill.toHitBonus(@character)).toEqual(5)
+      @timeout ->
+        # Rogue has dex of 20 and level 1 = 5
+        expect(@skill.toHitBonus(@character)).toEqual(5)
 
   describe 'toDamage roll', ->
     it 'equals to character weapon damage (WD) + mod(dex)', ->
-      @character.addSkill(@skill)      
-      # { id: '2', name: 'Игла', damage_dice: 4, damage_count: 1, weapon_group_name: 'Легкие клинки'}
-      expect(@character.weapon).toBeDefined()
-      expect(@skill.damageRollDice(@character)).toEqual(4)
-      expect(@skill.damageRollCount(@character)).toEqual(1)
-      # Rogue has dex of 20 and level 1 = 5
-      expect(@skill.damageBonus(@character)).toEqual(5)
+      @timeout ->
+        # { id: '2', name: 'Игла', damage_dice: 4, damage_count: 1, weapon_group_name: 'Легкие клинки'}
+        expect(@character.weapon).toBeDefined()
+        expect(@skill.damageRollDice(@character)).toEqual(4)
+        expect(@skill.damageRollCount(@character)).toEqual(1)
+        # Rogue has dex of 20 and level 1 = 5
+        expect(@skill.damageBonus(@character)).toEqual(5)

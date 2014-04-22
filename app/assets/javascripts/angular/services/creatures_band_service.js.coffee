@@ -3,7 +3,7 @@ class window.CreaturesBand
 
   loadCreatures: (grid) ->
     @grid = grid
-    @creatures = grid.creatures.slice(0)
+    @creatures = grid.creaturesArray().slice(0)
     @creatures.push { p: {name: 'End of Turn'} }
     c = @getActingCreature()    
     console.log "c.hasTurn = #{c.hasTurn}"

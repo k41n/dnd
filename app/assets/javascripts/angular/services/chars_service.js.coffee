@@ -4,11 +4,11 @@ class window.Chars
       @loading = @CharacterAPI.query {}, (data) =>
         @characters = {}
         for c in data
-          @characters[c.id] = @CharacterModel.new(c)
+          @characters[c.id] = c
       @listenFaye()
 
   create: (id) ->
-    character = @characters[id]
+    character = @CharacterModel.new @characters[id]
     character.abilityTrainings = {} if character?
     character
 

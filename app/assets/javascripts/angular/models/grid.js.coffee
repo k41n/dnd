@@ -28,12 +28,24 @@ class window.Grid
 
   saveToJSON: (creatureBand) =>
     {
-      creatures: $.map @creatures, (creature) =>
-        creature.saveToJSON()
+      creatures: @creaturesJSON()
       cells: @cellsJSON()
       currentTurn: creatureBand.currentTurnNumber() if creatureBand
       idCounter: @idCounter
     }
+
+  creaturesJSON: ->
+    ret = []
+    for _, c of @creatures
+      ret.push c.saveToJSON()
+    ret
+
+  creaturesArray: ->
+    ret = []
+    for _, c of @creatures
+      ret.push c
+    ret
+
 
   cellsJSON: =>
     ret = []
@@ -90,7 +102,7 @@ class window.Grid
     @get(creature.location).creature = undefined
     @get(location).creature = creature
     creature.moveTo(location)
-    for c in @creatures
+    for _, c of @creatures
       c.trigger 'move',
         moved: creature
         to: location
@@ -100,16 +112,18 @@ class window.Grid
     creature.i.rotation = direction
 
   creaturesInRadius: (location, radius) ->
-    $.grep @creatures, (c) =>
-      @distance(location, c.location) < radius + 1
+    ret = []
+    for _, c of @creatures
+      ret.push c if @distance(location, c.location) < radius + 1
+    ret
 
   distance: (p1, p2) ->
     dx = p1.x-p2.x
     dy = p1.y-p2.y
     Math.sqrt( dx*dx+dy*dy )
 
-  markMoveableCellsForCreature: (creature) =>
-    speed = 5
+  markMoveableCellsForCreature: (creature, speed) =>
+    speed ||= creature.p.speed
     position = creature.location
     minX = Math.max(position.x - speed, 0)
     maxX = Math.min(position.x + speed, 24)
@@ -119,7 +133,6 @@ class window.Grid
       for y in [minY..maxY]
         if ( (Math.abs(x - position.x) + Math.abs(y - position.y) <= speed) )
           location = { x: x, y: y }
-          console.log location
           @get(location).moveable = true
           @moveableCells.push @get(location)
 

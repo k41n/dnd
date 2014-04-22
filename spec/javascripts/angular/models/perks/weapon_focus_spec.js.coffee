@@ -5,18 +5,9 @@
 
 describe 'Perks.WeaponFocus', ->
   beforeEach ->
-    stubApiSkills(@http)
-    stubApiPerks(@http)
-    stubApiWeapons(@http)
-    stubApiRaces(@http)
-    stubApiCharacterAbilities(@http)    
-    stubApiCharacterClasses(@http)    
+    @prepareSkillApis()    
 
-    @Creature = @factory('Creature')
-    @CharacterModel = @factory('CharacterModel')
-    @http.flush()
-
-    @character = @CharacterModel.new fixtures.paladin
+    @character = @Chars.create(1)
 
     @perk = new Perks.WeaponFocus(fixtures.weapon_focus)
 
@@ -46,11 +37,14 @@ describe 'Perks.WeaponFocus', ->
       @character.addPerk(@perk)
 
       # { id: '1', name: 'Меч-кладенец', damage_dice: 8, damage_count: 1}
-      expect(@character.weapon).toBeDefined()
-      expect(@skill.damageRollDice(@character)).toEqual(8)
-      expect(@skill.damageRollCount(@character)).toEqual(1)
-      # Paladin has str of 18 and level 1 = 4 + 1 for weapon focus
-      expect(@skill.damageBonus(@character)).toEqual(5)
+      # We use async loading of weapons etc so use timeout here
+      @timeout ->
+        expect(@character.weapon).toBeDefined()
+        expect(@skill.damageRollDice(@character)).toEqual(8)
+        expect(@skill.damageRollCount(@character)).toEqual(1)
+        # Paladin has str of 18 and level 1 = 4 + 1 for weapon focus
+        expect(@skill.damageBonus(@character)).toEqual(5)
+      , 0
 
     it 'does not add +1 to damage when corresponding weapon group weapon is not used', ->
       @skill = new Skills.ValiantBlow(fixtures.valiant_blow)
@@ -61,8 +55,9 @@ describe 'Perks.WeaponFocus', ->
       @character.addPerk(@perk)
 
       # { id: '1', name: 'Меч-кладенец', damage_dice: 8, damage_count: 1}
-      expect(@character.weapon).toBeDefined()
-      expect(@skill.damageRollDice(@character)).toEqual(8)
-      expect(@skill.damageRollCount(@character)).toEqual(1)
-      # Paladin has str of 18 and level 1 = 4 + 0 for weapon focus as weapon group is incorrect
-      expect(@skill.damageBonus(@character)).toEqual(4)
+      @timeout ->
+        expect(@character.weapon).toBeDefined()
+        expect(@skill.damageRollDice(@character)).toEqual(8)
+        expect(@skill.damageRollCount(@character)).toEqual(1)
+        # Paladin has str of 18 and level 1 = 4 + 0 for weapon focus as weapon group is incorrect
+        expect(@skill.damageBonus(@character)).toEqual(4)
