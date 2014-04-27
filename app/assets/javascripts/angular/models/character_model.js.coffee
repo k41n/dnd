@@ -1,11 +1,19 @@
 #= require ./combatant
 
 class window.CharacterModel extends Combatant
-  constructor: (@SkillLibrary, @Perks, @Weapons, @Racing, @CharacterAbilities, @CharacterClasses, @Logger, @$q) ->
-    super(@SkillLibrary, @Logger)
+  constructor: (@$injector) ->
+    @SkillLibrary = @$injector.get('SkillLibrary')
+    @Perks = @$injector.get('Perks')
+    @Logger = @$injector.get('Logger')
+    @Weapons = @$injector.get('Weapons')
+    @Racing = @$injector.get('Racing')
+    @CharacterAbilities = @$injector.get('CharacterAbilities')
+    @CharacterClasses = @$injector.get('CharacterClasses')
+    @$q = @$injector.get('$q')
+    super()
 
   new: (permanent_data, instance_data) ->
-    ret = new CharacterModel(@SkillLibrary, @Perks, @Weapons, @Racing, @CharacterAbilities, @CharacterClasses)
+    ret = new CharacterModel(@$injector)
     @instantiation = @$q.defer()
 
     angular.extend ret, @
@@ -139,7 +147,6 @@ class window.CharacterModel extends Combatant
     return true if @abilityTrainings? && @abilityTrainings[ability.name]? && @abilityTrainings[ability.name]
     return true if @character_class? && @character_class.forcedTrainings().indexOf(ability.name) != -1
     false
-
 
   getTrainingsCount: ->
     trained_abilities = 0
@@ -350,7 +357,4 @@ class window.CharacterModel extends Combatant
         ret += perk.toHitBonus(@)
     ret
 
-
-CharacterModel.$inject = ['SkillLibrary', 'Perks', 'Weapons', 'Racing', 'CharacterAbilities', 'CharacterClasses', 'Logger', '$q']
-
-angular.module("dndApp").factory('CharacterModel', (SkillLibrary, Perks, Weapons, Racing, CharacterAbilities, CharacterClasses, Logger, $q) -> new CharacterModel(SkillLibrary, Perks, Weapons, Racing, CharacterAbilities, CharacterClasses, Logger, $q))
+angular.module("dndApp").factory('CharacterModel', ($injector) -> new CharacterModel($injector))

@@ -7,16 +7,10 @@ describe 'Skills.ProficientStrike', ->
   beforeEach ->
     @prepareSkillApis()    
 
-    @CharacterModel = @factory('CharacterModel')
     @character = @CharacterModel.new(fixtures.rogue)
 
-    @Creature = @factory('Creature')
     @monster = @Creature.new fixtures.goblin
     @monster.hostile = true
-
-    @Weapons = @factory('Weapons')
-    @Chars = @factory('Chars')
-    @SkillLibrary = @factory('SkillLibrary')
 
     @skill = new Skills.ProficientStrike(fixtures.proficient_strike)
 

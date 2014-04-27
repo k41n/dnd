@@ -7,9 +7,6 @@ describe 'Skills.LightInsanity', ->
   beforeEach ->
     @prepareSkillApis()
 
-    @Creature = @factory('Creature')
-    @CharacterModel = @factory('CharacterModel')
-
     @monster = @Creature.new fixtures.goblin
     @monster.hostile = true
 

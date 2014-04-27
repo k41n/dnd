@@ -7,9 +7,6 @@ describe 'Skills.PenetrationStrike', ->
   beforeEach ->
     @prepareSkillApis()
 
-    @Creature = @factory('Creature')
-    @CharacterModel = @factory('CharacterModel')
-
     @character = @CharacterModel.new fixtures.rogue
 
     @skill = new Skills.PenetrationStrike(fixtures.penetration_strike)

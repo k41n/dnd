@@ -7,10 +7,6 @@ describe 'Skills.RighteousJudgement', ->
   beforeEach ->
     @prepareSkillApis()
 
-    @Creature = @factory('Creature')
-    @CharacterModel = @factory('CharacterModel')
-    @SkillLibrary = @factory('SkillLibrary')
-
     @monster = @Creature.new fixtures.goblin
     @monster.hostile = true
 

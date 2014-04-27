@@ -1,5 +1,5 @@
 class window.Combatant
-  constructor: (@SkillLibrary, @Logger) ->
+  constructor: () ->
     @revokeActions()
     @hasTurn = false
 

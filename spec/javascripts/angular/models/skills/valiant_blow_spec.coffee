@@ -5,16 +5,7 @@
 
 describe 'Skills.ValiantBlow', ->
   beforeEach ->
-    stubApiSkills(@http)
-    stubApiPerks(@http)
-    stubApiWeapons(@http)
-    stubApiRaces(@http)
-    stubApiCharacterAbilities(@http)    
-    stubApiCharacterClasses(@http)    
-    
-
-    @Creature = @factory('Creature')
-    @CharacterModel = @factory('CharacterModel')
+    @prepareSkillApis()
 
     @monster = @Creature.new fixtures.goblin
     @monster.hostile = true

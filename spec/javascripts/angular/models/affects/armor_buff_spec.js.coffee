@@ -4,23 +4,15 @@
 
 describe 'Affects.ArmorBuff', ->
   beforeEach ->
-
-    stubApiSkills(@http)
-    stubApiPerks(@http)
-    stubApiWeapons(@http)
-    stubApiRaces(@http)
-    stubApiCharacterAbilities(@http)
-    stubApiCharacterClasses(@http)
-
-    @CharacterModel = @factory('CharacterModel')
-
-    @http.flush()
+    @prepareSkillApis()
 
     @creature1 = @CharacterModel.new(fixtures.paladin)
     @creature2 = @CharacterModel.new(fixtures.rogue)
 
     @buff = new Affects.ArmorBuff()
     @grid = new Grid()
+
+    @http.flush()    
 
   describe 'application', ->
     it 'can measure distance', ->

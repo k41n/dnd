@@ -5,18 +5,9 @@
 
 describe 'Perks.WeaponFocus', ->
   beforeEach ->
-    stubApiSkills(@http)
-    stubApiPerks(@http)
-    stubApiWeapons(@http)
-    stubApiRaces(@http)
-    stubApiCharacterAbilities(@http)    
-    stubApiCharacterClasses(@http)    
-
-    @Creature = @factory('Creature')
-    @CharacterModel = @factory('CharacterModel')
+    @prepareSkillApis()    
 
     @character = @CharacterModel.new fixtures.paladin
-
     @perk = new Perks.WeaponFocus(fixtures.weapon_focus)
 
     @http.flush()    

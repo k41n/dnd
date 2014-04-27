@@ -35,6 +35,12 @@ beforeEach inject (_$httpBackend_, _$compile_, $rootScope, $controller, $locatio
     stubApiLogs(@http)
     stubApiCharacters(@http)
 
+    @Creature = @factory('Creature')
+    @CharacterModel = @factory('CharacterModel')
+    @Weapons = @factory('Weapons')
+    @Chars = @factory('Chars')
+    @SkillLibrary = @factory('SkillLibrary')
+
 afterEach ->
   @http.resetExpectations()
   @http.verifyNoOutstandingExpectation()

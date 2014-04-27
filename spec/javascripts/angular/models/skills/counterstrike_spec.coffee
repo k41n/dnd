@@ -7,12 +7,7 @@ describe 'Skills.Counterstrike', ->
   beforeEach ->
     @prepareSkillApis()    
 
-    @Creature = @factory('Creature')
-    @CharacterModel = @factory('CharacterModel')
-
     @character = @CharacterModel.new fixtures.rogue
-    @Weapons = @factory('Weapons')
-
     @monster = @Creature.new fixtures.goblin
     @monster.hostile = true
 
