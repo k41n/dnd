@@ -24,8 +24,6 @@ class window.Skills.ProficientStrike extends Skills.BaseAttack
     char.mod('dex') + char.damageBonus()
 
   pickable: (char) ->
-    console.log "ProficientStrike#pickable", @
-    console.log "ProficientStrike#pickable", char
     super(char) && char.weapon? && 
       ( char.weapon.weapon_group_name == 'Легкие клинки' ||
         char.weapon.weapon_group_name == 'Арбалеты' ||
@@ -36,15 +34,11 @@ class window.Skills.ProficientStrike extends Skills.BaseAttack
     grid.markMoveableCellsForCreature(applicator, 2) unless @moved
 
   onUsageStart: ->
-    console.log 'Proficient strike usage start', @char
     @moveHandler = @char.registerEventHandler 'move', =>
-      console.log 'Applicator of proficient strike moved'
       @moved = true
     @char.registerEventHandler 'endOfTurn', =>
       @moved = false
       @char.unregisterEventHandler 'move', @moveHandler
-
-    console.log 'Proficient strike usage start finished', @char
 
   saveToJSON: ->
     ret = super()
@@ -52,6 +46,6 @@ class window.Skills.ProficientStrike extends Skills.BaseAttack
     ret
 
   loadFromJSON: (json) ->
-    console.log "ProficientStrike#loadFromJSON", json
     super(json)
     @moved = json.moved
+    @onUsageStart() if @moved && @char?

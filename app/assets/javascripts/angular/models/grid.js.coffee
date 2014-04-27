@@ -129,7 +129,6 @@ class window.Grid
       for y in [minY..maxY]
         if ( (Math.abs(x - position.x) + Math.abs(y - position.y) <= speed) )
           location = { x: x, y: y }
-          console.log location
           @get(location).moveable = true
           @moveableCells.push @get(location)
 

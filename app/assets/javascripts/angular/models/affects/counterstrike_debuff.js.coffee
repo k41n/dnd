@@ -23,7 +23,6 @@ class window.Affects.CounterstrikeDebuff
       if params.by == @receiver
         # Rogue was attacked by combatant with debuff
         skill = @applicator.addSkillByJsClass('Skills.CounterstrikeOnAttack')
-        console.log "skill = ", skill
         skill.apply @applicator, @receiver
         @applicator.removeSkill skill
 

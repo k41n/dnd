@@ -58,7 +58,6 @@ class window.CharacterModel extends Combatant
 
   checkInstantiationComplete: ->
     if @characterClassInstantiated && @weaponInstantiated
-      console.log 'Character instantiation finished'
       @instantiation.resolve()
 
   saveToJSON: ->
@@ -72,10 +71,8 @@ class window.CharacterModel extends Combatant
     res
 
   loadFromJSON: (json, SkillLibrary, Zoo, Chars) ->
-    console.log "LoadingFromJSON", json
     @hasTurn = json.hasTurn
     @availableActions = json.availableActions
-    console.log "SkillLibrary.skills = ", SkillLibrary.skills
     for s in json.skills
       skill = SkillLibrary.create(s.id)
       @addSkill skill

@@ -59,6 +59,11 @@ class window.Combatant
     @eventHandlers[name] = new Array() unless @eventHandlers[name]?
     @eventHandlers[name].push callback
 
+  unregisterEventHandler: (name, handler) ->
+    index = @eventHandlers[name].indexOf(handler)
+    if index != -1
+      @eventHandlers[name].slice(index)
+
   neighbors: (range) ->
     return [] unless @grid?
     $.grep @grid.creaturesInRadius(@location, (range || 1) ), (c) =>
@@ -101,7 +106,6 @@ class window.Combatant
     @skills ||= {}
     @skills[skill.id] = skill
     @p.skill_ids = @skillIds()
-    console.log "skill = ", skill
     skill.assignTo @
     skill
 
@@ -114,6 +118,5 @@ class window.Combatant
 
   addSkillByJsClass: (jsClass) ->
     skillToAdd = @SkillLibrary.getByJsClass(jsClass)
-    console.log 'skillToAdd = ', skillToAdd
     @addSkill skillToAdd if skillToAdd?
 
