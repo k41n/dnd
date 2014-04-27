@@ -3,6 +3,7 @@
 window.Perks ||= {}
 class window.Perks.RogueTactics extends Perks.BasePerk
   constructor: (data) ->
+    console.log "window.Perks.RogueTactics#constructor", data
     super(data)
 
   pickable: (character) ->

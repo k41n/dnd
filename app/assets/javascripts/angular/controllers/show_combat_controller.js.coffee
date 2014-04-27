@@ -56,7 +56,7 @@ class window.ShowCombatController
 
   loadFromData: (data) ->
     @$scope.combat.json = JSON.parse(data.json)
-    @$scope.grid.loadFromJSON(@$scope.combat.json, @Zoo, @Chars) if @$scope.combat.json?
+    @$scope.grid.loadFromJSON(@$scope.combat.json, @Zoo, @Chars, @SkillLibrary) if @$scope.combat.json?
     @$scope.background_url = data.background_url if data.background_url?
     @$scope.creaturesBand = @CreaturesBand
     @$scope.creaturesBand.loadCreatures @$scope.grid

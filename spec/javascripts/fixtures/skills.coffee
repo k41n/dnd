@@ -120,3 +120,25 @@ window.fixtures.proficient_strike = {
   attack_char_to: 'ac'
   min_level: 1
 }
+
+window.fixtures.torturing_strike = {
+  name: 'Мучительный удар'
+  available_for: [2]
+  js_class: 'Skills.TorturingStrike'
+  cooldown_type: 'combat'
+  id: 12
+  attack_char_from: 'dex'
+  attack_char_to: 'ac'
+  min_level: 1
+}
+
+window.fixtures.moving_strike = {
+  name: 'Перемещающий удар'
+  available_for: [2]
+  js_class: 'Skills.MovingStrike'
+  cooldown_type: 'combat'
+  id: 13
+  attack_char_from: 'dex'
+  attack_char_to: 'will'
+  min_level: 1
+}

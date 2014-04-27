@@ -44,10 +44,11 @@ class window.Grid
     ret = []
     for row in @cells
       for cell in row
-        if cell.moveability
+        if cell.moveability || cell.enemy_moveable
           ret.push
             location: cell.location
             moveability: cell.moveability
+            enemy_moveable: cell.enemy_moveable
     ret
 
 
@@ -132,10 +133,34 @@ class window.Grid
           @get(location).moveable = true
           @moveableCells.push @get(location)
 
+  markEnemyMoveableCellsForCreature: (creature, speed, callback) =>
+    console.log 'markEnemyMoveableCellsForCreature'
+    speed ||= 5
+    position = creature.location
+    minX = Math.max(position.x - speed, 0)
+    maxX = Math.min(position.x + speed, 24)
+    minY = Math.max(position.y - speed, 0)
+    maxY = Math.min(position.y + speed, 24)
+    @enemyMoveableCells ||= []
+    for x in [minX..maxX]
+      for y in [minY..maxY]
+        if ( (Math.abs(x - position.x) + Math.abs(y - position.y) <= speed) )
+          location = { x: x, y: y }
+          cell = @get(location)
+          unless cell.creature?
+            cell.enemy_moveable = true
+            cell.click_callback = callback
+            @enemyMoveableCells.push cell
+
   unmarkMoveableCellsForCreature: =>
     if @moveableCells.length > 0
       for i in [0..@moveableCells.length-1]
         @moveableCells[i].moveable = false
+
+  unmarkEnemyMoveableCellsForCreature: =>
+    if @enemyMoveableCells.length > 0
+      for i in [0..@enemyMoveableCells.length-1]
+        @enemyMoveableCells[i].enemy_moveable = false
 
   resetAttackHighlight: ->
     for row in @cells

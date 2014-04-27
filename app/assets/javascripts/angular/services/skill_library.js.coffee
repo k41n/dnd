@@ -3,11 +3,10 @@ class window.SkillLibrary
     @skills = {}
     @loading = Skill.query {},  (skills) =>
       for skill in skills
-        @skills[skill.id] = skill
+        @skills[skill.id] = @build(skill)
 
   create: (id) ->
-    skill = @skills[id]
-    @build(skill)
+    @skills[id]
 
   build: (skill) ->
     if skill? && skill.js_class? && eval(skill.js_class)
@@ -16,6 +15,9 @@ class window.SkillLibrary
       return new Skills.BaseAttack(skill)
 
   getById: (id) ->
+    @skills[id]
+
+  buildById: (id) ->
     @skills[id]
 
   getByJsClass: (jsClass) ->

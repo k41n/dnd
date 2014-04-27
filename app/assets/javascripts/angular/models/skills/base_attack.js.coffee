@@ -116,7 +116,7 @@ class window.Skills.BaseAttack
     damage_done = Roll.do(@damageRollCount(), @damageRollDice(), @damageBonus())
 
   pickable: (char) ->
-    @available_for.indexOf(char.p.character_class_id) != -1 && 
+    @available_for? && @available_for.indexOf(char.p.character_class_id) != -1 && 
       char.p.skill_ids.indexOf(@id) == -1 && 
       char.p.level >= @min_level &&
       char.skillPoints(@cooldown_type) > 0

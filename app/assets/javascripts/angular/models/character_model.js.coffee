@@ -37,7 +37,7 @@ class window.CharacterModel extends Combatant
     ret.skills ||= {}
     ret.p.skill_ids ||= []
     for skill_id in ret.p.skill_ids
-      skill = @SkillLibrary.getById(skill_id)
+      skill = @SkillLibrary.buildById(skill_id)
       if skill?
         ret.addSkill skill
 
@@ -224,9 +224,11 @@ class window.CharacterModel extends Combatant
 
   availableSkills: (cooldown_type) ->
     ret = []
+    return ret unless @SkillLibrary.skills
     @skills ||= {}
-    for k,v of @SkillLibrary.skills
-      ret.push v if v.pickable(@) && !@skills[k]? && v.cooldown_type == cooldown_type
+    for k,_ of @SkillLibrary.skills
+      skill = @SkillLibrary.buildById(k)
+      ret.push skill if skill.pickable(@) && !@skills[k]? && skill.cooldown_type == cooldown_type
     ret
 
   removeSkill: (skill) ->
@@ -342,6 +344,11 @@ class window.CharacterModel extends Combatant
 
   hasPerk: (perk) ->
     @perks[perk.id]?
+
+  findPerkByJsClass: (name) ->
+    for _, p of @perks
+      console.log p
+      return p if p.js_class == name
 
   damageBonus: ->
     ret = 0
