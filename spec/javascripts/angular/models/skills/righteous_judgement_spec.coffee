@@ -10,7 +10,6 @@ describe 'Skills.RighteousJudgement', ->
     @Creature = @factory('Creature')
     @CharacterModel = @factory('CharacterModel')
     @SkillLibrary = @factory('SkillLibrary')
-    @http.flush()
 
     @monster = @Creature.new fixtures.goblin
     @monster.hostile = true
@@ -19,6 +18,7 @@ describe 'Skills.RighteousJudgement', ->
     @friend = @CharacterModel.new fixtures.rogue
 
     @skill = new Skills.RighteousJudgement(fixtures.righteous_judgement)
+    @http.flush()    
 
   describe 'Character constructor', ->
     it 'cannot be picked by paladin on level 1', ->

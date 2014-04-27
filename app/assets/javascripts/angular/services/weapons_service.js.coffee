@@ -1,6 +1,7 @@
 class window.Weapons
   constructor: (Weapon) ->
     @loading = Weapon.query {}, (data) =>
+      console.log "Loaded weapons", data
       @weapons = {}      
       for weapon in data
         @weapons[weapon.id] = weapon

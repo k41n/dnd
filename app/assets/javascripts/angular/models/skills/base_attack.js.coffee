@@ -130,3 +130,11 @@ class window.Skills.BaseAttack
     else
       @pullMissTriggers()
     @applicator.revokeAction('main')
+
+  saveToJSON: ->
+    {
+      id: @id
+    }
+
+  loadFromJSON: (json) ->
+    true

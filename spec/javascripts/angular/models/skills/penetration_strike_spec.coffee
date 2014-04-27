@@ -9,11 +9,11 @@ describe 'Skills.PenetrationStrike', ->
 
     @Creature = @factory('Creature')
     @CharacterModel = @factory('CharacterModel')
-    @http.flush()
 
     @character = @CharacterModel.new fixtures.rogue
 
     @skill = new Skills.PenetrationStrike(fixtures.penetration_strike)
+    @http.flush()    
 
   describe 'Character constructor', ->
     it 'can be picked by rogue', ->

@@ -15,7 +15,6 @@ describe 'Skills.ValiantBlow', ->
 
     @Creature = @factory('Creature')
     @CharacterModel = @factory('CharacterModel')
-    @http.flush()
 
     @monster = @Creature.new fixtures.goblin
     @monster.hostile = true
@@ -23,6 +22,7 @@ describe 'Skills.ValiantBlow', ->
     @character = @CharacterModel.new fixtures.paladin
 
     @skill = new Skills.ValiantBlow(fixtures.valiant_blow)
+    @http.flush()    
 
   describe 'Character constructor', ->
     it 'can be picked by paladin', ->

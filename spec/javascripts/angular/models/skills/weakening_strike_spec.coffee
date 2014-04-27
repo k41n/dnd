@@ -9,7 +9,6 @@ describe 'Skills.WeakeningStrike', ->
 
     @Creature = @factory('Creature')
     @CharacterModel = @factory('CharacterModel')
-    @http.flush()
 
     @monster = @Creature.new fixtures.goblin
     @monster.hostile = true
@@ -17,6 +16,7 @@ describe 'Skills.WeakeningStrike', ->
     @character = @CharacterModel.new fixtures.paladin
 
     @skill = new Skills.WeakeningStrike(fixtures.weakening_strike)
+    @http.flush()    
 
   describe 'Character constructor', ->
     it 'can be picked by paladin', ->

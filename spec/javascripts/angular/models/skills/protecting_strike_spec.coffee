@@ -10,7 +10,6 @@ describe 'Skills.ProtectingStrike', ->
     @Creature = @factory('Creature')
     @CharacterModel = @factory('CharacterModel')
     @SkillLibrary = @factory('SkillLibrary')
-    @http.flush()
 
     @monster = @Creature.new fixtures.goblin
     @monster.hostile = true
@@ -19,6 +18,7 @@ describe 'Skills.ProtectingStrike', ->
     @friend = @CharacterModel.new fixtures.rogue
 
     @skill = new Skills.ProtectingStrike(fixtures.protecting_strike)
+    @http.flush()    
 
   describe 'Character constructor', ->
     it 'can be picked by paladin', ->

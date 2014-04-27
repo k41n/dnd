@@ -1,11 +1,13 @@
 #= require ./combatant
 
 class window.CharacterModel extends Combatant
-  constructor: (@SkillLibrary, @Perks, @Weapons, @Racing, @CharacterAbilities, @CharacterClasses, @Logger) ->
+  constructor: (@SkillLibrary, @Perks, @Weapons, @Racing, @CharacterAbilities, @CharacterClasses, @Logger, @$q) ->
     super(@SkillLibrary, @Logger)
 
   new: (permanent_data, instance_data) ->
     ret = new CharacterModel(@SkillLibrary, @Perks, @Weapons, @Racing, @CharacterAbilities, @CharacterClasses)
+    @instantiation = @$q.defer()
+
     angular.extend ret, @
     ret.p ||= {}
     for k,v of permanent_data
@@ -24,7 +26,7 @@ class window.CharacterModel extends Combatant
         if perk?
           ret.perks[perk.id] = perk
 
-    ret.skills = {}       
+    ret.skills ||= {}
     ret.p.skill_ids ||= []
     for skill_id in ret.p.skill_ids
       skill = @SkillLibrary.getById(skill_id)
@@ -32,10 +34,18 @@ class window.CharacterModel extends Combatant
         ret.addSkill skill
 
     if ret.p.weapon_id
-      ret.weapon = @Weapons.create(ret.p.weapon_id)
+      @Weapons.loading.$promise.then =>      
+        ret.weapon = @Weapons.create(ret.p.weapon_id)
+        @weaponInstantiated = true
+        @checkInstantiationComplete()
+
     ret.hostile = false
 
-    ret.character_class = @CharacterClasses.create(ret.p.character_class_id)
+    @CharacterClasses.loading.$promise.then =>
+      ret.character_class = @CharacterClasses.create(ret.p.character_class_id)
+      @characterClassInstantiated = true
+      @checkInstantiationComplete()
+
     ret.race = @Racing.create(ret.p.race_id)
 
     if permanent_data.character_ability_ids?
@@ -46,6 +56,11 @@ class window.CharacterModel extends Combatant
 
     ret
 
+  checkInstantiationComplete: ->
+    if @characterClassInstantiated && @weaponInstantiated
+      console.log 'Character instantiation finished'
+      @instantiation.resolve()
+
   saveToJSON: ->
     res =
       id: @p.id
@@ -53,11 +68,24 @@ class window.CharacterModel extends Combatant
       location: @location
       hasTurn: @hasTurn
       availableActions: @availableActions
+      skills: @skillsJSON()
     res
 
   loadFromJSON: (json, SkillLibrary, Zoo, Chars) ->
+    console.log "LoadingFromJSON", json
     @hasTurn = json.hasTurn
     @availableActions = json.availableActions
+    console.log "SkillLibrary.skills = ", SkillLibrary.skills
+    for s in json.skills
+      skill = SkillLibrary.create(s.id)
+      @addSkill skill
+      skill.loadFromJSON(s)
+
+  skillsJSON: ->
+    ret = []
+    for _, skill of @skills
+      ret.push skill.saveToJSON()
+    ret
 
   maxHP: ->
     return '-' unless @character_class?
@@ -326,6 +354,6 @@ class window.CharacterModel extends Combatant
     ret
 
 
-CharacterModel.$inject = ['SkillLibrary', 'Perks', 'Weapons', 'Racing', 'CharacterAbilities', 'CharacterClasses', 'Logger']
+CharacterModel.$inject = ['SkillLibrary', 'Perks', 'Weapons', 'Racing', 'CharacterAbilities', 'CharacterClasses', 'Logger', '$q']
 
-angular.module("dndApp").factory('CharacterModel', (SkillLibrary, Perks, Weapons, Racing, CharacterAbilities, CharacterClasses, Logger) -> new CharacterModel(SkillLibrary, Perks, Weapons, Racing, CharacterAbilities, CharacterClasses, Logger))
+angular.module("dndApp").factory('CharacterModel', (SkillLibrary, Perks, Weapons, Racing, CharacterAbilities, CharacterClasses, Logger, $q) -> new CharacterModel(SkillLibrary, Perks, Weapons, Racing, CharacterAbilities, CharacterClasses, Logger, $q))

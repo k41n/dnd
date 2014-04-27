@@ -9,7 +9,6 @@ describe 'Skills.Counterstrike', ->
 
     @Creature = @factory('Creature')
     @CharacterModel = @factory('CharacterModel')
-    @http.flush()
 
     @character = @CharacterModel.new fixtures.rogue
     @Weapons = @factory('Weapons')
@@ -18,6 +17,7 @@ describe 'Skills.Counterstrike', ->
     @monster.hostile = true
 
     @skill = new Skills.Counterstrike(fixtures.counterstrike)
+    @http.flush()    
 
   describe 'Character constructor', ->
     it 'can be picked by rogue', ->

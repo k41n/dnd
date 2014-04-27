@@ -1,9 +1,9 @@
 class window.SkillLibrary
   constructor: (Skill, @$injector) ->
     @skills = {}
-    skills = Skill.query {},  =>
+    @loading = Skill.query {},  (skills) =>
       for skill in skills
-        @skills[skill.id] = @build(skill)
+        @skills[skill.id] = skill
 
   create: (id) ->
     skill = @skills[id]
@@ -20,7 +20,7 @@ class window.SkillLibrary
 
   getByJsClass: (jsClass) ->
     for i, skill of @skills
-      return skill if skill.js_class == jsClass
+      return @build(skill) if skill.js_class == jsClass
 
 SkillLibrary.$inject = ["Skill", "$injector"]
 

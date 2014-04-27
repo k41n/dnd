@@ -75,6 +75,6 @@ describe 'Grid', ->
       json = @grid.saveToJSON()
       @Zoo.loading.$promise.then =>
         @grid2.loadFromJSON(json, @Zoo)
-        expect(@grid2.creatures.length).toEqual(1)
+        expect(Object.keys(@grid2.creatures).length).toEqual(1)
         expect(@grid2.get({x: 9, y: 8}).moveability).toEqual(1)
 

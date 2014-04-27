@@ -33,6 +33,7 @@ beforeEach inject (_$httpBackend_, _$compile_, $rootScope, $controller, $locatio
     stubApiCharacterAbilities(@http)    
     stubApiCharacterClasses(@http)
     stubApiLogs(@http)
+    stubApiCharacters(@http)
 
 afterEach ->
   @http.resetExpectations()

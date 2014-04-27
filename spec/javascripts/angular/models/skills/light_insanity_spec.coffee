@@ -9,7 +9,6 @@ describe 'Skills.LightInsanity', ->
 
     @Creature = @factory('Creature')
     @CharacterModel = @factory('CharacterModel')
-    @http.flush()
 
     @monster = @Creature.new fixtures.goblin
     @monster.hostile = true
@@ -17,6 +16,8 @@ describe 'Skills.LightInsanity', ->
     @character = @CharacterModel.new fixtures.paladin
 
     @skill = new Skills.LightInsanity(fixtures.light_insanity)
+
+    @http.flush()    
 
   describe 'Character constructor', ->
     it 'can be picked by paladin', ->

@@ -3,7 +3,8 @@ window.fixtures ||= {}
 window.stubApiSkills = (http) ->
   skills = [
     { id: 1, title: 'Удар ногой с разворота' },
-    { id: 10, title: 'Ответный удар (реакция)', js_class: 'Skills.CounterstrikeOnAttack', attack_char_from: 'str', attack_char_to: 'ac' }
+    { id: 10, title: 'Ответный удар (реакция)', js_class: 'Skills.CounterstrikeOnAttack', attack_char_from: 'str', attack_char_to: 'ac' },
+    fixtures.proficient_strike      
   ]
   http.whenGET('/api/skills').respond(200, skills)
 
@@ -36,3 +37,6 @@ window.stubApiCharacterAbilities = (http) ->
 
 window.stubApiLogs = (http) ->
   http.whenPOST('/api/logs').respond(200, {success: true})  
+
+window.stubApiCharacters = (http) ->
+  http.whenGET('/api/characters').respond(200, [ fixtures.paladin, fixtures.rogue ])

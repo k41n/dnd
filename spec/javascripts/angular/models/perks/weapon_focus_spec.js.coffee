@@ -14,11 +14,12 @@ describe 'Perks.WeaponFocus', ->
 
     @Creature = @factory('Creature')
     @CharacterModel = @factory('CharacterModel')
-    @http.flush()
 
     @character = @CharacterModel.new fixtures.paladin
 
     @perk = new Perks.WeaponFocus(fixtures.weapon_focus)
+
+    @http.flush()    
 
   describe 'Character constructor', ->
     it 'can be picked', ->

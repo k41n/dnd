@@ -10,14 +10,13 @@ describe 'Skills.SacredCircle', ->
     @Creature = @factory('Creature')
     @CharacterModel = @factory('CharacterModel')
     @SkillLibrary = @factory('SkillLibrary')
-    @http.flush()
 
     @monster = @Creature.new fixtures.goblin
     @monster.hostile = true
 
     @character = @CharacterModel.new fixtures.paladin
     @friend = @CharacterModel.new fixtures.rogue
-
+    @http.flush()
     @skill = new Skills.SacredCircle(fixtures.sacred_circle)
 
   describe 'Character constructor', ->
