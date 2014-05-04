@@ -29,5 +29,10 @@ class window.Skills.MovingStrike extends Skills.BaseAttack
 
   afterHit: ->
     super()
-    @char.grid.markEnemyMoveableCellsForCreature @target, 2, (location) =>
+    distance = 1
+    rogueTactics = @char.findPerkByJsClass('Perks.RogueTactics')
+    if rogueTactics? && rogueTactics.stat == 'Мастер уклонения'
+      distance += @char.mod('cha')
+
+    @char.grid.markEnemyMoveableCellsForCreature @target, distance, (location) =>
       @char.grid.move(@target, location)

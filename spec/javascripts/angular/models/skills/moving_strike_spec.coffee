@@ -50,6 +50,22 @@ describe 'Skills.MovingStrike', ->
       spyOn(@skill, 'checkHit').andReturn(true)
       @skill.apply(@character, @monster)
       expect( @grid.get( { x:2, y: 0 } ).enemy_moveable ).toBe(true)
+      expect( @grid.get( { x:3, y: 0 } ).enemy_moveable ).toBe(false)
+
+    it 'marks cells in range of 2 + mod(cha) from the enemy as enemy movable for dodge master', ->
+      @grid = new Grid()
+      @grid.place @character, {x: 0, y: 0}
+      @grid.place @monster, {x: 1, y: 0}
+      @character.addSkill @skill
+
+      @perk = new Perks.RogueTactics(fixtures.perks.rogue_tactics)
+      @character.addPerk @perk
+      @perk.configure 
+        stat: 'Мастер уклонения'
+
+      spyOn(@skill, 'checkHit').andReturn(true)
+      @skill.apply(@character, @monster)
+      expect( @grid.get( { x:3, y: 0 } ).enemy_moveable ).toBe(true)
 
     it 'adds click callback to cells in range of 2 from the enemy', ->
       @grid = new Grid()
