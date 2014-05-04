@@ -143,13 +143,23 @@ window.fixtures.moving_strike = {
   min_level: 1
 }
 
-
 window.fixtures.insidious_trick = {
   name: 'Коварный финт'
   available_for: [2]
   js_class: 'Skills.InsidiousTrick'
   cooldown_type: 'unlimited'
   id: 14
+  attack_char_from: 'dex'
+  attack_char_to: 'ac'
+  min_level: 1
+}
+
+window.fixtures.astounding_blow = {
+  name: 'Изумляющий удар'
+  available_for: [2]
+  js_class: 'Skills.AstoundingBlow'
+  cooldown_type: 'combat'
+  id: 15
   attack_char_from: 'dex'
   attack_char_to: 'ac'
   min_level: 1

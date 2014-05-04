@@ -120,3 +120,11 @@ class window.Combatant
     skillToAdd = @SkillLibrary.getByJsClass(jsClass)
     @addSkill skillToAdd if skillToAdd?
 
+  hasCombatSuperiorityOver: (target) ->
+    for _, perk of @perks
+      return true if perk.hasCombatSuperiorityOver(target)
+    for _, affect of target.affects
+      return true if affect.givesCombatSuperiorityTo(@)
+    false
+
+
