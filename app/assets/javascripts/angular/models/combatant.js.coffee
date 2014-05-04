@@ -127,4 +127,11 @@ class window.Combatant
       return true if affect.givesCombatSuperiorityTo(@)
     false
 
+  getSpeed: ->
+    ret = @i.speed
+    for _, affect of @affects
+      ret = affect.modifySpeed(ret)
+    ret
+
+
 

@@ -164,3 +164,14 @@ window.fixtures.astounding_blow = {
   attack_char_to: 'ac'
   min_level: 1
 }
+
+window.fixtures.easy_target = {
+  name: 'Легкая цель'
+  available_for: [2]
+  js_class: 'Skills.EasyTarget'
+  cooldown_type: 'day'
+  id: 16
+  attack_char_from: 'dex'
+  attack_char_to: 'ac'
+  min_level: 1
+}

@@ -5,3 +5,6 @@ class window.Affects.BaseAffect
 
   givesCombatSuperiorityTo: (to) ->
     false
+
+  modifySpeed: (speed) ->
+    speed

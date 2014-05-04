@@ -22,9 +22,7 @@ class window.Skills.TorturingStrike extends Skills.BaseAttack
   damageBonus: (char) ->
     char ||= @char
     ret = char.mod('dex') + char.damageBonus()
-    console.log "char.perks", char.perks
     rogueTactics = char.findPerkByJsClass('Perks.RogueTactics')
-    console.log "rogueTactics", rogueTactics
     if rogueTactics? && rogueTactics.stat == 'Жестокий головорез'
       ret += char.mod('str')
     ret
