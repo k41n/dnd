@@ -142,3 +142,15 @@ window.fixtures.moving_strike = {
   attack_char_to: 'will'
   min_level: 1
 }
+
+
+window.fixtures.insidious_trick = {
+  name: 'Коварный финт'
+  available_for: [2]
+  js_class: 'Skills.InsidiousTrick'
+  cooldown_type: 'unlimited'
+  id: 14
+  attack_char_from: 'dex'
+  attack_char_to: 'ac'
+  min_level: 1
+}
