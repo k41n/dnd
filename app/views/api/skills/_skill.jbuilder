@@ -1,7 +1,8 @@
 json.title              skill.title
 json.text               skill.text
 json.js_class           skill.js_class
-json.avatar_url         skill.avatar.url(:thumb)
+json.avatar_url         skill.avatar.url
+json.avatar_url_thumb   skill.avatar.url(:thumb)
 json.id                 skill.id
 json.attack_char_from   skill.attack_char_from
 json.attack_char_to     skill.attack_char_to
