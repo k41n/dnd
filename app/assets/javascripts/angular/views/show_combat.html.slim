@@ -1,85 +1,89 @@
-#logger
-  #log-header ng-click='c.toggleLog()' Log
-  #log-entries scroll-down='1'
-    .log-entry ng-repeat='entry in c.Logger.logEntries' ng-show='c.logExpanded'
-      | {{ entry[1] }}
-.row
-  .col-md-10.static
-    creature-band
-    .grid
-      table style="background-image: url('{{ background_url }}')"
-        tr ng-repeat='row in grid.rows'
-          td ng-repeat='cell in row' ng-class="{'selected': (cell == selectedCell), 'obstacle': (cell.moveability == 3), 'moveable': (cell.moveable == true), 'attackable': cell.attackable, 'enemy-moveable': cell.enemy_moveable }" ng-click='c.selectCell(cell)'
-            div.cell data-id='{{cell.location.x}}{{cell.location.y}}'
-              .overlay
-              .monster-in-grid ng-show='cell.creature'
-                img ng-src='{{ cell.creature.p.avatar_url }}'
-              .rotation-marker ng-show='cell.creature' ng-class="cell.creature.rotation"
-                span ng-if="cell.creature.i.rotation == 'north'"
-                  | &#8657;
-                span ng-if="cell.creature.i.rotation == 'south'"
-                  | &#8659;
-                span ng-if="cell.creature.i.rotation == 'east'"
-                  | &#8656;
-                span ng-if="cell.creature.i.rotation == 'west'"
-                  | &#8658;
+#combat-show
+  /#logger
+  /  #log-header ng-click='c.toggleLog()' Log
+  /  #log-entries scroll-down='1'
+  /    .log-entry ng-repeat='entry in c.Logger.logEntries' ng-show='c.logExpanded'
+  /      | {{ entry[1] }}
+  .row
+    .col-md-10.static
+      .main-screen
+        creature-band
+        .grid-container
+          .grid
+            table style="background-image: url('{{ background_url }}')"
+              tr ng-repeat='row in grid.rows'
+                td ng-repeat='cell in row' ng-class="{'selected': (cell == selectedCell), 'obstacle': (cell.moveability == 3), 'moveable': (cell.moveable == true), 'attackable': cell.attackable, 'enemy-moveable': cell.enemy_moveable }" ng-click='c.selectCell(cell)'
+                  div.cell data-id='{{cell.location.x}}{{cell.location.y}}'
+                    .overlay
+                    .monster-in-grid ng-show='cell.creature'
+                      img ng-src='{{ cell.creature.p.avatar_url }}'
+                    .rotation-marker ng-show='cell.creature' ng-class="cell.creature.rotation"
+                      span ng-if="cell.creature.i.rotation == 'north'"
+                        | &#8657;
+                      span ng-if="cell.creature.i.rotation == 'south'"
+                        | &#8659;
+                      span ng-if="cell.creature.i.rotation == 'east'"
+                        | &#8656;
+                      span ng-if="cell.creature.i.rotation == 'west'"
+                        | &#8658;
 
-  .col-md-2
-    .hands-of-god ng-show='currentUser.currentUser.email == combat.gm'
-      .skill.btn.btn-large.btn-danger ng-click='c.turnOnGodDamageMode()' ng-class="{'selected': (selectedSkill == skill)}"
-        | Inflict Damage
-    .btn.btn-info.btn-large.skill ng-show='currentUser.currentUser.email == combat.gm' ng-click='c.resetJson()'
-      | Reset combat
-    .active-cell ng-show='c.isCellSelected()'
-      h3
-        | Location: ({{ selectedCell.location.x }}, {{ selectedCell.location.y }})
-      h3 ng-show='selectedCell.hasCreature()'
-        | Monster in cell
-      .cell-monster ng-show='selectedCell.hasCreature()'
-        div
-          .avatar
-            img ng-src='{{ selectedCell.creature.p.avatar_url }}'
-          .textual
-            .name
-              | {{ selectedCell.creature.p.name }}
-            .desc
-              | {{ selectedCell.creature.p.description }}
-            | HP: {{ selectedCell.creature.i.hp }}
-            br
-            | AC: {{ selectedCell.creature.getAC() }}
-        .affects
-          .affect ng-repeat='affect in selectedCell.creature.affects'
-            | {{affect.type}}
-        div ng-show="selectedCell.creature == creaturesBand.getActingCreature()"
-          .actions
-            .btn.btn-large.btn-success ng-click='c.markMoveableCellsForCreature(selectedCell.creature)'
-              | Move
-            .btn.btn-large.btn-warning ng-click='c.endTurn(selectedCell.creature)'
-              | End Turn
-            .btn.btn-large.btn-success ng-click='c.setCreatureRotatable(selectedCell.creature)'
-              | Rotate
-            div ng-if='selectedCell.creature.rotatable == true'
-              .btn.btn-large.btn-success ng-click='c.rotateCreature(selectedCell.creature, "north")'
-                | North
-              .btn.btn-large.btn-success ng-click='c.rotateCreature(selectedCell.creature, "south")'
-                | South
-              .btn.btn-large.btn-success ng-click='c.rotateCreature(selectedCell.creature, "east")'
-                | East
-              .btn.btn-large.btn-success ng-click='c.rotateCreature(selectedCell.creature, "west")'
-                | West
-          .action.main ng-class='{ "unused": selectedCell.creature.hasAction("main") }'
-            | MAIN
-          .action.aux ng-class='{ "unused": selectedCell.creature.hasAction("aux") }'
-            | AUX
-          .action.move ng-class='{ "unused": selectedCell.creature.hasAction("move") }'
-            | MOVE
+    .col-md-2
+      .sidebar
+        .hands-of-god ng-show='currentUser.currentUser.email == combat.gm'
+          /.skill.btn.btn-large.btn-danger ng-click='c.turnOnGodDamageMode()' ng-class="{'selected': (selectedSkill == skill)}"
+          /  | Inflict Damage
+        .btn.btn-info.btn-large.skill ng-show='currentUser.currentUser.email == combat.gm' ng-click='c.resetJson()'
+          | Reset combat
+        .active-cell ng-show='c.isCellSelected()'
+          h3
+            | Location: ({{ selectedCell.location.x }}, {{ selectedCell.location.y }})
+          h3 ng-show='selectedCell.hasCreature()'
+            | Monster in cell
+          .cell-monster ng-show='selectedCell.hasCreature()'
+            div
+              .avatar
+                img ng-src='{{ selectedCell.creature.p.avatar_url }}'
+              .textual
+                .name
+                  | {{ selectedCell.creature.p.name }}
+                .desc
+                  | {{ selectedCell.creature.p.description }}
+                | HP: {{ selectedCell.creature.i.hp }}
+                br
+                | AC: {{ selectedCell.creature.getAC() }}
+            .affects
+              .affect ng-repeat='affect in selectedCell.creature.affects'
+                | {{affect.type}}
+            div ng-show="selectedCell.creature == creaturesBand.getActingCreature()"
+              .actions
+                .btn.btn-large.btn-success ng-click='c.markMoveableCellsForCreature(selectedCell.creature)'
+                  | Move
+                .btn.btn-large.btn-warning ng-click='c.endTurn(selectedCell.creature)'
+                  | End Turn
+                .btn.btn-large.btn-success ng-click='c.setCreatureRotatable(selectedCell.creature)'
+                  | Rotate
+                div ng-if='selectedCell.creature.rotatable == true'
+                  .btn.btn-large.btn-success ng-click='c.rotateCreature(selectedCell.creature, "north")'
+                    | North
+                  .btn.btn-large.btn-success ng-click='c.rotateCreature(selectedCell.creature, "south")'
+                    | South
+                  .btn.btn-large.btn-success ng-click='c.rotateCreature(selectedCell.creature, "east")'
+                    | East
+                  .btn.btn-large.btn-success ng-click='c.rotateCreature(selectedCell.creature, "west")'
+                    | West
+              .action.main ng-class='{ "unused": selectedCell.creature.hasAction("main") }'
+                | MAIN
+              .action.aux ng-class='{ "unused": selectedCell.creature.hasAction("aux") }'
+                | AUX
+              .action.move ng-class='{ "unused": selectedCell.creature.hasAction("move") }'
+                | MOVE
 
-        .skill ng-repeat='skill in selectedCell.creature.skills' ng-click='c.startUsingSkill(skill)' ng-class="{'selected': (selectedSkill == skill)}" ng-show="(selectedCell.creature == creaturesBand.getActingCreature()) && (selectedCell.creature.hasAction('main'))"
-          .avatar
-            img ng-src='{{ skill.avatar_url }}'
-          .textual
-            | {{ skill.title }}
-            .skill-stats
-              | To hit: {{ skill.toHitBonus() }}
-              br
-              | Damage: {{ skill.damageText(selectedCell.creature) }}
+            .skill ng-repeat='skill in selectedCell.creature.skills' ng-click='c.startUsingSkill(skill)' ng-class="{'selected': (selectedSkill == skill)}" ng-show="(selectedCell.creature == creaturesBand.getActingCreature()) && (selectedCell.creature.hasAction('main'))"
+              .avatar
+                img ng-src='{{ skill.avatar_url }}'
+              .textual
+                | {{ skill.title }}
+                .skill-stats
+                  | To hit: {{ skill.toHitBonus() }}
+                  br
+                  | Damage: {{ skill.damageText(selectedCell.creature) }}

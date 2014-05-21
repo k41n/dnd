@@ -1,6 +1,8 @@
 .creature-band
   .creature-band-item ng-repeat='(id, creature) in creaturesBand.getCreatures() track by id' ng-class="{'acting': (creature == creaturesBand.getActingCreature())}" style='background-image: url("{{ creature.p.avatar_url }}")' ng-show='creature.p.name != "End of Turn"'
-    .textual
+    .text-bg
+      | {{ creature.p.name }}
+    .text
       | {{ creature.p.name }}
 
   .clearfix

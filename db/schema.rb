@@ -15,6 +15,7 @@ ActiveRecord::Schema.define(version: 20140504100459) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
 
   create_table "ability_trainabilities", force: true do |t|
     t.integer  "character_class_id"
