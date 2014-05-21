@@ -40,17 +40,23 @@
           h3 ng-show='selectedCell.hasCreature()'
             | Monster in cell
           .cell-monster ng-show='selectedCell.hasCreature()'
-            div
-              .avatar
-                img ng-src='{{ selectedCell.creature.p.avatar_url }}'
-              .textual
-                .name
-                  | {{ selectedCell.creature.p.name }}
-                .desc
-                  | {{ selectedCell.creature.p.description }}
-                | HP: {{ selectedCell.creature.i.hp }}
-                br
-                | AC: {{ selectedCell.creature.getAC() }}
+            .avatar
+              img ng-src='{{ selectedCell.creature.p.avatar_url }}'
+            .hp
+            .name
+              | {{ selectedCell.creature.p.name }}
+            .desc
+              | {{ selectedCell.creature.p.description }}
+            .stats
+              table
+                tr
+                  td HP
+                  td
+                    | {{ selectedCell.creature.i.hp }}
+                tr
+                  td AC
+                  td
+                    | {{ selectedCell.creature.getAC() }}
             .affects
               .affect ng-repeat='affect in selectedCell.creature.affects'
                 | {{affect.type}}
