@@ -32,6 +32,6 @@ class window.Affects.Dazed
     true
 
 
-Affects.DazedDebugg.$inject = []
+Affects.Dazed.$inject = []
 
 angular.module("dndApp").factory("Affects.Dazed", -> new Affects.Dazed())

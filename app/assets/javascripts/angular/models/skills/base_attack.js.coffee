@@ -37,7 +37,7 @@ class window.Skills.BaseAttack
 
   damageText: (char) ->
     char = @char if char
-    if char? 
+    if char?
       rollCount = @damageRollCount(char)
       rollDice = @damageRollDice(char)
       bonus = @damageBonus(char)
@@ -104,10 +104,10 @@ class window.Skills.BaseAttack
     return unless result
 
   damageRollCount: (char) ->
-    char.damage_count
+    char.weapon.damage_count
 
   damageRollDice: (char)->
-    char.damage_dice
+    char.weapon.damage_dice
 
   damageBonus: (char) ->
     char.damageBonus

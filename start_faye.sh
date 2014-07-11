@@ -1,2 +1,2 @@
 #!/bin/bash
-rackup faye.ru -s thin -E production --port 9295
+rackup faye.ru -s thin -E production --port 9292

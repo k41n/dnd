@@ -57,7 +57,7 @@
                 tr
                   td AC
                   td
-                    | {{ selectedCell.creature.getAC() }}
+                    | {{ selectedCell.creature.i.getAC() }}
             .affects
               .affect ng-repeat='affect in selectedCell.creature.affects'
                 | {{affect.type}}

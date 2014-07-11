@@ -35,6 +35,6 @@ class window.Affects.EasyTarget
     2
 
 
-Affects.DazedDebugg.$inject = []
+Affects.EasyTarget.$inject = []
 
 angular.module("dndApp").factory("Affects.Dazed", -> new Affects.Dazed())

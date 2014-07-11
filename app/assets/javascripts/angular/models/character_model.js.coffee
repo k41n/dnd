@@ -81,10 +81,11 @@ class window.CharacterModel extends Combatant
   loadFromJSON: (json, SkillLibrary, Zoo, Chars) ->
     @hasTurn = json.hasTurn
     @availableActions = json.availableActions
-    for s in json.skills
-      skill = SkillLibrary.create(s.id)
-      @addSkill skill
-      skill.loadFromJSON(s)
+    if json.skills
+      for s in json.skills
+        skill = SkillLibrary.create(s.id)
+        @addSkill skill
+        skill.loadFromJSON(s)
 
   skillsJSON: ->
     ret = []
